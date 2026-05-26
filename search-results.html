@@ -1,9 +1,35 @@
-<?php
-$page_title = 'Search Results - MedFinder Ethiopia';
-$asset_path = '';
-$extra_js = array('js/search.js');
-include 'includes/header.php';
-?>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Search Results - MedFinder Ethiopia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="brand" href="index.html">MedFinder</a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+        <nav class="site-nav" aria-label="Primary">
+            <ul class="nav-list" id="primary-nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="search-results.html">Search</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a class="btn btn-secondary" href="pharmacy/login.php">Pharmacy Login</a>
+            <a class="btn btn-primary" href="pharmacy/register.php">Register</a>
+        </div>
+    </div>
+</header>
 
 <main id="main-content">
     <section class="page-hero">
@@ -11,16 +37,15 @@ include 'includes/header.php';
             <div>
                 <p class="eyebrow">Search results</p>
                 <h1 class="page-title">Insulin in Bole</h1>
-                <p class="page-subtitle">Found 12 pharmacies with available stock.</p>
-                <!-- Backend: replace this summary with live query results. -->
+                <p class="page-subtitle">Found 3 pharmacies with available stock.</p>
                 <div class="breadcrumb">
-                    <a href="index.php">Home</a>
+                    <a href="index.html">Home</a>
                     <span>/</span>
                     <span>Search results</span>
                 </div>
             </div>
             <div class="page-actions">
-                <a class="btn btn-secondary" href="index.php">New search</a>
+                <a class="btn btn-secondary" href="index.html">New search</a>
                 <a class="btn btn-primary" href="pharmacy/register.php">List your pharmacy</a>
             </div>
         </div>
@@ -30,7 +55,7 @@ include 'includes/header.php';
         <div class="container page-layout">
             <aside class="sidebar">
                 <h3 class="panel-title">Filter results</h3>
-                <form class="filter-form" action="search-results.php" method="get">
+                <form class="filter-form" action="search-results.html" method="get">
                     <div class="form-group">
                         <label for="filter-medicine">Medicine</label>
                         <input type="text" id="filter-medicine" name="q" placeholder="Insulin">
@@ -67,7 +92,6 @@ include 'includes/header.php';
                         <button class="btn btn-primary" type="submit">Apply filters</button>
                         <button class="btn btn-link" type="button" data-reset-filters>Reset filters</button>
                     </div>
-                    <!-- Backend: bind filters to the live search query. -->
                 </form>
             </aside>
 
@@ -86,12 +110,21 @@ include 'includes/header.php';
                                 <option value="updated">Recently updated</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <button class="btn btn-secondary" type="button" data-use-location>Use my location</button>
+                        </div>
                     </div>
-                    <span class="pill pill-success">12 pharmacies</span>
+                    <span class="pill pill-success">3 pharmacies</span>
+                </div>
+
+                <div class="card" data-location-banner>
+                    <h3 class="panel-title">Nearby recommendation</h3>
+                    <p data-location-message>Allow location to rank pharmacies by proximity.</p>
                 </div>
 
                 <div class="result-list">
-                    <article class="card result-card">
+                    <article class="card result-card" data-name="Unity Pharmacy" data-neighborhood="bole" data-status="in_stock" data-lat="8.995" data-lng="38.785" data-price="250" data-updated-minutes="15">
                         <div class="card-header">
                             <h3>Unity Pharmacy</h3>
                             <span class="badge badge-success">In stock</span>
@@ -103,12 +136,12 @@ include 'includes/header.php';
                             <span>Open until 9:00 PM</span>
                         </div>
                         <div class="card-actions">
-                            <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
+                            <a class="btn btn-secondary" href="pharmacy-detail.html">View details</a>
                             <a class="btn btn-link" href="tel:+251912345678">Call</a>
                         </div>
                     </article>
 
-                    <article class="card result-card">
+                    <article class="card result-card" data-name="EthioCare Pharmacy" data-neighborhood="kirkos" data-status="limited" data-lat="8.984" data-lng="38.764" data-price="255" data-updated-minutes="45">
                         <div class="card-header">
                             <h3>EthioCare Pharmacy</h3>
                             <span class="badge badge-warning">Limited</span>
@@ -120,12 +153,12 @@ include 'includes/header.php';
                             <span>Open until 8:00 PM</span>
                         </div>
                         <div class="card-actions">
-                            <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
+                            <a class="btn btn-secondary" href="pharmacy-detail.html">View details</a>
                             <a class="btn btn-link" href="tel:+251911223344">Call</a>
                         </div>
                     </article>
 
-                    <article class="card result-card">
+                    <article class="card result-card" data-name="BlueCross Pharmacy" data-neighborhood="yeka" data-status="out_of_stock" data-lat="9.03" data-lng="38.81" data-price="0" data-updated-minutes="120">
                         <div class="card-header">
                             <h3>BlueCross Pharmacy</h3>
                             <span class="badge badge-danger">Out of stock</span>
@@ -137,21 +170,60 @@ include 'includes/header.php';
                             <span>Open until 10:00 PM</span>
                         </div>
                         <div class="card-actions">
-                            <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
+                            <a class="btn btn-secondary" href="pharmacy-detail.html">View details</a>
                             <a class="btn btn-link" href="tel:+251900112233">Call</a>
                         </div>
                     </article>
                 </div>
 
-                <!-- Backend: show this block only when no results match the filters. -->
-                <div class="card empty-state">
+                <div class="card empty-state" data-empty-state hidden>
                     <h3>No pharmacies found</h3>
                     <p>Try adjusting filters or searching by a different brand name.</p>
-                    <a class="btn btn-secondary" href="index.php">Start a new search</a>
+                    <a class="btn btn-secondary" href="index.html">Start a new search</a>
                 </div>
             </div>
         </div>
     </section>
 </main>
 
-<?php include 'includes/footer.php'; ?>
+<footer class="site-footer">
+    <div class="container footer-grid">
+        <div class="footer-brand">
+            <a class="brand" href="index.html">MedFinder</a>
+            <p>Find nearby pharmacies and live medicine availability across Addis Ababa.</p>
+        </div>
+        <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="search-results.html">Search results</a></li>
+                <li><a href="pharmacy/register.php">Register pharmacy</a></li>
+                <li><a href="about.html">About MedFinder</a></li>
+            </ul>
+        </div>
+        <div class="footer-links">
+            <h4>Support</h4>
+            <ul>
+                <li><a href="contact.html">Contact support</a></li>
+                <li><a href="pharmacy/login.php">Pharmacy login</a></li>
+                <li><a href="admin/login.php">Admin access</a></li>
+            </ul>
+        </div>
+        <div class="footer-links">
+            <h4>Contact</h4>
+            <p>Call: <a href="tel:+251912345678">+251 91 234 5678</a></p>
+            <p>Email: <a href="mailto:hello@medfinder.et">hello@medfinder.et</a></p>
+            <p>Hours: 7:00 AM - 10:00 PM</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container footer-bottom-inner">
+            <span>Copyright 2026 MedFinder Ethiopia</span>
+            <span>Built for local pharmacies.</span>
+        </div>
+    </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/search.js"></script>
+</body>
+</html>

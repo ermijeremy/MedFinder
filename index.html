@@ -1,8 +1,35 @@
-<?php
-$page_title = 'MedFinder Ethiopia - Find medicine fast';
-$asset_path = '';
-include 'includes/header.php';
-?>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MedFinder Ethiopia - Find medicine fast</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="brand" href="index.html">MedFinder</a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+        <nav class="site-nav" aria-label="Primary">
+            <ul class="nav-list" id="primary-nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="search-results.html">Search</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a class="btn btn-secondary" href="pharmacy/login.php">Pharmacy Login</a>
+            <a class="btn btn-primary" href="pharmacy/register.php">Register</a>
+        </div>
+    </div>
+</header>
 
 <main id="main-content">
     <section class="hero">
@@ -12,7 +39,7 @@ include 'includes/header.php';
                 <h1>Find real-time medicine availability across your neighborhood.</h1>
                 <p class="lead">Search by medicine, compare stock status, and call verified pharmacies in minutes.</p>
                 <div class="hero-actions">
-                    <a class="btn btn-primary" href="search-results.php">Start search</a>
+                    <a class="btn btn-primary" href="search-results.html">Start search</a>
                     <a class="btn btn-secondary" href="pharmacy/register.php">List your pharmacy</a>
                 </div>
                 <div class="hero-highlights">
@@ -31,7 +58,7 @@ include 'includes/header.php';
                 </div>
             </div>
             <div class="hero-search reveal delay-1">
-                <form class="search-form" action="search-results.php" method="get">
+                <form class="search-form" action="search-results.html" method="get">
                     <div class="form-group">
                         <label for="search-medicine">Medicine name</label>
                         <input type="text" id="search-medicine" name="q" placeholder="Search Insulin, Amoxicillin, Paracetamol" required>
@@ -57,7 +84,7 @@ include 'includes/header.php';
                         </select>
                     </div>
                     <button class="btn btn-primary btn-block" type="submit">Search pharmacies</button>
-                    <p class="form-note">Results update when backend search is connected.</p>
+                    <p class="form-note">Use the results page to filter by neighborhood, status, and nearby location.</p>
                 </form>
             </div>
         </div>
@@ -70,7 +97,7 @@ include 'includes/header.php';
                     <p class="eyebrow">Featured pharmacies</p>
                     <h2>Verified local partners</h2>
                 </div>
-                <a class="link" href="search-results.php">View all pharmacies</a>
+                <a class="link" href="search-results.html">View all pharmacies</a>
             </div>
             <div class="card-grid">
                 <article class="card pharmacy-card reveal">
@@ -84,7 +111,7 @@ include 'includes/header.php';
                         <span>Open until 9:00 PM</span>
                     </div>
                     <div class="card-actions">
-                        <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
+                        <a class="btn btn-secondary" href="pharmacy-detail.html">View details</a>
                         <a class="btn btn-link" href="tel:+251912345678">Call</a>
                     </div>
                 </article>
@@ -100,7 +127,7 @@ include 'includes/header.php';
                         <span>Open until 8:00 PM</span>
                     </div>
                     <div class="card-actions">
-                        <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
+                        <a class="btn btn-secondary" href="pharmacy-detail.html">View details</a>
                         <a class="btn btn-link" href="tel:+251911223344">Call</a>
                     </div>
                 </article>
@@ -116,7 +143,7 @@ include 'includes/header.php';
                         <span>Opens at 8:00 AM</span>
                     </div>
                     <div class="card-actions">
-                        <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
+                        <a class="btn btn-secondary" href="pharmacy-detail.html">View details</a>
                         <a class="btn btn-link" href="tel:+251900112233">Call</a>
                     </div>
                 </article>
@@ -139,60 +166,56 @@ include 'includes/header.php';
                 </div>
                 <div class="step-card reveal delay-1">
                     <span class="step-number">2</span>
-                    <h3>Compare availability</h3>
-                    <p>See stock status, price ranges, and operating hours.</p>
+                    <h3>Compare nearby pharmacies</h3>
+                    <p>Sort by proximity, stock, and recent updates to find the best option.</p>
                 </div>
                 <div class="step-card reveal delay-2">
                     <span class="step-number">3</span>
                     <h3>Call and confirm</h3>
-                    <p>Reach pharmacies directly to reserve medicine quickly.</p>
+                    <p>Use the contact number to verify stock before you travel.</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <div class="section-header">
-                <div>
-                    <p class="eyebrow">Live impact</p>
-                    <h2>Helping families find medicine faster</h2>
-                </div>
-            </div>
-            <div class="stat-grid">
-                <div class="stat-card reveal">
-                    <h3>6 min</h3>
-                    <p>Average search time</p>
-                </div>
-                <div class="stat-card reveal delay-1">
-                    <h3>92%</h3>
-                    <p>Users find results on first search</p>
-                </div>
-                <div class="stat-card reveal delay-2">
-                    <h3>350+</h3>
-                    <p>Daily search sessions</p>
-                </div>
-                <div class="stat-card reveal delay-3">
-                    <h3>24/7</h3>
-                    <p>Search access across devices</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section cta">
-        <div class="container cta-inner">
-            <div>
-                <p class="eyebrow">Pharmacy owners</p>
-                <h2>Update inventory and reach more customers.</h2>
-                <p class="lead">Join the verified network and publish your stock in minutes.</p>
-            </div>
-            <div class="cta-actions">
-                <a class="btn btn-primary" href="pharmacy/register.php">Register pharmacy</a>
-                <a class="btn btn-secondary" href="pharmacy/login.php">Pharmacy login</a>
             </div>
         </div>
     </section>
 </main>
 
-<?php include 'includes/footer.php'; ?>
+<footer class="site-footer">
+    <div class="container footer-grid">
+        <div class="footer-brand">
+            <a class="brand" href="index.html">MedFinder</a>
+            <p>Find nearby pharmacies and live medicine availability across Addis Ababa.</p>
+        </div>
+        <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="search-results.html">Search results</a></li>
+                <li><a href="pharmacy/register.php">Register pharmacy</a></li>
+                <li><a href="about.html">About MedFinder</a></li>
+            </ul>
+        </div>
+        <div class="footer-links">
+            <h4>Support</h4>
+            <ul>
+                <li><a href="contact.html">Contact support</a></li>
+                <li><a href="pharmacy/login.php">Pharmacy login</a></li>
+                <li><a href="admin/login.php">Admin access</a></li>
+            </ul>
+        </div>
+        <div class="footer-links">
+            <h4>Contact</h4>
+            <p>Call: <a href="tel:+251912345678">+251 91 234 5678</a></p>
+            <p>Email: <a href="mailto:hello@medfinder.et">hello@medfinder.et</a></p>
+            <p>Hours: 7:00 AM - 10:00 PM</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container footer-bottom-inner">
+            <span>Copyright 2026 MedFinder Ethiopia</span>
+            <span>Built for local pharmacies.</span>
+        </div>
+    </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

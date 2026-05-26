@@ -13,12 +13,11 @@ include '../../includes/header.php';
                 <div class="auth-header">
                     <p class="eyebrow">Remove item</p>
                     <h2>Remove Metformin 500mg?</h2>
-                    <!-- Backend: delete or archive the inventory item. -->
                 </div>
                 <div class="alert alert-warning">This medicine will no longer appear in search results.</div>
                 <div class="form-footer">
-                    <a class="btn btn-primary" href="index.php">Confirm removal</a>
-                    <a class="btn btn-secondary" href="index.php">Cancel</a>
+                    <a class="btn btn-primary" href="index.html">Confirm removal</a>
+                    <a class="btn btn-secondary" href="index.html">Cancel</a>
                 </div>
             </div>
         </div>

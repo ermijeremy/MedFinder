@@ -13,12 +13,11 @@ include '../../includes/header.php';
                 <div class="auth-header">
                     <p class="eyebrow">Archive medicine</p>
                     <h2>Archive Amoxicillin 500mg?</h2>
-                    <!-- Backend: perform a soft delete or archive action. -->
                 </div>
                 <div class="alert alert-warning">Archived medicines will no longer appear for pharmacies.</div>
                 <div class="form-footer">
-                    <a class="btn btn-primary" href="index.php">Confirm archive</a>
-                    <a class="btn btn-secondary" href="index.php">Cancel</a>
+                    <a class="btn btn-primary" href="index.html">Confirm archive</a>
+                    <a class="btn btn-secondary" href="index.html">Cancel</a>
                 </div>
             </div>
         </div>

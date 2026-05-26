@@ -14,13 +14,13 @@ include '../includes/header.php';
                 <h1 class="page-title">Update your profile</h1>
                 <p class="page-subtitle">Keep contact details and operating hours accurate for patients.</p>
                 <div class="breadcrumb">
-                    <a href="index.php">Pharmacy</a>
+                    <a href="index.html">Pharmacy</a>
                     <span>/</span>
                     <span>Profile</span>
                 </div>
             </div>
             <div class="page-actions">
-                <a class="btn btn-secondary" href="index.php">Back to dashboard</a>
+                <a class="btn btn-secondary" href="index.html">Back to dashboard</a>
             </div>
         </div>
     </section>
@@ -29,24 +29,23 @@ include '../includes/header.php';
         <div class="container">
             <div class="form-card">
                 <h3>Profile details</h3>
-                <!-- Backend: load current profile values and save updates. -->
-                <form action="index.php" method="post" enctype="multipart/form-data">
+                <form action="index.html" method="post" enctype="multipart/form-data">
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="profile-name">Pharmacy name</label>
-                            <input type="text" id="profile-name" name="pharmacy_name" value="Unity Pharmacy" required>
+                            <input type="text" id="profile-name" name="pharmacy_name" value="Unity Pharmacy" autocomplete="organization" required>
                         </div>
                         <div class="form-group">
                             <label for="profile-owner">Owner name</label>
-                            <input type="text" id="profile-owner" name="owner_name" value="Hana Mulu" required>
+                            <input type="text" id="profile-owner" name="owner_name" value="Hana Mulu" autocomplete="name" required>
                         </div>
                         <div class="form-group">
                             <label for="profile-email">Email address</label>
-                            <input type="email" id="profile-email" name="email" value="unity@pharmacy.et" required>
+                            <input type="email" id="profile-email" name="email" value="unity@pharmacy.et" autocomplete="email" required>
                         </div>
                         <div class="form-group">
                             <label for="profile-phone">Phone number</label>
-                            <input type="tel" id="profile-phone" name="phone" value="+251912345678" required>
+                            <input type="tel" id="profile-phone" name="phone" value="+251912345678" autocomplete="tel" required>
                         </div>
                         <div class="form-group">
                             <label for="profile-neighborhood">Neighborhood</label>
@@ -64,16 +63,16 @@ include '../includes/header.php';
                         </div>
                         <div class="form-group form-group-full">
                             <label for="profile-address">Address</label>
-                            <textarea id="profile-address" name="address">Atlas area, Addis Ababa</textarea>
+                            <textarea id="profile-address" name="address" autocomplete="street-address">Atlas area, Addis Ababa</textarea>
                         </div>
                         <div class="form-group">
                             <label for="profile-logo">Update logo</label>
-                            <input type="file" id="profile-logo" name="logo">
+                            <input type="file" id="profile-logo" name="logo" accept="image/*">
                         </div>
                     </div>
                     <div class="form-footer">
                         <button class="btn btn-primary" type="submit">Save changes</button>
-                        <a class="btn btn-secondary" href="index.php">Cancel</a>
+                        <a class="btn btn-secondary" href="index.html">Cancel</a>
                     </div>
                 </form>
             </div>

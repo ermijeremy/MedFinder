@@ -13,12 +13,11 @@ include '../../includes/header.php';
                 <div class="auth-header">
                     <p class="eyebrow">Delete neighborhood</p>
                     <h2>Delete Bole?</h2>
-                    <!-- Backend: ensure no pharmacies are linked before deleting. -->
                 </div>
                 <div class="alert alert-warning">This action may remove the neighborhood from search filters.</div>
                 <div class="form-footer">
-                    <a class="btn btn-primary" href="index.php">Confirm delete</a>
-                    <a class="btn btn-secondary" href="index.php">Cancel</a>
+                    <a class="btn btn-primary" href="index.html">Confirm delete</a>
+                    <a class="btn btn-secondary" href="index.html">Cancel</a>
                 </div>
             </div>
         </div>

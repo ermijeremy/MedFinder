@@ -13,9 +13,8 @@ include '../includes/header.php';
                 <div class="auth-header">
                     <p class="eyebrow">Pharmacy access</p>
                     <h2>Sign in to your dashboard</h2>
-                    <!-- Backend: verify credentials and start the pharmacy session. -->
                 </div>
-                <form action="index.php" method="post">
+                <form action="index.html" method="post">
                     <div class="form-group">
                         <label for="pharmacy-email">Email address</label>
                         <input type="email" id="pharmacy-email" name="email" required>

@@ -1,28 +1,31 @@
-document.addEventListener('DOMContentLoaded', function () {
-    var password = document.getElementById('password');
-    var confirmPassword = document.getElementById('confirm_password');
-    var note = document.getElementById('password-help');
+(function ($) {
+    $(function () {
+        var $password = $('#password');
+        var $confirmPassword = $('#confirm_password');
+        var $note = $('#password-help');
 
-    if (!password || !confirmPassword || !note) {
-        return;
-    }
-
-    var updateNote = function () {
-        if (confirmPassword.value === '') {
-            note.textContent = 'Passwords must match.';
-            note.className = 'form-note';
+        if (!$password.length || !$confirmPassword.length || !$note.length) {
             return;
         }
 
-        if (password.value === confirmPassword.value) {
-            note.textContent = 'Passwords match.';
-            note.className = 'form-note note-success';
-        } else {
-            note.textContent = 'Passwords do not match.';
-            note.className = 'form-note note-error';
-        }
-    };
+        function updateNote() {
+            if ($confirmPassword.val() === '') {
+                $note.text('Passwords must match.');
+                $note.removeClass('note-success note-error');
+                return;
+            }
 
-    password.addEventListener('input', updateNote);
-    confirmPassword.addEventListener('input', updateNote);
-});
+            if ($password.val() === $confirmPassword.val()) {
+                $note.text('Passwords match.');
+                $note.removeClass('note-error').addClass('note-success');
+                return;
+            }
+
+            $note.text('Passwords do not match.');
+            $note.removeClass('note-success').addClass('note-error');
+        }
+
+        $password.on('input', updateNote);
+        $confirmPassword.on('input', updateNote);
+    });
+}(window.jQuery));

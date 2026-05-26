@@ -14,15 +14,15 @@ include '../../includes/header.php';
                 <h1 class="page-title">Add a new medicine</h1>
                 <p class="page-subtitle">Create a catalog entry for pharmacies to use in their inventory.</p>
                 <div class="breadcrumb">
-                    <a href="../index.php">Admin</a>
+                    <a href="../index.html">Admin</a>
                     <span>/</span>
-                    <a href="index.php">Medicines</a>
+                    <a href="index.html">Medicines</a>
                     <span>/</span>
                     <span>Add</span>
                 </div>
             </div>
             <div class="page-actions">
-                <a class="btn btn-secondary" href="index.php">Back to list</a>
+                <a class="btn btn-secondary" href="index.html">Back to list</a>
             </div>
         </div>
     </section>
@@ -31,16 +31,15 @@ include '../../includes/header.php';
         <div class="container">
             <div class="form-card">
                 <h3>Medicine details</h3>
-                <!-- Backend: validate and insert into the medicines table. -->
-                <form action="index.php" method="post">
+                <form action="index.html" method="post">
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="medicine-name">Medicine name</label>
-                            <input type="text" id="medicine-name" name="medicine_name" required>
+                            <input type="text" id="medicine-name" name="medicine_name" autocomplete="off" required>
                         </div>
                         <div class="form-group">
                             <label for="generic-name">Generic name</label>
-                            <input type="text" id="generic-name" name="generic_name">
+                            <input type="text" id="generic-name" name="generic_name" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="medicine-category">Category</label>
@@ -59,7 +58,7 @@ include '../../includes/header.php';
                     </div>
                     <div class="form-footer">
                         <button class="btn btn-primary" type="submit">Save medicine</button>
-                        <a class="btn btn-secondary" href="index.php">Cancel</a>
+                        <a class="btn btn-secondary" href="index.html">Cancel</a>
                     </div>
                 </form>
             </div>

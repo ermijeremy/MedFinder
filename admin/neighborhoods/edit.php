@@ -14,15 +14,15 @@ include '../../includes/header.php';
                 <h1 class="page-title">Edit neighborhood</h1>
                 <p class="page-subtitle">Update neighborhood labels used for pharmacy locations.</p>
                 <div class="breadcrumb">
-                    <a href="../index.php">Admin</a>
+                    <a href="../index.html">Admin</a>
                     <span>/</span>
-                    <a href="index.php">Neighborhoods</a>
+                    <a href="index.html">Neighborhoods</a>
                     <span>/</span>
                     <span>Edit</span>
                 </div>
             </div>
             <div class="page-actions">
-                <a class="btn btn-secondary" href="index.php">Back to list</a>
+                <a class="btn btn-secondary" href="index.html">Back to list</a>
             </div>
         </div>
     </section>
@@ -31,8 +31,7 @@ include '../../includes/header.php';
         <div class="container">
             <div class="form-card">
                 <h3>Neighborhood details</h3>
-                <!-- Backend: load current values and update on save. -->
-                <form action="index.php" method="post">
+                <form action="index.html" method="post">
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="neighborhood-name">Name</label>
@@ -55,7 +54,7 @@ include '../../includes/header.php';
                     </div>
                     <div class="form-footer">
                         <button class="btn btn-primary" type="submit">Save changes</button>
-                        <a class="btn btn-secondary" href="index.php">Cancel</a>
+                        <a class="btn btn-secondary" href="index.html">Cancel</a>
                     </div>
                 </form>
             </div>

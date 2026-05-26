@@ -15,7 +15,7 @@ include '../includes/header.php';
                 <h1 class="page-title">Join MedFinder</h1>
                 <p class="page-subtitle">Submit your pharmacy details for approval and start publishing inventory.</p>
                 <div class="breadcrumb">
-                    <a href="../index.php">Home</a>
+                    <a href="../index.html">Home</a>
                     <span>/</span>
                     <span>Register pharmacy</span>
                 </div>
@@ -30,32 +30,31 @@ include '../includes/header.php';
         <div class="container">
             <div class="form-card">
                 <h3>Registration form</h3>
-                <!-- Backend: validate fields, upload logo, and store pending status. -->
                 <form action="login.php" method="post" enctype="multipart/form-data">
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="pharmacy-name">Pharmacy name</label>
-                            <input type="text" id="pharmacy-name" name="pharmacy_name" required>
+                            <input type="text" id="pharmacy-name" name="pharmacy_name" autocomplete="organization" required>
                         </div>
                         <div class="form-group">
                             <label for="owner-name">Owner name</label>
-                            <input type="text" id="owner-name" name="owner_name" required>
+                            <input type="text" id="owner-name" name="owner_name" autocomplete="name" required>
                         </div>
                         <div class="form-group">
                             <label for="register-email">Email address</label>
-                            <input type="email" id="register-email" name="email" required>
+                            <input type="email" id="register-email" name="email" autocomplete="email" required>
                         </div>
                         <div class="form-group">
                             <label for="register-phone">Phone number</label>
-                            <input type="tel" id="register-phone" name="phone" placeholder="+251 9x xxx xxxx" required>
+                            <input type="tel" id="register-phone" name="phone" placeholder="+251 9x xxx xxxx" autocomplete="tel" required>
                         </div>
                         <div class="form-group">
                             <label for="register-password">Password</label>
-                            <input type="password" id="password" name="password" required>
+                            <input type="password" id="password" name="password" autocomplete="new-password" minlength="8" required>
                         </div>
                         <div class="form-group">
                             <label for="register-confirm">Confirm password</label>
-                            <input type="password" id="confirm_password" name="confirm_password" required>
+                            <input type="password" id="confirm_password" name="confirm_password" autocomplete="new-password" minlength="8" required>
                             <span class="form-note" id="password-help">Passwords must match.</span>
                         </div>
                         <div class="form-group">
@@ -71,11 +70,11 @@ include '../includes/header.php';
                         </div>
                         <div class="form-group">
                             <label for="register-license">License number</label>
-                            <input type="text" id="register-license" name="license_number" required>
+                            <input type="text" id="register-license" name="license_number" autocomplete="off" required>
                         </div>
                         <div class="form-group form-group-full">
                             <label for="register-address">Address</label>
-                            <textarea id="register-address" name="address" required></textarea>
+                            <textarea id="register-address" name="address" autocomplete="street-address" required></textarea>
                         </div>
                         <div class="form-group">
                             <label for="register-hours">Operating hours</label>
@@ -83,7 +82,7 @@ include '../includes/header.php';
                         </div>
                         <div class="form-group">
                             <label for="register-logo">Upload logo (optional)</label>
-                            <input type="file" id="register-logo" name="logo">
+                            <input type="file" id="register-logo" name="logo" accept="image/*">
                         </div>
                     </div>
                     <div class="form-footer">

@@ -14,15 +14,15 @@ include '../../includes/header.php';
                 <h1 class="page-title">Add medicine</h1>
                 <p class="page-subtitle">Select a medicine from the catalog and set stock details.</p>
                 <div class="breadcrumb">
-                    <a href="../index.php">Pharmacy</a>
+                    <a href="../index.html">Pharmacy</a>
                     <span>/</span>
-                    <a href="index.php">Inventory</a>
+                    <a href="index.html">Inventory</a>
                     <span>/</span>
                     <span>Add</span>
                 </div>
             </div>
             <div class="page-actions">
-                <a class="btn btn-secondary" href="index.php">Back to inventory</a>
+                <a class="btn btn-secondary" href="index.html">Back to inventory</a>
             </div>
         </div>
     </section>
@@ -31,8 +31,7 @@ include '../../includes/header.php';
         <div class="container">
             <div class="form-card">
                 <h3>Inventory details</h3>
-                <!-- Backend: insert inventory record and link to medicine catalog. -->
-                <form action="index.php" method="post">
+                <form action="index.html" method="post">
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="inventory-medicine">Medicine</label>
@@ -45,7 +44,7 @@ include '../../includes/header.php';
                         </div>
                         <div class="form-group">
                             <label for="inventory-quantity">Quantity</label>
-                            <input type="number" id="inventory-quantity" name="quantity" min="0" required>
+                            <input type="number" id="inventory-quantity" name="quantity" min="0" step="1" required>
                         </div>
                         <div class="form-group">
                             <label for="inventory-price">Price (ETB)</label>
@@ -70,7 +69,7 @@ include '../../includes/header.php';
                     </div>
                     <div class="form-footer">
                         <button class="btn btn-primary" type="submit">Save item</button>
-                        <a class="btn btn-secondary" href="index.php">Cancel</a>
+                        <a class="btn btn-secondary" href="index.html">Cancel</a>
                     </div>
                 </form>
             </div>

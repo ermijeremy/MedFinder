@@ -13,9 +13,8 @@ include '../includes/header.php';
                 <div class="auth-header">
                     <p class="eyebrow">Admin access</p>
                     <h2>Sign in to the admin panel</h2>
-                    <!-- Backend: authenticate using secure session checks. -->
                 </div>
-                <form action="index.php" method="post">
+                <form action="index.html" method="post">
                     <div class="form-group">
                         <label for="admin-username">Username</label>
                         <input type="text" id="admin-username" name="username" required>
@@ -29,7 +28,7 @@ include '../includes/header.php';
                     </div>
                 </form>
                 <div class="auth-footer">
-                    <a class="link" href="../index.php">Back to website</a>
+                    <a class="link" href="../index.html">Back to website</a>
                 </div>
             </div>
         </div>

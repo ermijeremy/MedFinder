@@ -14,15 +14,15 @@ include '../../includes/header.php';
                 <h1 class="page-title">Review registration</h1>
                 <p class="page-subtitle">Confirm details before approving the pharmacy account.</p>
                 <div class="breadcrumb">
-                    <a href="../index.php">Admin</a>
+                    <a href="../index.html">Admin</a>
                     <span>/</span>
-                    <a href="index.php">Pharmacies</a>
+                    <a href="index.html">Pharmacies</a>
                     <span>/</span>
                     <span>Approve</span>
                 </div>
             </div>
             <div class="page-actions">
-                <a class="btn btn-secondary" href="index.php">Back to list</a>
+                <a class="btn btn-secondary" href="index.html">Back to list</a>
             </div>
         </div>
     </section>
@@ -63,7 +63,7 @@ include '../../includes/header.php';
 
                     <div class="panel">
                         <h3 class="panel-title">Approval actions</h3>
-                        <form action="index.php" method="post">
+                        <form action="index.html" method="post">
                             <div class="form-group">
                                 <label for="approval-note">Approval note (optional)</label>
                                 <textarea id="approval-note" name="note" placeholder="Add a note for the pharmacy"></textarea>
@@ -80,11 +80,10 @@ include '../../includes/header.php';
             <aside class="sidebar">
                 <h3 class="panel-title">Verification checklist</h3>
                 <div class="check-list">
-                    <label><input type="checkbox"> License number verified</label>
-                    <label><input type="checkbox"> Phone number confirmed</label>
-                    <label><input type="checkbox"> Neighborhood matched</label>
+                    <label><input type="checkbox" name="checklist[]" value="license"> License number verified</label>
+                    <label><input type="checkbox" name="checklist[]" value="phone"> Phone number confirmed</label>
+                    <label><input type="checkbox" name="checklist[]" value="neighborhood"> Neighborhood matched</label>
                 </div>
-                <!-- Backend: store approval steps and status history. -->
             </aside>
         </div>
     </section>

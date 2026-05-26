@@ -4,42 +4,42 @@
 ```
 medfinder-ethiopia/
 │
-├── index.php                          # Landing/Home page with search
-├── search-results.php                 # Medicine search results page
-├── pharmacy-detail.php                # Individual pharmacy profile page
-├── about.php                          # About the project
-├── contact.php                        # Contact form
+├── index.html                         # Landing/Home page with search
+├── search-results.html                # Medicine search results page
+├── pharmacy-detail.html               # Individual pharmacy profile page
+├── about.html                         # About the project
+├── contact.html                       # Contact form
 │
 ├── admin/                             # Admin panel section
-│   ├── index.php                      # Admin dashboard
+│   ├── index.html                     # Admin dashboard
 │   ├── login.php                      # Admin login
-│   ├── logout.php                     # Admin logout handler
+│   ├── logout.html                    # Admin logout screen
 │   ├── medicines/
-│   │   ├── index.php                  # List all medicines
+│   │   ├── index.html                 # List all medicines
 │   │   ├── add.php                    # Add new medicine to catalog
 │   │   ├── edit.php                   # Edit medicine details
 │   │   ├── delete.php                 # Delete medicine
 │   │
 │   ├── pharmacies/
-│   │   ├── index.php                  # List all pharmacies
+│   │   ├── index.html                 # List all pharmacies
 │   │   ├── approve.php                # Approve pending pharmacies
-│   │   ├── view.php                   # View pharmacy details
+│   │   ├── view.html                  # View pharmacy details
 │   │   ├── delete.php                 # Delete pharmacy
 │   │
 │   └── neighborhoods/
-│       ├── index.php                  # Manage neighborhoods/areas
+│       ├── index.html                 # Manage neighborhoods/areas
 │       ├── add.php                    # Add new area
 │       ├── edit.php                   # Edit area
 │       ├── delete.php                 # Delete area
 │
 ├── pharmacy/                          # Pharmacy owner panel
-│   ├── index.php                      # Pharmacy dashboard
+│   ├── index.html                     # Pharmacy dashboard
 │   ├── login.php                      # Pharmacy login
 │   ├── register.php                   # Pharmacy registration
-│   ├── logout.php                     # Logout handler
+│   ├── logout.html                    # Logout screen
 │   ├── profile.php                    # Edit pharmacy profile
 │   ├── inventory/
-│   │   ├── index.php                  # View current inventory
+│   │   ├── index.html                 # View current inventory
 │   │   ├── add.php                    # Add medicine to inventory
 │   │   ├── update.php                 # Update stock/price
 │   │   ├── delete.php                 # Remove from inventory
@@ -60,7 +60,6 @@ medfinder-ethiopia/
 │   ├── responsive.css                 # Mobile responsive styles
 │
 ├── js/                                # JavaScript files
-│   ├── jquery-3.6.0.min.js           # jQuery library
 │   ├── main.js                        # Main JavaScript
 │   ├── search.js                      # Search functionality
 │   ├── validation.js                  # Form validation
@@ -84,14 +83,14 @@ medfinder-ethiopia/
 
 ### **1. Public-Facing Features (Patient/User Side)**
 
-#### **A. Home Page (index.php)**
+#### **A. Home Page (index.html)**
 - **Hero Section**: Large search bar with placeholder "Search for medicine..."
 - **Quick Search**: Auto-suggest dropdown using jQuery (searches as user types)
 - **Featured Pharmacies**: Display 6-8 pharmacies with good ratings
 - **How It Works**: 3-step visual guide (Search → Find → Call)
 - **Statistics Counter**: Total medicines, pharmacies, neighborhoods
 
-#### **B. Search Results (search-results.php)**
+#### **B. Search Results (search-results.html)**
 **Input Parameters:**
 - Medicine name (required)
 - Neighborhood filter (optional dropdown)
@@ -112,7 +111,7 @@ medfinder-ethiopia/
 - **Results Count**: "Found 12 pharmacies with Insulin in Bole"
 - **No Results**: Helpful message with suggestions
 
-#### **C. Pharmacy Detail Page (pharmacy-detail.php)**
+#### **C. Pharmacy Detail Page (pharmacy-detail.html)**
 - Full pharmacy profile
 - Google Maps embed (if coordinates available)
 - All available medicines list with prices
@@ -154,7 +153,7 @@ medfinder-ethiopia/
 - Redirect to dashboard after login
 - "Forgot Password" link
 
-#### **C. Dashboard (pharmacy/index.php)**
+#### **C. Dashboard (pharmacy/index.html)**
 **Statistics Cards:**
 - Total medicines in inventory
 - Low stock alerts (< 10 units)
@@ -173,7 +172,7 @@ medfinder-ethiopia/
 
 #### **D. Inventory Management (pharmacy/inventory/)**
 
-**View Inventory (index.php):**
+**View Inventory (index.html):**
 - Data table with columns:
   - Medicine name
   - Category
@@ -217,7 +216,7 @@ medfinder-ethiopia/
 - Session with timeout (30 min)
 - Single admin account or multiple roles
 
-#### **B. Dashboard (admin/index.php)**
+#### **B. Dashboard (admin/index.html)**
 **Statistics Overview:**
 - Total pharmacies (Active/Pending)
 - Total medicines in catalog
@@ -236,7 +235,7 @@ medfinder-ethiopia/
 
 #### **C. Medicine Catalog Management (admin/medicines/)**
 
-**List Medicines (index.php):**
+**List Medicines (index.html):**
 - Data table with:
   - Medicine name
   - Generic name
@@ -262,7 +261,7 @@ medfinder-ethiopia/
 
 #### **D. Pharmacy Management (admin/pharmacies/)**
 
-**List Pharmacies (index.php):**
+**List Pharmacies (index.html):**
 - Filter by: Status (All/Active/Pending/Suspended)
 - Table columns:
   - Pharmacy name
@@ -279,7 +278,7 @@ medfinder-ethiopia/
 - Approve/Reject with reason
 - Send email notification
 
-**View Details (view.php):**
+**View Details (view.html):**
 - Full profile
 - Inventory list
 - Activity log

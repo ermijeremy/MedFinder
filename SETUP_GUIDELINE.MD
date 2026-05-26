@@ -54,9 +54,9 @@ chmod 755 css/ js/
 
 ### Using XAMPP
 1. Install XAMPP
-2. Copy project to `C:\xampp\htdocs\med-ethio`
+2. Copy project to `C:\xampp\htdocs\medFinder`
 3. Start Apache and MySQL
-4. Access: `http://localhost/med-ethio`
+4. Access: `http://localhost/medFinder`
 
 ### Using Built-in PHP Server
 ```bash

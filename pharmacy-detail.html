@@ -36,12 +36,28 @@
         <div class="container page-hero-inner">
             <div>
                 <p class="eyebrow">Pharmacy profile</p>
-                <h1 class="page-title">Unity Pharmacy</h1>
-                <p class="page-subtitle">Bole, Atlas Area | License: ETH-12345</p>
+                <h1 class="page-title"><?= h($pharmacy['pharmacy_name']) ?></h1>
+                <p class="page-subtitle">
+                    <?= h($pharmacy['neighborhood_name'] ?? '') ?> — <?= h($pharmacy['address']) ?>
+                    | License: <?= h($pharmacy['license_number']) ?>
+                </p>
                 <div class="status-row">
-                    <span class="badge badge-success">Open now</span>
-                    <span class="pill pill-success">In stock</span>
-                    <span class="pill">Updated 15 minutes ago</span>
+                    <?php
+                        // Determine the best stock status across all inventory
+                        $hasIn = false; $hasLim = false;
+                        foreach ($inventory as $inv) {
+                            if ($inv['status'] === 'in_stock') { $hasIn = true; break; }
+                            if ($inv['status'] === 'limited')  { $hasLim = true; }
+                        }
+                        $overallStatus = $hasIn ? 'in_stock' : ($hasLim ? 'limited' : 'out_of_stock');
+                    ?>
+                    <span class="badge badge-success">Active</span>
+                    <span class="pill <?= $overallStatus === 'in_stock' ? 'pill-success' : '' ?>">
+                        <?= status_label($overallStatus) ?>
+                    </span>
+                    <?php if (!empty($inventory)): ?>
+                        <span class="pill">Updated <?= time_ago($inventory[0]['updated_at']) ?></span>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="page-actions">
@@ -56,62 +72,67 @@
             <div class="profile-main">
                 <article class="panel">
                     <h3 class="panel-title">Overview</h3>
-                    <p>Unity Pharmacy serves the Atlas area with a full catalog of chronic care and daily health essentials. Verified by MedFinder with weekly inventory updates.</p>
+                    <p><?= h($pharmacy['pharmacy_name']) ?> serves the <?= h($pharmacy['neighborhood_name'] ?? 'local') ?>
+                       area. Verified by MedFinder with regularly updated inventory.</p>
                 </article>
 
                 <article class="panel">
-                    <h3 class="panel-title">Available medicines</h3>
-                    <div class="table-wrap">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Medicine</th>
-                                    <th>Price</th>
-                                    <th>Status</th>
-                                    <th>Updated</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Insulin (Rapid)</td>
-                                    <td>250 ETB</td>
-                                    <td><span class="badge badge-success">In stock</span></td>
-                                    <td>15 minutes ago</td>
-                                </tr>
-                                <tr>
-                                    <td>Metformin 500mg</td>
-                                    <td>180 ETB</td>
-                                    <td><span class="badge badge-warning">Limited</span></td>
-                                    <td>1 hour ago</td>
-                                </tr>
-                                <tr>
-                                    <td>Amoxicillin 500mg</td>
-                                    <td>120 ETB</td>
-                                    <td><span class="badge badge-success">In stock</span></td>
-                                    <td>Today</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <h3 class="panel-title">Available medicines
+                        <span class="pill"><?= count($inventory) ?></span>
+                    </h3>
+                    <?php if (empty($inventory)): ?>
+                        <p class="text-muted">No medicines listed yet.</p>
+                    <?php else: ?>
+                        <div class="table-wrap">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Medicine</th>
+                                        <th>Price</th>
+                                        <th>Status</th>
+                                        <th>Updated</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($inventory as $inv): ?>
+                                        <tr>
+                                            <td>
+                                                <?= h($inv['medicine_name']) ?>
+                                                <?php if ($inv['generic_name']): ?>
+                                                    <small class="text-muted"><?= h($inv['generic_name']) ?></small>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td><?= $inv['price'] > 0 ? format_price((float)$inv['price']) : '—' ?></td>
+                                            <td><span class="badge <?= badge_class($inv['status']) ?>">
+                                                <?= status_label($inv['status']) ?>
+                                            </span></td>
+                                            <td><?= time_ago($inv['updated_at']) ?></td>
+                                        </tr>
+                                        <?php if ($inv['restock_note']): ?>
+                                            <tr>
+                                                <td colspan="4" class="text-muted" style="font-size:.85em;padding-top:0">
+                                                    ℹ <?= h($inv['restock_note']) ?>
+                                                </td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php endif; ?>
                 </article>
 
+                <?php if ($pharmacy['operating_hours']): ?>
                 <article class="panel">
                     <h3 class="panel-title">Operating hours</h3>
                     <div class="info-list">
                         <div class="info-row">
-                            <span>Weekdays</span>
-                            <span>8:00 AM - 9:00 PM</span>
-                        </div>
-                        <div class="info-row">
-                            <span>Saturday</span>
-                            <span>9:00 AM - 8:00 PM</span>
-                        </div>
-                        <div class="info-row">
-                            <span>Sunday</span>
-                            <span>10:00 AM - 6:00 PM</span>
+                            <span>Hours</span>
+                            <span><?= h($pharmacy['operating_hours']) ?></span>
                         </div>
                     </div>
                 </article>
+                <?php endif; ?>
             </div>
 
             <aside class="profile-sidebar">
@@ -120,23 +141,22 @@
                     <div class="info-list">
                         <div class="info-row">
                             <span>Phone</span>
-                            <a href="tel:+251912345678">+251 91 234 5678</a>
+                            <a href="tel:<?= h($pharmacy['phone']) ?>"><?= h($pharmacy['phone']) ?></a>
                         </div>
                         <div class="info-row">
                             <span>Email</span>
-                            <span>unity@pharmacy.et</span>
+                            <span><?= h($pharmacy['email']) ?></span>
                         </div>
                         <div class="info-row">
                             <span>Neighborhood</span>
-                            <span>Bole</span>
+                            <span><?= h($pharmacy['neighborhood_name'] ?? '—') ?></span>
                         </div>
                         <div class="info-row">
-                            <span>Delivery</span>
-                            <span>Available</span>
+                            <span>Owner</span>
+                            <span><?= h($pharmacy['owner_name']) ?></span>
                         </div>
                     </div>
                 </div>
-
                 <div class="panel">
                     <h3 class="panel-title">Location map</h3>
                     <div class="empty-state">

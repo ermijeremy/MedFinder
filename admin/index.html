@@ -38,7 +38,7 @@
             <div>
                 <p class="eyebrow">Admin dashboard</p>
                 <h1 class="page-title">System overview</h1>
-                <p class="page-subtitle">Monitor pharmacy onboarding, medicine catalog updates, and search activity.</p>
+                <p class="page-subtitle">Monitor pharmacy onboarding, medicine catalog, and search activity.</p>
                 <div class="breadcrumb">
                     <a href="index.html">Admin</a>
                     <span>/</span>
@@ -52,22 +52,24 @@
         </div>
     </section>
 
+    <?php render_flashes(); ?>
+
     <section class="section">
         <div class="container stat-grid">
             <div class="stat-card reveal">
-                <h3>128</h3>
+                <h3><?= h($stats['total_pharmacies']) ?></h3>
                 <p>Total pharmacies</p>
             </div>
             <div class="stat-card reveal delay-1">
-                <h3>18</h3>
+                <h3><?= h($stats['pending']) ?></h3>
                 <p>Pending approvals</p>
             </div>
             <div class="stat-card reveal delay-2">
-                <h3>3,820</h3>
+                <h3><?= h($stats['total_medicines']) ?></h3>
                 <p>Medicines in catalog</p>
             </div>
             <div class="stat-card reveal delay-3">
-                <h3>540</h3>
+                <h3><?= h($stats['searches_today']) ?></h3>
                 <p>Searches today</p>
             </div>
         </div>
@@ -117,19 +119,19 @@
             </div>
 
             <aside class="sidebar">
-                <h3 class="panel-title">Quick tasks</h3>
+                <h3 class="panel-title">Quick links</h3>
                 <div class="info-list">
                     <div class="info-row">
-                        <span>New medicines</span>
-                        <span>12 requests</span>
+                        <span>Active pharmacies</span>
+                        <span><?= h($stats['active']) ?></span>
                     </div>
                     <div class="info-row">
-                        <span>Suspended pharmacies</span>
-                        <span>3 accounts</span>
+                        <span>Suspended</span>
+                        <span><?= h($stats['suspended']) ?></span>
                     </div>
                     <div class="info-row">
-                        <span>Neighborhood edits</span>
-                        <span>5 updates</span>
+                        <span>Medicines in catalog</span>
+                        <span><?= h($stats['total_medicines']) ?></span>
                     </div>
                 </div>
                 <div class="form-footer">

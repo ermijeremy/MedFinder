@@ -53,61 +53,56 @@
 
     <section class="section">
         <div class="container page-layout">
+            <!-- Filter sidebar -->
             <aside class="sidebar">
                 <h3 class="panel-title">Filter results</h3>
                 <form class="filter-form" action="search-results.html" method="get">
                     <div class="form-group">
                         <label for="filter-medicine">Medicine</label>
-                        <input type="text" id="filter-medicine" name="q" placeholder="Insulin">
+                        <input type="text" id="filter-medicine" name="q"
+                               value="<?= h($q) ?>" placeholder="Insulin" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="filter-neighborhood">Neighborhood</label>
                         <select id="filter-neighborhood" name="neighborhood">
                             <option value="">All neighborhoods</option>
-                            <option value="bole">Bole</option>
-                            <option value="kirkos">Kirkos</option>
-                            <option value="arada">Arada</option>
-                            <option value="yeka">Yeka</option>
-                            <option value="lideta">Lideta</option>
+                            <?php foreach ($neighborhoods as $nbhd): ?>
+                                <option value="<?= h($nbhd['neighborhood_id']) ?>"
+                                    <?= $neighborhood_id === (int)$nbhd['neighborhood_id'] ? 'selected' : '' ?>>
+                                    <?= h($nbhd['name']) ?>
+                                </option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Stock status</label>
                         <div class="radio-list">
-                            <label><input type="radio" name="status" value="" checked> Any</label>
-                            <label><input type="radio" name="status" value="in_stock"> In stock</label>
-                            <label><input type="radio" name="status" value="limited"> Limited</label>
-                            <label><input type="radio" name="status" value="out_of_stock"> Out of stock</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Services</label>
-                        <div class="check-list">
-                            <label><input type="checkbox" name="service[]" value="delivery"> Delivery</label>
-                            <label><input type="checkbox" name="service[]" value="insurance"> Insurance accepted</label>
-                            <label><input type="checkbox" name="service[]" value="24hrs"> 24 hour service</label>
+                            <label><input type="radio" name="status" value=""          <?= $status === ''            ? 'checked' : '' ?>> Any</label>
+                            <label><input type="radio" name="status" value="in_stock"  <?= $status === 'in_stock'    ? 'checked' : '' ?>> In stock</label>
+                            <label><input type="radio" name="status" value="limited"   <?= $status === 'limited'     ? 'checked' : '' ?>> Limited</label>
+                            <label><input type="radio" name="status" value="out_of_stock" <?= $status === 'out_of_stock' ? 'checked' : '' ?>> Out of stock</label>
                         </div>
                     </div>
                     <div class="filter-actions">
                         <button class="btn btn-primary" type="submit">Apply filters</button>
-                        <button class="btn btn-link" type="button" data-reset-filters>Reset filters</button>
+                        <a class="btn btn-link" href="search-results.php<?= $q ? '?q=' . urlencode($q) : '' ?>">Reset filters</a>
                     </div>
                 </form>
             </aside>
 
+            <!-- Results -->
             <div class="content-area">
                 <div class="results-toolbar">
                     <div class="search-inline">
                         <div class="form-group">
-                            <label for="inline-search">Refine search</label>
-                            <input type="text" id="inline-search" placeholder="Search again">
-                        </div>
-                        <div class="form-group">
                             <label for="sort-results">Sort by</label>
-                            <select id="sort-results">
-                                <option value="nearest">Nearest</option>
-                                <option value="price_low">Lowest price</option>
-                                <option value="updated">Recently updated</option>
+                            <select id="sort-results" onchange="
+                                const u = new URL(window.location);
+                                u.searchParams.set('sort', this.value);
+                                window.location = u.toString();">
+                                <option value="updated"    <?= $sort === 'updated'    ? 'selected' : '' ?>>Recently updated</option>
+                                <option value="price_asc"  <?= $sort === 'price_asc'  ? 'selected' : '' ?>>Lowest price</option>
+                                <option value="price_desc" <?= $sort === 'price_desc' ? 'selected' : '' ?>>Highest price</option>
                             </select>
                         </div>
                         <div class="form-group">

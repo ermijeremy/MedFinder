@@ -44,34 +44,37 @@
                 </div>
                 <div class="hero-highlights">
                     <div class="highlight-card">
-                        <p class="highlight-number">120+</p>
+                        <p class="highlight-number"><?= h($stats['total_pharmacies']) ?>+</p>
                         <p class="highlight-label">Partner pharmacies</p>
                     </div>
                     <div class="highlight-card">
-                        <p class="highlight-number">3,800+</p>
+                        <p class="highlight-number"><?= h($stats['total_medicines']) ?>+</p>
                         <p class="highlight-label">Medicines tracked</p>
                     </div>
                     <div class="highlight-card">
-                        <p class="highlight-number">15</p>
+                        <p class="highlight-number"><?= count($neighborhoods) ?></p>
                         <p class="highlight-label">Neighborhoods covered</p>
                     </div>
                 </div>
             </div>
+
             <div class="hero-search reveal delay-1">
                 <form class="search-form" action="search-results.html" method="get">
                     <div class="form-group">
                         <label for="search-medicine">Medicine name</label>
-                        <input type="text" id="search-medicine" name="q" placeholder="Search Insulin, Amoxicillin, Paracetamol" required>
+                        <input type="text" id="search-medicine" name="q"
+                               placeholder="Search Insulin, Amoxicillin, Paracetamol" required
+                               autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="search-neighborhood">Neighborhood</label>
                         <select id="search-neighborhood" name="neighborhood">
                             <option value="">All neighborhoods</option>
-                            <option value="bole">Bole</option>
-                            <option value="kirkos">Kirkos</option>
-                            <option value="arada">Arada</option>
-                            <option value="yeka">Yeka</option>
-                            <option value="lideta">Lideta</option>
+                            <?php foreach ($neighborhoods as $nbhd): ?>
+                                <option value="<?= h($nbhd['neighborhood_id']) ?>">
+                                    <?= h($nbhd['name']) ?>
+                                </option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="form-group">

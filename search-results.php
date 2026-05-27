@@ -122,7 +122,7 @@ include 'includes/header.php';
                             <span>Open until 9:00 PM</span>
                         </div>
                         <div class="card-actions">
-                            <a class="btn btn-secondary" href="pharmacy-detail.html">View details</a>
+                            <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
                             <a class="btn btn-link" href="tel:+251912345678">Call</a>
                         </div>
                     </article>
@@ -139,7 +139,7 @@ include 'includes/header.php';
                             <span>Open until 8:00 PM</span>
                         </div>
                         <div class="card-actions">
-                            <a class="btn btn-secondary" href="pharmacy-detail.html">View details</a>
+                            <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
                             <a class="btn btn-link" href="tel:+251911223344">Call</a>
                         </div>
                     </article>
@@ -156,7 +156,7 @@ include 'includes/header.php';
                             <span>Open until 10:00 PM</span>
                         </div>
                         <div class="card-actions">
-                            <a class="btn btn-secondary" href="pharmacy-detail.html">View details</a>
+                            <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
                             <a class="btn btn-link" href="tel:+251900112233">Call</a>
                         </div>
                     </article>

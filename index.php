@@ -81,7 +81,7 @@ include 'includes/header.php';
                     <p class="eyebrow">Featured pharmacies</p>
                     <h2>Verified local partners</h2>
                 </div>
-                <a class="link" href="search-results.html">View all pharmacies</a>
+                <a class="link" href="search-results.php">View all pharmacies</a>
             </div>
             <div class="card-grid">
                 <article class="card pharmacy-card reveal">
@@ -95,7 +95,7 @@ include 'includes/header.php';
                         <span>Open until 9:00 PM</span>
                     </div>
                     <div class="card-actions">
-                        <a class="btn btn-secondary" href="pharmacy-detail.html">View details</a>
+                        <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
                         <a class="btn btn-link" href="tel:+251912345678">Call</a>
                     </div>
                 </article>
@@ -111,7 +111,7 @@ include 'includes/header.php';
                         <span>Open until 8:00 PM</span>
                     </div>
                     <div class="card-actions">
-                        <a class="btn btn-secondary" href="pharmacy-detail.html">View details</a>
+                        <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
                         <a class="btn btn-link" href="tel:+251911223344">Call</a>
                     </div>
                 </article>
@@ -127,7 +127,7 @@ include 'includes/header.php';
                         <span>Opens at 8:00 AM</span>
                     </div>
                     <div class="card-actions">
-                        <a class="btn btn-secondary" href="pharmacy-detail.html">View details</a>
+                        <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
                         <a class="btn btn-link" href="tel:+251900112233">Call</a>
                     </div>
                 </article>

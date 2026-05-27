@@ -131,7 +131,8 @@ CREATE TABLE IF NOT EXISTS search_logs (
 -- Admin account
 INSERT INTO admins (username, email, password) VALUES
 ('admin', 'admin@medfinder.et',
- '$2y$12$eImiTXuWVxfM37uY4JANjQ==FmRFUrI2JEr8dJVqZUO1kAWXi6iHS');
+ 'PLACEHOLDER_ADMIN_HASH')
+ON DUPLICATE KEY UPDATE password = VALUES(password);
 
 -- Neighborhoods (5 main Addis Ababa sub-cities)
 INSERT INTO neighborhoods (name, description, zone) VALUES
@@ -139,11 +140,13 @@ INSERT INTO neighborhoods (name, description, zone) VALUES
 ('Kirkos',  'Central business district near Meskel Square',   'Central'),
 ('Arada',   'Historic city centre, Piazza area',              'Central'),
 ('Yeka',    'Residential area in the northeast',              'East'),
-('Lideta',  'Western residential and commercial zone',        'West');
+('Lideta',  'Western residential and commercial zone',        'West')
+ON DUPLICATE KEY UPDATE description = VALUES(description), zone = VALUES(zone);
 
 
 -- Medicine catalog (20 common medicines)
-INSERT INTO medicines (medicine_name, generic_name, category, description) VALUES
+-- Use INSERT IGNORE for medicines to avoid duplicating the catalog
+INSERT IGNORE INTO medicines (medicine_name, generic_name, category, description) VALUES
 ('Insulin Rapid',        'Insulin (short-acting)',          'Diabetes',      'Fast-acting insulin for blood sugar control.'),
 ('Insulin NPH',          'Insulin (intermediate-acting)',   'Diabetes',      'Intermediate-acting insulin injection.'),
 ('Metformin 500mg',      'Metformin HCl',                  'Diabetes',      'First-line oral medication for type 2 diabetes.'),
@@ -176,7 +179,7 @@ VALUES
     'Hana Mulu',
     'unity@pharmacy.et',
     '+251912345678',
-    '$2y$12$PLACEHOLDER_UNITY_HASH_HERE',
+    'PLACEHOLDER_UNITY_HASH',
     'Atlas area, near Bole Atlas Hotel, Bole Sub-city',
     1,
     'ETH-PH-001',
@@ -188,7 +191,7 @@ VALUES
     'Tsegaye Bekele',
     'ethiocare@pharmacy.et',
     '+251911223344',
-    '$2y$12$PLACEHOLDER_ETHIOCARE_HASH_HERE',
+    'PLACEHOLDER_ETHIOCARE_HASH',
     'Meskel Square area, Kirkos Sub-city',
     2,
     'ETH-PH-002',
@@ -200,7 +203,7 @@ VALUES
     'Selamawit Girma',
     'bluecross@pharmacy.et',
     '+251900112233',
-    '$2y$12$PLACEHOLDER_BLUECROSS_HASH_HERE',
+    'PLACEHOLDER_BLUECROSS_HASH',
     'Megenagna area, Yeka Sub-city',
     4,
     'ETH-PH-003',
@@ -212,13 +215,14 @@ VALUES
     'Dereje Alemu',
     'greenmed@pharmacy.et',
     '+251922334455',
-    '$2y$12$PLACEHOLDER_GREENMED_HASH_HERE',
+    'PLACEHOLDER_GREENMED_HASH',
     'Piazza area, Arada Sub-city',
     3,
     'ETH-PH-004',
     '8:00 AM - 7:00 PM',
     'pending'
-);
+)
+ON DUPLICATE KEY UPDATE password = VALUES(password);
 
 
 -- Sample inventory (Unity Pharmacy — pharmacy_id = 1)

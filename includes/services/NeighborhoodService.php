@@ -60,12 +60,22 @@ class NeighborhoodService
     }
 
     // Delete a neighborhood.
-    public static function delete(int $id): void
+    public static function delete(int $id): bool
     {
-        db_query(
+        return (bool)db_query(
             'DELETE FROM neighborhoods WHERE neighborhood_id = :id',
             [':id' => $id]
         );
+    }
+
+    // Check if any pharmacy is assigned to this neighborhood
+    public static function getPharmacyCount(int $id): int
+    {
+        $res = db_query(
+            'SELECT COUNT(*) as cnt FROM pharmacies WHERE neighborhood_id = :id',
+            [':id' => $id]
+        )->fetch();
+        return (int)($res['cnt'] ?? 0);
     }
 
     // Count how many active pharmacies are in each neighborhood.

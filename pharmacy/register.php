@@ -166,32 +166,32 @@ include '../includes/header.php';
                 <form action="register.php" method="post" enctype="multipart/form-data">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="pharmacy-name">Pharmacy name</label>
-                            <input type="text" id="pharmacy-name" name="pharmacy_name" autocomplete="organization" required>
+                            <label for="pharmacy-name">Pharmacy name <span class="required">*</span></label>
+                            <input type="text" id="pharmacy-name" name="pharmacy_name" autocomplete="organization" value="<?= h($old['pharmacy_name'] ?? '') ?>" required>
                         </div>
                         <div class="form-group">
-                            <label for="owner-name">Owner name</label>
-                            <input type="text" id="owner-name" name="owner_name" autocomplete="name" required>
+                            <label for="owner-name">Owner name <span class="required">*</span></label>
+                            <input type="text" id="owner-name" name="owner_name" autocomplete="name" value="<?= h($old['owner_name'] ?? '') ?>" required>
                         </div>
                         <div class="form-group">
-                            <label for="register-email">Email address</label>
-                            <input type="email" id="register-email" name="email" autocomplete="email" required>
+                            <label for="register-email">Email address <span class="required">*</span></label>
+                            <input type="email" id="register-email" name="email" autocomplete="email" value="<?= h($old['email'] ?? '') ?>" required>
                         </div>
                         <div class="form-group">
-                            <label for="register-phone">Phone number</label>
-                            <input type="tel" id="register-phone" name="phone" placeholder="+251 9x xxx xxxx" autocomplete="tel" required>
+                            <label for="register-phone">Phone number <span class="required">*</span></label>
+                            <input type="tel" id="register-phone" name="phone" placeholder="+251 9x xxx xxxx" value="<?= h($old['phone'] ?? '') ?>" autocomplete="tel" required>
                         </div>
                         <div class="form-group">
-                            <label for="register-password">Password</label>
+                            <label for="register-password">Password <span class="required">*</span></label>
                             <input type="password" id="password" name="password" autocomplete="new-password" minlength="8" required>
+                            <span class="form-note">Must be at least 8 characters.</span>
                         </div>
                         <div class="form-group">
-                            <label for="register-confirm">Confirm password</label>
+                            <label for="register-confirm">Confirm password <span class="required">*</span></label>
                             <input type="password" id="confirm_password" name="confirm_password" autocomplete="new-password" minlength="8" required>
-                            <span class="form-note" id="password-help">Passwords must match.</span>
                         </div>
                         <div class="form-group">
-                            <label for="register-neighborhood">Neighborhood</label>
+                            <label for="register-neighborhood">Neighborhood <span class="required">*</span></label>
                             <select id="register-neighborhood" name="neighborhood" required>
                                 <option value="">Select neighborhood</option>
                                 <?php foreach ($neighborhoods as $nbhd): ?>
@@ -203,12 +203,12 @@ include '../includes/header.php';
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="register-license">License number</label>
-                            <input type="text" id="register-license" name="license_number" autocomplete="off" required>
+                            <label for="register-license">License number <span class="required">*</span></label>
+                            <input type="text" id="register-license" name="license_number" value="<?= h($old['license_number'] ?? '') ?>" autocomplete="off" required>
                         </div>
                         <div class="form-group form-group-full">
-                            <label for="register-address">Address</label>
-                            <textarea id="register-address" name="address" autocomplete="street-address" required></textarea>
+                            <label for="register-address">Address <span class="required">*</span></label>
+                            <textarea id="register-address" name="address" autocomplete="street-address" required><?= h($old['address'] ?? '') ?></textarea>
                         </div>
                         <div class="form-group">
                             <label for="register-hours">Operating hours</label>

@@ -37,18 +37,18 @@ include '../../includes/header.php';
 
 <main id="main-content">
     <section class="section">
-        <div class="container auth-layout">
-            <div class="auth-card">
+        <div class="container container-narrow">
+            <div class="auth-card" style="max-width:500px;margin:100px auto">
                 <div class="auth-header">
-                    <p class="eyebrow">Delete pharmacy</p>
+                    <p class="eyebrow" style="color:var(--danger)">Danger zone</p>
                     <h2>Delete <?= h($pharmacy['pharmacy_name']) ?>?</h2>
                 </div>
                 <div class="alert alert-warning">This action permanently removes the pharmacy and all inventory.</div>
-                <div class="form-footer">
+                <div class="form-footer" style="justify-content:center">
                     <form action="delete.php?id=<?= (int)$id ?>" method="post">
-                        <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
+                        <input type="hidden" name="_csrf_token" value="<?= csrf_token() ?>">
                         <input type="hidden" name="id" value="<?= (int)$id ?>">
-                        <button class="btn btn-primary" type="submit">Confirm delete</button>
+                        <button class="btn btn-danger" type="submit">Confirm delete</button>
                         <a class="btn btn-secondary" href="index.php">Cancel</a>
                     </form>
                 </div>

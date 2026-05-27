@@ -1,35 +1,11 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Contact MedFinder Ethiopia</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-</head>
-<body>
-<a class="skip-link" href="#main-content">Skip to content</a>
-<header class="site-header">
-    <div class="container header-inner">
-        <a class="brand" href="index.html">MedFinder</a>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
-        <nav class="site-nav" aria-label="Primary">
-            <ul class="nav-list" id="primary-nav">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="search-results.html">Search</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="header-actions">
-            <a class="btn btn-secondary" href="pharmacy/login.php">Pharmacy Login</a>
-            <a class="btn btn-primary" href="pharmacy/register.php">Register</a>
-        </div>
-    </div>
-</header>
+<?php
+require_once 'includes/config.php';
+require_once 'includes/db.php';
+require_once 'includes/functions.php';
+
+$page_title = 'Contact MedFinder Ethiopia';
+include 'includes/header.php';
+?>
 
 <main id="main-content">
     <section class="page-hero">
@@ -39,14 +15,14 @@
                 <h1 class="page-title">Talk with the MedFinder team.</h1>
                 <p class="page-subtitle">Send questions, report issues, or request onboarding support for your pharmacy.</p>
                 <div class="breadcrumb">
-                    <a href="index.html">Home</a>
+                    <a href="index.php">Home</a>
                     <span>/</span>
                     <span>Contact</span>
                 </div>
             </div>
             <div class="page-actions">
                 <a class="btn btn-primary" href="pharmacy/register.php">Register pharmacy</a>
-                <a class="btn btn-secondary" href="search-results.html">Search pharmacies</a>
+                <a class="btn btn-secondary" href="search-results.php">Search pharmacies</a>
             </div>
         </div>
     </section>
@@ -59,11 +35,11 @@
                     <form class="contact-form" action="contact.php" method="post">
                         <div class="form-grid">
                             <div class="form-group">
-                                <label for="contact-name">Full name</label>
+                                <label for="contact-name">Full name <span class="required">*</span></label>
                                 <input type="text" id="contact-name" name="name" placeholder="Your name" required>
                             </div>
                             <div class="form-group">
-                                <label for="contact-email">Email address</label>
+                                <label for="contact-email">Email address <span class="required">*</span></label>
                                 <input type="email" id="contact-email" name="email" placeholder="you@example.com" required>
                             </div>
                             <div class="form-group">
@@ -79,7 +55,7 @@
                                 </select>
                             </div>
                             <div class="form-group form-group-full">
-                                <label for="contact-message">Message</label>
+                                <label for="contact-message">Message <span class="required">*</span></label>
                                 <textarea id="contact-message" name="message" placeholder="How can we help?" required></textarea>
                             </div>
                         </div>
@@ -116,43 +92,4 @@
     </section>
 </main>
 
-<footer class="site-footer">
-    <div class="container footer-grid">
-        <div class="footer-brand">
-            <a class="brand" href="index.html">MedFinder</a>
-            <p>Find nearby pharmacies and live medicine availability across Addis Ababa.</p>
-        </div>
-        <div class="footer-links">
-            <h4>Quick Links</h4>
-            <ul>
-                <li><a href="search-results.html">Search results</a></li>
-                <li><a href="pharmacy/register.php">Register pharmacy</a></li>
-                <li><a href="about.html">About MedFinder</a></li>
-            </ul>
-        </div>
-        <div class="footer-links">
-            <h4>Support</h4>
-            <ul>
-                <li><a href="contact.html">Contact support</a></li>
-                <li><a href="pharmacy/login.php">Pharmacy login</a></li>
-                <li><a href="admin/login.php">Admin access</a></li>
-            </ul>
-        </div>
-        <div class="footer-links">
-            <h4>Contact</h4>
-            <p>Call: <a href="tel:+251912345678">+251 91 234 5678</a></p>
-            <p>Email: <a href="mailto:hello@medfinder.et">hello@medfinder.et</a></p>
-            <p>Hours: 7:00 AM - 10:00 PM</p>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <div class="container footer-bottom-inner">
-            <span>Copyright 2026 MedFinder Ethiopia</span>
-            <span>Built for local pharmacies.</span>
-        </div>
-    </div>
-</footer>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="js/main.js"></script>
-</body>
-</html>
+<?php include 'includes/footer.php'; ?>

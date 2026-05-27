@@ -1,51 +1,42 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Search Results - MedFinder Ethiopia</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-</head>
-<body>
-<a class="skip-link" href="#main-content">Skip to content</a>
-<header class="site-header">
-    <div class="container header-inner">
-        <a class="brand" href="index.html">MedFinder</a>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
-        <nav class="site-nav" aria-label="Primary">
-            <ul class="nav-list" id="primary-nav">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="search-results.html">Search</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="header-actions">
-            <a class="btn btn-secondary" href="pharmacy/login.php">Pharmacy Login</a>
-            <a class="btn btn-primary" href="pharmacy/register.php">Register</a>
-        </div>
-    </div>
-</header>
+<?php
+require_once 'includes/config.php';
+require_once 'includes/db.php';
+require_once 'includes/functions.php';
+require_once 'includes/services/SearchService.php';
+require_once 'includes/services/NeighborhoodService.php';
+
+$q               = sanitize($_GET['q'] ?? '');
+$neighborhood_id = (int)($_GET['neighborhood'] ?? 0);
+$status          = sanitize($_GET['status'] ?? '');
+$sort            = sanitize($_GET['sort'] ?? 'updated');
+$page            = max(1, (int)($_GET['page'] ?? 1));
+
+$results = SearchService::search($q, $neighborhood_id, $status, $sort, $page);
+$rows    = $results['rows'];
+$pag     = $results['pagination'];
+$neighborhoods = NeighborhoodService::getAll();
+
+$page_title = 'Search Results - MedFinder Ethiopia';
+include 'includes/header.php';
+?>
 
 <main id="main-content">
     <section class="page-hero">
         <div class="container page-hero-inner">
             <div>
                 <p class="eyebrow">Search results</p>
-                <h1 class="page-title">Insulin in Bole</h1>
-                <p class="page-subtitle">Found 3 pharmacies with available stock.</p>
+                <h1 class="page-title">
+                    <?= $q ? '"' . h($q) . '"' : 'All medicines' ?>
+                </h1>
+                <p class="page-subtitle">Found <?= (int)$pag['total'] ?> pharmacies with matching stock.</p>
                 <div class="breadcrumb">
-                    <a href="index.html">Home</a>
+                    <a href="index.php">Home</a>
                     <span>/</span>
                     <span>Search results</span>
                 </div>
             </div>
             <div class="page-actions">
-                <a class="btn btn-secondary" href="index.html">New search</a>
+                <a class="btn btn-secondary" href="index.php">New search</a>
                 <a class="btn btn-primary" href="pharmacy/register.php">List your pharmacy</a>
             </div>
         </div>
@@ -56,7 +47,7 @@
             <!-- Filter sidebar -->
             <aside class="sidebar">
                 <h3 class="panel-title">Filter results</h3>
-                <form class="filter-form" action="search-results.html" method="get">
+                <form class="filter-form" action="search-results.php" method="get">
                     <div class="form-group">
                         <label for="filter-medicine">Medicine</label>
                         <input type="text" id="filter-medicine" name="q"
@@ -174,51 +165,11 @@
                 <div class="card empty-state" data-empty-state hidden>
                     <h3>No pharmacies found</h3>
                     <p>Try adjusting filters or searching by a different brand name.</p>
-                    <a class="btn btn-secondary" href="index.html">Start a new search</a>
+                    <a class="btn btn-secondary" href="index.php">Start a new search</a>
                 </div>
             </div>
         </div>
     </section>
 </main>
 
-<footer class="site-footer">
-    <div class="container footer-grid">
-        <div class="footer-brand">
-            <a class="brand" href="index.html">MedFinder</a>
-            <p>Find nearby pharmacies and live medicine availability across Addis Ababa.</p>
-        </div>
-        <div class="footer-links">
-            <h4>Quick Links</h4>
-            <ul>
-                <li><a href="search-results.html">Search results</a></li>
-                <li><a href="pharmacy/register.php">Register pharmacy</a></li>
-                <li><a href="about.html">About MedFinder</a></li>
-            </ul>
-        </div>
-        <div class="footer-links">
-            <h4>Support</h4>
-            <ul>
-                <li><a href="contact.html">Contact support</a></li>
-                <li><a href="pharmacy/login.php">Pharmacy login</a></li>
-                <li><a href="admin/login.php">Admin access</a></li>
-            </ul>
-        </div>
-        <div class="footer-links">
-            <h4>Contact</h4>
-            <p>Call: <a href="tel:+251912345678">+251 91 234 5678</a></p>
-            <p>Email: <a href="mailto:hello@medfinder.et">hello@medfinder.et</a></p>
-            <p>Hours: 7:00 AM - 10:00 PM</p>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <div class="container footer-bottom-inner">
-            <span>Copyright 2026 MedFinder Ethiopia</span>
-            <span>Built for local pharmacies.</span>
-        </div>
-    </div>
-</footer>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="js/main.js"></script>
-<script src="js/search.js"></script>
-</body>
-</html>
+<?php include 'includes/footer.php'; ?>

@@ -190,7 +190,7 @@ include '../includes/header.php';
                     </div>
                     <div class="form-footer">
                         <button class="btn btn-primary" type="submit">Save changes</button>
-                        <a class="btn btn-secondary" href="index.php">Cancel</a>
+                        <a class="btn btn-secondary" href="index.html">Cancel</a>
                     </div>
                     <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
                 </form>

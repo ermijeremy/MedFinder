@@ -4,100 +4,110 @@
 ```
 medfinder-ethiopia/
 │
-├── index.html                         # Landing/Home page with search
-├── search-results.html                # Medicine search results page
-├── pharmacy-detail.html               # Individual pharmacy profile page
-├── about.html                         # About the project
-├── contact.html                       # Contact form
+├── index.php                         # Landing/Home page with search
+├── search-results.php                # Medicine search results page
+├── pharmacy-detail.php               # Individual pharmacy profile page
+├── about.php                         # About the project
+├── contact.php                       # Contact form
 │
 ├── admin/                             # Admin panel section
-│   ├── index.html                     # Admin dashboard
+│   ├── index.php                     # Admin dashboard
 │   ├── login.php                      # Admin login
-│   ├── logout.html                    # Admin logout screen
+│   ├── logout.php                     # Admin logout
 │   ├── medicines/
-│   │   ├── index.html                 # List all medicines
+│   │   ├── index.php                 # List all medicines
 │   │   ├── add.php                    # Add new medicine to catalog
 │   │   ├── edit.php                   # Edit medicine details
 │   │   ├── delete.php                 # Delete medicine
 │   │
 │   ├── pharmacies/
-│   │   ├── index.html                 # List all pharmacies
+│   │   ├── index.php                 # List all pharmacies
 │   │   ├── approve.php                # Approve pending pharmacies
-│   │   ├── view.html                  # View pharmacy details
+│   │   ├── view.php                   # View pharmacy details
 │   │   ├── delete.php                 # Delete pharmacy
 │   │
 │   └── neighborhoods/
-│       ├── index.html                 # Manage neighborhoods/areas
+│       ├── index.php                 # Manage neighborhoods/areas
 │       ├── add.php                    # Add new area
 │       ├── edit.php                   # Edit area
 │       ├── delete.php                 # Delete area
 │
 ├── pharmacy/                          # Pharmacy owner panel
-│   ├── index.html                     # Pharmacy dashboard
+│   ├── index.php                     # Pharmacy dashboard
 │   ├── login.php                      # Pharmacy login
 │   ├── register.php                   # Pharmacy registration
-│   ├── logout.html                    # Logout screen
+│   ├── logout.php                     # Logout
 │   ├── profile.php                    # Edit pharmacy profile
 │   ├── inventory/
-│   │   ├── index.html                 # View current inventory
+│   │   ├── index.php                 # View current inventory
 │   │   ├── add.php                    # Add medicine to inventory
 │   │   ├── update.php                 # Update stock/price
 │   │   ├── delete.php                 # Remove from inventory
 │
-├── includes/                          # Reusable PHP files
-│   ├── config.php                     # Database configuration
-│   ├── db-connect.php                 # Database connection
-│   ├── functions.php                  # Common functions
-│   ├── header.php                     # Common header
-│   ├── footer.php                     # Common footer
-│   ├── admin-auth.php                 # Admin authentication check
-│   ├── pharmacy-auth.php              # Pharmacy authentication check
+├── includes/                          # Reusable PHP files & Services
+│   ├── config.php                     # Configuration & Constants
+│   ├── db.php                         # PDO Database connection
+│   ├── functions.php                  # Common helpers
+│   ├── header.php                     # Layout header
+│   ├── footer.php                     # Layout footer
+│   ├── admin-auth.php                 # Admin guards
+│   ├── pharmacy-auth.php              # Pharmacy guards
+│   └── services/                      # Business logic layer
+│       ├── AdminService.php
+│       ├── InventoryService.php
+│       ├── MedicineService.php
+│       ├── NeighborhoodService.php
+│       └── SearchService.php
 │
 ├── css/                               # Stylesheets
-│   ├── style.css                      # Main stylesheet
-│   ├── admin.css                      # Admin panel styles
-│   ├── pharmacy.css                   # Pharmacy panel styles
-│   ├── responsive.css                 # Mobile responsive styles
+│   ├── style.css                      # Global styles
+│   ├── admin.css                      # Admin specific
+│   ├── pharmacy.css                   # Pharmacy specific
+│   ├── responsive.css                 # Layout adjustments
 │
 ├── js/                                # JavaScript files
-│   ├── main.js                        # Main JavaScript
-│   ├── search.js                      # Search functionality
-│   ├── validation.js                  # Form validation
+│   ├── main.js                        # UI interactions
+│   ├── search.js                      # Live search
+│   ├── validation.js                  # Frontend validation
 │
-├── images/                            # Images
-│   ├── logo.png
-│   ├── default-pharmacy.jpg
-│   └── icons/
-│       ├── in-stock.png
-│       ├── limited.png
-│       ├── out-of-stock.png
-│
-├── uploads/                           # User uploaded files
-│   └── pharmacy-logos/
-│
+├── uploads/                           # Store uploaded logos
 └── sql/
-    └── database.sql                   # Database schema
+    └── database.sql                   # Schema export
 ```
 
-## Detailed Features Breakdown
+## Features Breakdown
 
-### **1. Public-Facing Features (Patient/User Side)**
+### **1. Public Features**
 
-#### **A. Home Page (index.html)**
-- **Hero Section**: Large search bar with placeholder "Search for medicine..."
-- **Quick Search**: Auto-suggest dropdown using jQuery (searches as user types)
-- **Featured Pharmacies**: Display 6-8 pharmacies with good ratings
-- **How It Works**: 3-step visual guide (Search → Find → Call)
-- **Statistics Counter**: Total medicines, pharmacies, neighborhoods
+#### **A. Home Page (index.php)**
+- **Global Search**: Search by medicine name and filter by neighborhood.
+- **Dynamic Stats**: Live counts for medicines and pharmacies.
 
-#### **B. Search Results (search-results.html)**
-**Input Parameters:**
-- Medicine name (required)
-- Neighborhood filter (optional dropdown)
-- Stock status filter (optional: All/In Stock/Limited)
+#### **B. Search Results (search-results.php)**
+- **Filtering**: Filter by stock level (In Stock, Limited, Out of Stock).
+- **Sorting**: Sort by price or recently updated.
+- **Direct Contact**: One-click call for mobile users.
 
-**Display:**
-- **Result Cards** (each showing):
+#### **C. Pharmacy Detail (pharmacy-detail.php)**
+- **Complete Inventory**: Shows every medicine the pharmacy stocks.
+- **Status Pills**: Visual indicators for stock levels.
+- **Contact Info**: Phone and address displayed.
+
+### **2. Pharmacy Dashboard**
+- **Inventory Management**: Add, update, or remove medicines easily.
+- **Profile Management**: Update logo, hours, and contact details.
+
+### **3. Admin Management**
+- **Catalog Control**: Centrally manage the list of valid medicines.
+- **Approval Workflow**: Review and approve new pharmacy signups.
+- **Area Management**: Manage neighborhoods/zones.
+
+## Security & Validation
+- **Authentication**: Secure password hashing with bcrypt.
+- **CSRF Protection**: Tokens enforced on all POST requests.
+- **Form Validation**: Required fields marked with `*` and server-side validation.
+- **Input Sanitization**: Protection against SQL injection and XSS.
+
   - Pharmacy name
   - Address with neighborhood badge
   - Phone number (click-to-call link: `tel:+251...`)

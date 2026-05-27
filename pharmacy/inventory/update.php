@@ -16,7 +16,7 @@ $item = $id > 0 ? InventoryService::getOne($id, $pid) : null;
 
 if (!$item) {
     flash('error', 'Inventory item not found.');
-    redirect('pharmacy/inventory/index.html');
+    redirect('pharmacy/inventory/index.php');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
         InventoryService::update($id, $pid, $data);
         flash('success', 'Inventory updated.');
-        redirect('pharmacy/inventory/index.html');
+        redirect('pharmacy/inventory/index.php');
     } else {
         flash('error', implode('<br>', $errors));
     }
@@ -57,15 +57,15 @@ include '../../includes/header.php';
                 <p class="eyebrow">Inventory</p>
                 <h1 class="page-title">Update: <?= h($item['medicine_name']) ?></h1>
                 <div class="breadcrumb">
-                    <a href="../index.html">Pharmacy</a>
+                    <a href="../index.php">Pharmacy</a>
                     <span>/</span>
-                    <a href="index.html">Inventory</a>
+                    <a href="index.php">Inventory</a>
                     <span>/</span>
                     <span>Update</span>
                 </div>
             </div>
             <div class="page-actions">
-                <a class="btn btn-secondary" href="index.html">Back to inventory</a>
+                <a class="btn btn-secondary" href="index.php">Back to inventory</a>
             </div>
         </div>
     </section>
@@ -78,17 +78,17 @@ include '../../includes/header.php';
                 <form action="update.php?id=<?= (int)$id ?>" method="post">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>Quantity</label>
+                            <label>Quantity <span class="required">*</span></label>
                             <input type="number" name="quantity" min="0"
                                    value="<?= (int)$item['quantity'] ?>" required>
                         </div>
                         <div class="form-group">
-                            <label>Price (ETB)</label>
+                            <label>Price (ETB) <span class="required">*</span></label>
                             <input type="number" name="price" min="0" step="0.01"
-                                   value="<?= number_format((float)$item['price'], 2) ?>" required>
+                                   value="<?= (float)$item['price'] ?>" required>
                         </div>
                         <div class="form-group">
-                            <label>Status</label>
+                            <label>Status <span class="required">*</span></label>
                             <select name="status" required>
                                 <option value="in_stock" <?= ($item['status'] ?? '') === 'in_stock' ? 'selected' : '' ?>>In stock</option>
                                 <option value="limited" <?= ($item['status'] ?? '') === 'limited' ? 'selected' : '' ?>>Limited</option>
@@ -113,7 +113,7 @@ include '../../includes/header.php';
                     </div>
                     <div class="form-footer">
                         <button class="btn btn-primary" type="submit">Save changes</button>
-                        <a class="btn btn-secondary" href="index.html">Cancel</a>
+                        <a class="btn btn-secondary" href="index.php">Cancel</a>
                     </div>
                     <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
                     <input type="hidden" name="id" value="<?= (int)$id ?>">

@@ -47,17 +47,17 @@ $errors  = 0;
 foreach ($statements as $stmt) {
     // Replace placeholder admin hash
     $stmt = str_replace(
-        "'$2y\$12\$eImiTXuWVxfM37uY4JANjQ==FmRFUrI2JEr8dJVqZUO1kAWXi6iHS'",
+        "'PLACEHOLDER_ADMIN_HASH'",
         $pdo->quote($adminHash),
         $stmt
     );
 
     // Replace placeholder pharmacy hashes
     $stmt = str_replace(
-        ["'$2y\$12\$PLACEHOLDER_UNITY_HASH_HERE'",
-         "'$2y\$12\$PLACEHOLDER_ETHIOCARE_HASH_HERE'",
-         "'$2y\$12\$PLACEHOLDER_BLUECROSS_HASH_HERE'",
-         "'$2y\$12\$PLACEHOLDER_GREENMED_HASH_HERE'"],
+        ["'PLACEHOLDER_UNITY_HASH'",
+         "'PLACEHOLDER_ETHIOCARE_HASH'",
+         "'PLACEHOLDER_BLUECROSS_HASH'",
+         "'PLACEHOLDER_GREENMED_HASH'"],
         $pdo->quote($pharmacyHash),
         $stmt
     );

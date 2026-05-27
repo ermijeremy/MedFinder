@@ -1,7 +1,4 @@
 <?php
-/**
- * admin/pharmacies/index.php — Pharmacy list for admin
- */
 require_once '../../includes/config.php';
 require_once '../../includes/db.php';
 require_once '../../includes/functions.php';
@@ -22,88 +19,108 @@ $extra_css  = ['css/admin.css'];
 $body_class = 'admin-body';
 include '../../includes/header.php';
 ?>
+
 <main id="main-content">
     <section class="page-hero">
         <div class="container page-hero-inner">
             <div>
-                <p class="eyebrow">Admin</p>
+                <p class="eyebrow">Pharmacy management</p>
                 <h1 class="page-title">Pharmacies</h1>
+                <p class="page-subtitle">Review registrations, manage status, and monitor onboarding progress.</p>
                 <div class="breadcrumb">
-                    <a href="../index.html">Dashboard</a><span>/</span><span>Pharmacies</span>
+                    <a href="../index.php">Admin</a>
+                    <span>/</span>
+                    <span>Pharmacies</span>
                 </div>
+            </div>
+            <div class="page-actions">
+                <a class="btn btn-primary" href="index.php?status=pending">Review new applications</a>
+                <a class="btn btn-secondary" href="../index.php">Back to dashboard</a>
             </div>
         </div>
     </section>
+
     <section class="section">
         <div class="container">
             <?php render_flashes(); ?>
-            <form action="index.php" method="get" style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap">
-                <input type="text" name="search" placeholder="Search name or owner…" value="<?= h($search) ?>">
-                <select name="status">
-                    <option value="">All statuses</option>
-                    <option value="pending"   <?= $status === 'pending'   ? 'selected' : '' ?>>Pending</option>
-                    <option value="active"    <?= $status === 'active'    ? 'selected' : '' ?>>Active</option>
-                    <option value="suspended" <?= $status === 'suspended' ? 'selected' : '' ?>>Suspended</option>
-                </select>
-                <button class="btn btn-secondary" type="submit">Filter</button>
-                <a class="btn btn-link" href="index.php">Reset</a>
-            </form>
-            <div class="panel">
-                <div class="table-wrap">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Pharmacy</th><th>Owner</th><th>Phone</th>
-                                <th>Neighborhood</th><th>Status</th><th>Registered</th><th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (empty($rows)): ?>
-                                <tr><td colspan="7" style="text-align:center;padding:2rem">No pharmacies found.</td></tr>
-                            <?php else: ?>
-                                <?php foreach ($rows as $ph): ?>
-                                    <tr>
-                                        <td><?= h($ph['pharmacy_name']) ?></td>
-                                        <td><?= h($ph['owner_name']) ?></td>
-                                        <td><?= h($ph['phone']) ?></td>
-                                        <td><?= h($ph['neighborhood_name'] ?? '—') ?></td>
-                                        <td>
-                                            <?php $pillCls = match($ph['status']) {
-                                                'active'    => 'pill-success',
-                                                'pending'   => 'pill-warning',
-                                                'suspended' => 'pill-danger',
-                                                default     => ''
-                                            }; ?>
-                                            <span class="pill <?= $pillCls ?>"><?= ucfirst(h($ph['status'])) ?></span>
-                                        </td>
-                                        <td><?= time_ago($ph['created_at']) ?></td>
-                                        <td class="table-actions">
-                                            <a class="btn btn-secondary" href="view.html?id=<?= (int)$ph['pharmacy_id'] ?>">View</a>
-                                            <?php if ($ph['status'] === 'pending'): ?>
-                                                <a class="btn btn-primary" href="approve.php?id=<?= (int)$ph['pharmacy_id'] ?>">Review</a>
-                                            <?php endif; ?>
-                                            <form action="delete.php" method="post" style="display:inline"
-                                                  onsubmit="return confirm('Permanently delete this pharmacy and all its inventory?')">
-                                                <input type="hidden" name="_csrf_token" value="<?= csrf_token() ?>">
-                                                <input type="hidden" name="id" value="<?= (int)$ph['pharmacy_id'] ?>">
-                                                <button class="btn btn-link" type="submit">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-                <?php if ($pag['total_pages'] > 1): ?>
-                    <nav class="pagination" style="padding:1rem">
-                        <?php for ($i = 1; $i <= $pag['total_pages']; $i++): ?>
-                            <a class="btn <?= $i === $pag['current'] ? 'btn-primary' : 'btn-secondary' ?>"
-                               href="?page=<?= $i ?>&status=<?= urlencode($status) ?>&search=<?= urlencode($search) ?>"><?= $i ?></a>
-                        <?php endfor; ?>
-                    </nav>
-                <?php endif; ?>
+            <div class="results-toolbar">
+                <form action="index.php" method="get" class="search-inline">
+                    <div class="form-group">
+                        <label for="pharmacy-search">Search pharmacies</label>
+                        <input type="text" id="pharmacy-search" name="search" placeholder="Search by pharmacy or owner" value="<?= h($search) ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="pharmacy-status">Status</label>
+                        <select id="pharmacy-status" name="status">
+                            <option value="">All statuses</option>
+                            <option value="active" <?= $status === 'active' ? 'selected' : '' ?>>Active</option>
+                            <option value="pending" <?= $status === 'pending' ? 'selected' : '' ?>>Pending</option>
+                            <option value="suspended" <?= $status === 'suspended' ? 'selected' : '' ?>>Suspended</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Filter</button>
+                    <a href="index.php" class="btn btn-link">Reset</a>
+                </form>
+                <span class="pill"><?= (int)$pag['total'] ?> items</span>
             </div>
+
+            <div class="table-wrap">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Pharmacy</th>
+                            <th>Owner</th>
+                            <th>Neighborhood</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($rows)): ?>
+                            <tr>
+                                <td colspan="5" style="text-align:center;padding:2rem">No pharmacies found.</td>
+                            </tr>
+                        <?php else: ?>
+                            <?php foreach ($rows as $ph): ?>
+                                <tr>
+                                    <td><?= h($ph['pharmacy_name']) ?></td>
+                                    <td><?= h($ph['owner_name']) ?></td>
+                                    <td><?= h($ph['neighborhood_name'] ?? '—') ?></td>
+                                    <td>
+                                        <?php $pillCls = match($ph['status']) {
+                                            'active'    => 'pill-success',
+                                            'pending'   => 'pill-warning',
+                                            'suspended' => 'pill-danger',
+                                            default     => ''
+                                        }; ?>
+                                        <span class="pill <?= $pillCls ?>"><?= ucfirst(h($ph['status'])) ?></span>
+                                    </td>
+                                    <td class="table-actions">
+                                        <a class="btn btn-secondary" href="view.php?id=<?= (int)$ph['pharmacy_id'] ?>">View</a>
+                                        <?php if ($ph['status'] === 'pending'): ?>
+                                            <a class="btn btn-primary" href="approve.php?id=<?= (int)$ph['pharmacy_id'] ?>">Review</a>
+                                        <?php endif; ?>
+                                        <form action="delete.php" method="post" style="display:inline" onsubmit="return confirm('Delete this pharmacy?')">
+                                            <input type="hidden" name="_csrf_token" value="<?= csrf_token() ?>">
+                                            <input type="hidden" name="id" value="<?= (int)$ph['pharmacy_id'] ?>">
+                                            <button class="btn btn-link" type="submit">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <?php if ($pag['total_pages'] > 1): ?>
+                <nav class="pagination" style="margin-top:2rem">
+                    <?php for ($i = 1; $i <= $pag['total_pages']; $i++): ?>
+                        <a class="btn <?= $i === $pag['current'] ? 'btn-primary' : 'btn-secondary' ?>" 
+                           href="?page=<?= $i ?>&status=<?= urlencode($status) ?>&search=<?= urlencode($search) ?>"><?= $i ?></a>
+                    <?php endfor; ?>
+                </nav>
+            <?php endif; ?>
         </div>
     </section>
 </main>

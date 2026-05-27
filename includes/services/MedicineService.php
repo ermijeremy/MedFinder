@@ -107,12 +107,22 @@ class MedicineService
     }
 
     /** Soft-delete: set is_active = 0. The medicine still exists in inventory history */
-    public static function delete(int $id): void
+    public static function delete(int $id): bool
     {
-        db_query(
+        return (bool)db_query(
             'UPDATE medicines SET is_active = 0 WHERE medicine_id = :id',
             [':id' => $id]
         );
+    }
+
+    /** Count how many pharmacies have this medicine in stock */
+    public static function getInventoryCount(int $id): int
+    {
+        $res = db_query(
+            'SELECT COUNT(*) as cnt FROM inventory WHERE medicine_id = :id',
+            [':id' => $id]
+        )->fetch();
+        return (int)($res['cnt'] ?? 0);
     }
 
     // return up to 10 medicine names matching $query.

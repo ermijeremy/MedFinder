@@ -48,60 +48,66 @@ include '../../includes/header.php';
                 <p class="eyebrow">Admin</p>
                 <h1 class="page-title">Review: <?= h($pharmacy['pharmacy_name']) ?></h1>
                 <div class="breadcrumb">
-                    <a href="../index.html">Admin</a>
+                    <a href="../index.php">Admin</a>
                     <span>/</span>
-                    <a href="index.html">Pharmacies</a>
+                    <a href="index.php">Pharmacies</a>
                     <span>/</span>
                     <span>Approve</span>
                 </div>
             </div>
             <div class="page-actions">
-                <a class="btn btn-secondary" href="index.html">Back to list</a>
+                <a class="btn btn-secondary" href="index.php">Back to list</a>
             </div>
         </div>
     </section>
     <section class="section">
-        <div class="container page-layout">
-            <div class="content-area">
-                <div class="panel">
-                    <h3 class="panel-title">Pharmacy details</h3>
-                    <div class="info-list">
-                        <?php foreach ([
-                            'Pharmacy name' => 'pharmacy_name',
-                            'Owner'         => 'owner_name',
-                            'Email'         => 'email',
-                            'Phone'         => 'phone',
-                            'License'       => 'license_number',
-                            'Neighborhood'  => 'neighborhood_name',
-                            'Address'       => 'address',
-                            'Hours'         => 'operating_hours',
-                            'Status'        => 'status',
-                        ] as $label => $key): ?>
-                            <div class="info-row">
-                                <span><?= $label ?></span>
-                                <span><?= h($pharmacy[$key] ?? '—') ?></span>
-                            </div>
-                            <div class="info-row">
-                                <span>Owner</span>
-                                <span>Tsegaye Bekele</span>
-                            </div>
-                            <div class="info-row">
-                                <span>Phone</span>
-                                <span>+251 91 123 4455</span>
-                            </div>
-                            <div class="info-row">
-                                <span>License number</span>
-                                <span>ET-00921</span>
-                            </div>
-                            <div class="info-row">
-                                <span>Neighborhood</span>
-                                <span>Yeka</span>
-                            </div>
-                            <div class="info-row">
+        <div class="container">
+            <div class="panel">
+                <h3 class="panel-title">Pharmacy details</h3>
+                <div class="info-list">
+                    <?php 
+                    $fields = [
+                        'Pharmacy name' => $pharmacy['pharmacy_name'],
+                        'Owner'         => $pharmacy['owner_name'],
+                        'Email'         => $pharmacy['email'],
+                        'Phone'         => $pharmacy['phone'],
+                        'License'       => $pharmacy['license_number'],
+                        'Neighborhood'  => $pharmacy['neighborhood_name'] ?? '—',
+                        'Address'       => $pharmacy['address'],
+                        'Hours'         => $pharmacy['operating_hours'],
+                        'Status'        => ucfirst($pharmacy['status']),
+                    ];
+                    foreach ($fields as $label => $val): ?>
+                        <div class="info-row" style="display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding:10px 0">
+                            <strong><?= $label ?></strong>
+                            <span><?= h($val) ?></span>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <div class="form-card" style="margin-top:2rem">
+                    <h3>Decision</h3>
+                    <form action="approve.php" method="post">
+                        <input type="hidden" name="id" value="<?= $id ?>">
+                        <input type="hidden" name="_csrf_token" value="<?= csrf_token() ?>">
+                        <div class="form-group">
+                            <label for="reason">Reason (for rejection/suspension)</label>
+                            <textarea id="reason" name="reason" placeholder="Optional notes..."></textarea>
+                        </div>
+                        <div class="form-footer">
+                            <button class="btn btn-primary" type="submit" name="action" value="approve">Approve registration</button>
+                            <button class="btn btn-danger" type="submit" name="action" value="reject">Reject / Suspend</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
                                 <span>Submitted</span>
                                 <span>Yesterday</span>
                             </div>
-                        <?php endforeach; ?>
+                      
                         </div>
                     </div>
 

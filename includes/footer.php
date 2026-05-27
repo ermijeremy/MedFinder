@@ -6,21 +6,21 @@ if (!isset($extra_js) || !is_array($extra_js)) {
 <footer class="site-footer">
     <div class="container footer-grid">
         <div class="footer-brand">
-            <a class="brand" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>index.html">MedFinder</a>
+            <a class="brand" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>index.php">MedFinder</a>
             <p>Find nearby pharmacies and live medicine availability across Addis Ababa.</p>
         </div>
         <div class="footer-links">
             <h4>Quick Links</h4>
             <ul>
-                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>search-results.html">Search results</a></li>
+                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>search-results.php">Search results</a></li>
                 <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>pharmacy/register.php">Register pharmacy</a></li>
-                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>about.html">About MedFinder</a></li>
+                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>about.php">About MedFinder</a></li>
             </ul>
         </div>
         <div class="footer-links">
             <h4>Support</h4>
             <ul>
-                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>contact.html">Contact support</a></li>
+                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>contact.php">Contact support</a></li>
                 <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>pharmacy/login.php">Pharmacy login</a></li>
                 <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>admin/login.php">Admin access</a></li>
             </ul>

@@ -31,14 +31,14 @@ if (!isset($body_class)) {
 <a class="skip-link" href="#main-content">Skip to content</a>
 <header class="site-header">
     <div class="container header-inner">
-        <a class="brand" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>index.html">MedFinder</a>
+        <a class="brand" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>index.php">MedFinder</a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
         <nav class="site-nav" aria-label="Primary">
             <ul class="nav-list" id="primary-nav">
-                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>index.html">Home</a></li>
-                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>search-results.html">Search</a></li>
-                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>about.html">About</a></li>
-                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>contact.html">Contact</a></li>
+                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>index.php">Home</a></li>
+                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>search-results.php">Search</a></li>
+                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>about.php">About</a></li>
+                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>contact.php">Contact</a></li>
             </ul>
         </nav>
         <div class="header-actions">

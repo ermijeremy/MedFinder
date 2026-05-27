@@ -22,8 +22,8 @@ if (!empty($_SESSION['pharmacy_id'])) {
 // ── Handle status notices from auth guard ──────────────────
 $notice = $_GET['notice'] ?? '';
 $notice_messages = [
-    'pending'   => 'Your pharmacy registration is awaiting admin approval. We\'ll notify you by email once it\'s reviewed.',
-    'suspended' => 'Your pharmacy account has been suspended. Please contact MedFinder support.',
+    'pending'   => 'Your account is awaiting approval.',
+    'suspended' => 'Your account has been suspended.',
 ];
 
 if ($notice !== '' && isset($notice_messages[$notice])) {
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email    = sanitize($_POST['email']    ?? '');
     $password = $_POST['password'] ?? '';
 
-    if ($email    === '') $errors[] = 'Email address is required.';
+    if ($email    === '') $errors[] = 'Email is required.';
     if ($password === '') $errors[] = 'Password is required.';
 
     if (empty($errors)) {
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($pharmacy['status'] === 'suspended') {
             $errors[] = $notice_messages['suspended'];
         } else {
-            // Valid active pharmacy — start session
+            // Valid active pharmacy
             session_regenerate_id(true);
 
             $_SESSION['pharmacy_id']   = $pharmacy['pharmacy_id'];
@@ -93,17 +93,17 @@ include '../includes/header.php';
                 </div>
                 <form action="login.php" method="post">
                     <div class="form-group">
-                        <label for="pharmacy-email">Email address</label>
+                        <label for="pharmacy-email">Email address <span class="required">*</span></label>
                         <input type="email" id="pharmacy-email" name="email"
                                value="<?= h($_POST['email'] ?? '') ?>" required>
                     </div>
                     <div class="form-group">
-                        <label for="pharmacy-password">Password</label>
+                        <label for="pharmacy-password">Password <span class="required">*</span></label>
                         <input type="password" id="pharmacy-password" name="password" required>
                     </div>
                     <div class="form-footer">
-                        <button class="btn btn-primary btn-block" type="submit">Sign in</button>
-                        <a class="btn btn-link" href="#">Forgot password?</a>
+                        <button class="btn btn-primary" type="submit">Log in</button>
+                        <a class="btn-link" href="register.php">Create an account</a>
                     </div>
                     <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
                 </form>

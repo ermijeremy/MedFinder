@@ -1,35 +1,16 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MedFinder Ethiopia - Find medicine fast</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-</head>
-<body>
-<a class="skip-link" href="#main-content">Skip to content</a>
-<header class="site-header">
-    <div class="container header-inner">
-        <a class="brand" href="index.html">MedFinder</a>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
-        <nav class="site-nav" aria-label="Primary">
-            <ul class="nav-list" id="primary-nav">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="search-results.html">Search</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="header-actions">
-            <a class="btn btn-secondary" href="pharmacy/login.php">Pharmacy Login</a>
-            <a class="btn btn-primary" href="pharmacy/register.php">Register</a>
-        </div>
-    </div>
-</header>
+<?php
+require_once 'includes/config.php';
+require_once 'includes/db.php';
+require_once 'includes/functions.php';
+require_once 'includes/services/AdminService.php';
+require_once 'includes/services/NeighborhoodService.php';
+
+$stats = AdminService::getDashboardStats();
+$neighborhoods = NeighborhoodService::getAll();
+
+$page_title = 'MedFinder Ethiopia - Find medicine fast';
+include 'includes/header.php';
+?>
 
 <main id="main-content">
     <section class="hero">
@@ -39,12 +20,12 @@
                 <h1>Find real-time medicine availability across your neighborhood.</h1>
                 <p class="lead">Search by medicine, compare stock status, and call verified pharmacies in minutes.</p>
                 <div class="hero-actions">
-                    <a class="btn btn-primary" href="search-results.html">Start search</a>
+                    <a class="btn btn-primary" href="search-results.php">Start search</a>
                     <a class="btn btn-secondary" href="pharmacy/register.php">List your pharmacy</a>
                 </div>
                 <div class="hero-highlights">
                     <div class="highlight-card">
-                        <p class="highlight-number"><?= h($stats['total_pharmacies']) ?>+</p>
+                        <p class="highlight-number"><?= h($stats['pharmacy_count']) ?>+</p>
                         <p class="highlight-label">Partner pharmacies</p>
                     </div>
                     <div class="highlight-card">
@@ -59,7 +40,7 @@
             </div>
 
             <div class="hero-search reveal delay-1">
-                <form class="search-form" action="search-results.html" method="get">
+                <form class="search-form" action="search-results.php" method="get">
                     <div class="form-group">
                         <label for="search-medicine">Medicine name</label>
                         <input type="text" id="search-medicine" name="q"
@@ -182,41 +163,7 @@
     </section>
 </main>
 
-<footer class="site-footer">
-    <div class="container footer-grid">
-        <div class="footer-brand">
-            <a class="brand" href="index.html">MedFinder</a>
-            <p>Find nearby pharmacies and live medicine availability across Addis Ababa.</p>
-        </div>
-        <div class="footer-links">
-            <h4>Quick Links</h4>
-            <ul>
-                <li><a href="search-results.html">Search results</a></li>
-                <li><a href="pharmacy/register.php">Register pharmacy</a></li>
-                <li><a href="about.html">About MedFinder</a></li>
-            </ul>
-        </div>
-        <div class="footer-links">
-            <h4>Support</h4>
-            <ul>
-                <li><a href="contact.html">Contact support</a></li>
-                <li><a href="pharmacy/login.php">Pharmacy login</a></li>
-                <li><a href="admin/login.php">Admin access</a></li>
-            </ul>
-        </div>
-        <div class="footer-links">
-            <h4>Contact</h4>
-            <p>Call: <a href="tel:+251912345678">+251 91 234 5678</a></p>
-            <p>Email: <a href="mailto:hello@medfinder.et">hello@medfinder.et</a></p>
-            <p>Hours: 7:00 AM - 10:00 PM</p>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <div class="container footer-bottom-inner">
-            <span>Copyright 2026 MedFinder Ethiopia</span>
-            <span>Built for local pharmacies.</span>
-        </div>
-    </div>
+<?php include 'includes/footer.php'; ?>
 </footer>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="js/main.js"></script>

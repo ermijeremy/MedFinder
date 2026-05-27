@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
         InventoryService::add($pid, $data);
         flash('success', 'Medicine added to inventory.');
-        redirect('pharmacy/inventory/index.html');
+        redirect('pharmacy/inventory/index.php');
     } else {
         flash('error', implode('<br>', $errors));
     }
@@ -56,15 +56,15 @@ include '../../includes/header.php';
                 <p class="eyebrow">Inventory</p>
                 <h1 class="page-title">Add medicine</h1>
                 <div class="breadcrumb">
-                    <a href="../index.html">Pharmacy</a>
+                    <a href="../index.php">Pharmacy</a>
                     <span>/</span>
-                    <a href="index.html">Inventory</a>
+                    <a href="index.php">Inventory</a>
                     <span>/</span>
                     <span>Add</span>
                 </div>
             </div>
             <div class="page-actions">
-                <a class="btn btn-secondary" href="index.html">Back to inventory</a>
+                <a class="btn btn-secondary" href="index.php">Back to inventory</a>
             </div>
         </div>
     </section>
@@ -77,7 +77,7 @@ include '../../includes/header.php';
                 <form action="add.php" method="post">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="inventory-medicine">Medicine</label>
+                            <label for="inventory-medicine">Medicine <span class="required">*</span></label>
                             <select id="inventory-medicine" name="medicine_id" required>
                                 <option value="">Select medicine</option>
                                 <?php foreach ($medicines as $med): ?>
@@ -89,15 +89,15 @@ include '../../includes/header.php';
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="inventory-quantity">Quantity</label>
+                            <label for="inventory-quantity">Quantity <span class="required">*</span></label>
                             <input type="number" id="inventory-quantity" name="quantity" min="0" step="1" required>
                         </div>
                         <div class="form-group">
-                            <label for="inventory-price">Price (ETB)</label>
+                            <label for="inventory-price">Price (ETB) <span class="required">*</span></label>
                             <input type="number" id="inventory-price" name="price" min="0" step="0.01" required>
                         </div>
                         <div class="form-group">
-                            <label for="inventory-status">Status</label>
+                            <label for="inventory-status">Status <span class="required">*</span></label>
                             <select id="inventory-status" name="status" required>
                                 <option value="in_stock">In stock</option>
                                 <option value="limited">Limited</option>
@@ -120,7 +120,7 @@ include '../../includes/header.php';
                     </div>
                     <div class="form-footer">
                         <button class="btn btn-primary" type="submit">Save item</button>
-                        <a class="btn btn-secondary" href="index.html">Cancel</a>
+                        <a class="btn btn-secondary" href="index.php">Cancel</a>
                     </div>
                     <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= csrf_token() ?>">
                 </form>

@@ -25,7 +25,7 @@ include 'includes/header.php';
                 </div>
                 <div class="hero-highlights">
                     <div class="highlight-card">
-                        <p class="highlight-number"><?= h($stats['pharmacy_count']) ?>+</p>
+                        <p class="highlight-number"><?= h($stats['total_pharmacies']) ?>+</p>
                         <p class="highlight-label">Partner pharmacies</p>
                     </div>
                     <div class="highlight-card">

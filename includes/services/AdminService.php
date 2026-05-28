@@ -149,4 +149,129 @@ class AdminService
             [':lim' => $limit]
         )->fetchAll();
     }
+
+    // ===============================================
+    // ADMIN USER MANAGEMENT (Phase: User Management)
+    // ===============================================
+
+    /** Get all admin users */
+    public static function getAllAdmins(): array
+    {
+        return db_query(
+            "SELECT admin_id, username, email, created_at
+               FROM admins
+           ORDER BY created_at DESC"
+        )->fetchAll();
+    }
+
+    /** Get a single admin user by ID */
+    public static function getAdmin(int $id): ?array
+    {
+        $row = db_query(
+            'SELECT admin_id, username, email, created_at
+               FROM admins
+              WHERE admin_id = :id LIMIT 1',
+            [':id' => $id]
+        )->fetch();
+        return $row ?: null;
+    }
+
+    /** Check if admin email already exists (for validation) */
+    public static function emailExists(string $email, ?int $exclude_id = null): bool
+    {
+        $sql = 'SELECT 1 FROM admins WHERE email = :email';
+        $params = [':email' => $email];
+
+        if ($exclude_id !== null) {
+            $sql .= ' AND admin_id != :exclude_id';
+            $params[':exclude_id'] = $exclude_id;
+        }
+
+        return (bool) db_query($sql, $params)->fetchColumn();
+    }
+
+    /** Check if admin username already exists (for validation) */
+    public static function usernameExists(string $username, ?int $exclude_id = null): bool
+    {
+        $sql = 'SELECT 1 FROM admins WHERE username = :username';
+        $params = [':username' => $username];
+
+        if ($exclude_id !== null) {
+            $sql .= ' AND admin_id != :exclude_id';
+            $params[':exclude_id'] = $exclude_id;
+        }
+
+        return (bool) db_query($sql, $params)->fetchColumn();
+    }
+
+    /** Create a new admin user */
+    public static function createAdmin(string $username, string $email, string $password): ?int
+    {
+        try {
+            $hashed = password_hash($password, PASSWORD_BCRYPT);
+            $stmt = db_query(
+                'INSERT INTO admins (username, email, password) VALUES (:username, :email, :password)',
+                [
+                    ':username' => $username,
+                    ':email'    => $email,
+                    ':password' => $hashed
+                ]
+            );
+            return db_connection()->lastInsertId();
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+    /** Update admin user (username and/or email) */
+    public static function updateAdmin(int $id, string $username, string $email): bool
+    {
+        try {
+            db_query(
+                'UPDATE admins SET username = :username, email = :email WHERE admin_id = :id',
+                [
+                    ':id'       => $id,
+                    ':username' => $username,
+                    ':email'    => $email
+                ]
+            );
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    /** Update admin password */
+    public static function updateAdminPassword(int $id, string $new_password): bool
+    {
+        try {
+            $hashed = password_hash($new_password, PASSWORD_BCRYPT);
+            db_query(
+                'UPDATE admins SET password = :password WHERE admin_id = :id',
+                [
+                    ':id'       => $id,
+                    ':password' => $hashed
+                ]
+            );
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    /** Delete an admin user (prevent self-deletion) */
+    public static function deleteAdmin(int $id, int $current_admin_id): bool
+    {
+        // Prevent admin from deleting themselves
+        if ($id === $current_admin_id) {
+            return false;
+        }
+
+        try {
+            db_query('DELETE FROM admins WHERE admin_id = :id', [':id' => $id]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 }

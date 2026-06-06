@@ -1,8 +1,8 @@
 <?php
-require_once 'includes/config.php';
-require_once 'includes/db.php';
-require_once 'includes/functions.php';
-require_once 'includes/services/CustomerService.php';
+require_once '../includes/config.php';
+require_once '../includes/db.php';
+require_once '../includes/functions.php';
+require_once '../includes/services/CustomerService.php';
 
 // If already logged in, redirect to home
 if (!empty($_SESSION['customer_id'])) {
@@ -64,8 +64,9 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+$asset_path = '../';
 $page_title = 'Register - MedFinder Ethiopia';
-include 'includes/header.php';
+include '../includes/header.php';
 ?>
 
 <main id="main-content">
@@ -84,7 +85,7 @@ include 'includes/header.php';
             <?php render_flashes(); ?>
 
             <div class="card">
-                <form action="customer/register.php" method="post" class="form">
+                <form action="register.php" method="post" class="form">
                     <input type="hidden" name="_csrf_token" value="<?= h(csrf_token()) ?>">
 
                     <div class="form-group">
@@ -146,7 +147,7 @@ include 'includes/header.php';
                     <button class="btn btn-primary btn-block" type="submit">Create Account</button>
 
                     <p style="text-align: center; margin-top: 16px; color: #666;">
-                        Already have an account? <a href="customer/login.php" style="color: #10b981; font-weight: 600;">Log in here</a>
+                        Already have an account? <a href="login.php" style="color: #10b981; font-weight: 600;">Log in here</a>
                     </p>
                 </form>
             </div>
@@ -154,4 +155,4 @@ include 'includes/header.php';
     </section>
 </main>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

@@ -126,16 +126,3 @@ include '../includes/header.php';
     </section>
 </main>
 <?php include '../includes/footer.php'; ?>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <div class="container footer-bottom-inner">
-            <span>Copyright 2026 MedFinder Ethiopia</span>
-            <span>Built for local pharmacies.</span>
-        </div>
-    </div>
-</footer>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="../js/main.js"></script>
-</body>
-</html>

@@ -4,6 +4,8 @@ require_once 'includes/db.php';
 require_once 'includes/functions.php';
 require_once 'includes/services/PharmacyService.php';
 require_once 'includes/services/InventoryService.php';
+require_once 'includes/services/CustomerService.php';
+require_once 'includes/services/ReviewService.php';
 
 $id       = (int)($_GET['id'] ?? 0);
 $pharmacy = PharmacyService::getById($id);
@@ -13,7 +15,35 @@ if (!$pharmacy || $pharmacy['status'] !== 'active') {
     redirect('index.php');
 }
 
+// Handle review submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_review') {
+    if (!isset($_SESSION['customer_id'])) {
+        flash('error', 'Please log in to leave a review.');
+    } else {
+        $rating = (int)($_POST['rating'] ?? 0);
+        $comment = sanitize($_POST['comment'] ?? '');
+        
+        if ($rating < 1 || $rating > 5) {
+            $review_error = 'Please select a rating between 1 and 5.';
+        } else {
+            if (ReviewService::addReview($id, $_SESSION['customer_id'], $rating, $comment)) {
+                flash('success', 'Thank you for your review!');
+                redirect("pharmacy-detail.php?id=$id");
+            } else {
+                $review_error = 'Failed to submit review. Try again.';
+            }
+        }
+    }
+}
+
 $inventory = InventoryService::getByPharmacy($id);
+$reviews = ReviewService::getPharmacyReviews($id);
+$avg_rating = ReviewService::getAverageRating($id);
+
+$is_favorited = false;
+if (isset($_SESSION['customer_id'])) {
+    $is_favorited = CustomerService::isFavorited($_SESSION['customer_id'], $id);
+}
 
 $page_title = h($pharmacy['pharmacy_name']) . ' - MedFinder';
 include 'includes/header.php';
@@ -24,7 +54,24 @@ include 'includes/header.php';
         <div class="container page-hero-inner">
             <div>
                 <p class="eyebrow">Pharmacy profile</p>
-                <h1 class="page-title"><?= h($pharmacy['pharmacy_name']) ?></h1>
+                <div class="title-with-action">
+                    <h1 class="page-title"><?= h($pharmacy['pharmacy_name']) ?></h1>
+                    <?php if (isset($_SESSION['customer_id'])): ?>
+                        <button class="favorite-btn" 
+                                data-pharmacy-id="<?= h($id) ?>"
+                                data-is-favorited="<?= $is_favorited ? '1' : '0' ?>"
+                                title="<?= $is_favorited ? 'Remove from favorites' : 'Add to favorites' ?>">
+                            <span class="heart-icon"><?= $is_favorited ? '❤️' : '🤍' ?></span>
+                        </button>
+                    <?php endif; ?>
+                </div>
+                <div class="rating-display" style="margin-bottom: 8px;">
+                    <span style="color: #f39c12; font-size: 20px;">
+                        <?= str_repeat('★', floor($avg_rating)) . str_repeat('☆', 5 - floor($avg_rating)) ?>
+                    </span>
+                    <span style="font-weight: 600;"><?= $avg_rating ?></span>
+                    <span class="text-muted">(<?= count($reviews) ?> reviews)</span>
+                </div>
                 <p class="page-subtitle">
                     <?= h($pharmacy['neighborhood_name'] ?? '') ?> — <?= h($pharmacy['address']) ?>
                     | License: <?= h($pharmacy['license_number']) ?>
@@ -108,6 +155,55 @@ include 'includes/header.php';
                             </table>
                         </div>
                     <?php endif; ?>
+                </article>
+
+                <article class="panel" id="reviews-section">
+                    <h3 class="panel-title">Reviews & Feedback</h3>
+                    
+                    <?php if (isset($_SESSION['customer_id'])): ?>
+                        <div class="card" style="margin-bottom: 24px; border: 1px dashed #ccc;">
+                            <h4>Leave a Review</h4>
+                            <form action="pharmacy-detail.php?id=<?= $id ?>#reviews-section" method="post" class="form">
+                                <input type="hidden" name="action" value="add_review">
+                                <div class="form-group">
+                                    <label>Rating</label>
+                                    <select name="rating" required>
+                                        <option value="5">5 - Excellent</option>
+                                        <option value="4">4 - Very Good</option>
+                                        <option value="3">3 - Good</option>
+                                        <option value="2">2 - Fair</option>
+                                        <option value="1">1 - Poor</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="comment">Comment</label>
+                                    <textarea id="comment" name="comment" placeholder="Share your experience..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm">Submit Review</button>
+                            </form>
+                        </div>
+                    <?php else: ?>
+                        <div class="alert alert-info">
+                            Please <a href="customer/login.php">log in</a> to leave a review.
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="review-list">
+                        <?php if (empty($reviews)): ?>
+                            <p class="text-muted">No reviews yet. Be the first to leave one!</p>
+                        <?php else: ?>
+                            <?php foreach ($reviews as $rev): ?>
+                                <div class="review-card" style="border-bottom: 1px solid #eee; padding: 16px 0;">
+                                    <div class="card-header" style="justify-content: flex-start; gap: 12px; margin-bottom: 4px;">
+                                        <span style="color: #f39c12;"><?= str_repeat('★', $rev['rating']) ?></span>
+                                        <strong><?= h($rev['first_name'] . ' ' . $rev['last_name']) ?></strong>
+                                    </div>
+                                    <p style="font-size: 14px;"><?= h($rev['comment']) ?></p>
+                                    <small class="text-muted"><?= time_ago($rev['created_at']) ?></small>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
                 </article>
 
                 <?php if ($pharmacy['operating_hours']): ?>

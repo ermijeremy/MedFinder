@@ -113,6 +113,18 @@ class SearchService
         )->fetchColumn();
     }
 
+    // Get recent searches for a specific customer.
+    public static function getRecentSearches(int $customer_id, int $limit = 10): array
+    {
+        return db_query(
+            'SELECT * FROM search_logs 
+              WHERE customer_id = :cid 
+           ORDER BY search_date DESC 
+              LIMIT :lim',
+            [':cid' => $customer_id, ':lim' => $limit]
+        )->fetchAll();
+    }
+
     // Record a search event in search_logs.
     private static function log(
         string $query,
@@ -122,13 +134,15 @@ class SearchService
     ): void {
         $ip      = $_SERVER['REMOTE_ADDR'] ?? '';
         $ipHash  = $ip ? hash('sha256', $ip) : null;
+        $customer_id = $_SESSION['customer_id'] ?? null;
 
         db_query(
             'INSERT INTO search_logs
-                (search_query, neighborhood_id, status_filter, results_count, ip_hash)
+                (customer_id, search_query, neighborhood_id, status_filter, results_count, ip_hash)
              VALUES
-                (:q, :nbhd, :sf, :rc, :ip)',
+                (:cid, :q, :nbhd, :sf, :rc, :ip)',
             [
+                ':cid'  => $customer_id,
                 ':q'    => substr($query, 0, 200),
                 ':nbhd' => $neighborhood_id,
                 ':sf'   => $status_filter ?: null,

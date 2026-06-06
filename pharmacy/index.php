@@ -1,46 +1,38 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pharmacy Dashboard - MedFinder Ethiopia</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/responsive.css">
-    <link rel="stylesheet" href="../css/pharmacy.css">
-</head>
-<body class="pharmacy-body">
-<a class="skip-link" href="#main-content">Skip to content</a>
-<header class="site-header">
-    <div class="container header-inner">
-        <a class="brand" href="../index.html">MedFinder</a>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
-        <nav class="site-nav" aria-label="Primary">
-            <ul class="nav-list" id="primary-nav">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../search-results.html">Search</a></li>
-                <li><a href="../about.html">About</a></li>
-                <li><a href="../contact.html">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="header-actions">
-            <a class="btn btn-secondary" href="login.php">Pharmacy Login</a>
-            <a class="btn btn-primary" href="register.php">Register</a>
-        </div>
-    </div>
-</header>
+<?php
+require_once '../includes/config.php';
+require_once '../includes/db.php';
+require_once '../includes/functions.php';
+require_once '../includes/pharmacy-auth.php';
+require_once '../includes/services/PharmacyService.php';
+require_once '../includes/services/InventoryService.php';
+
+$id = $_SESSION['pharmacy_id'];
+$pharmacy = $current_pharmacy; // From pharmacy-auth.php
+$inventory = InventoryService::getByPharmacy($id);
+
+// Simple stats
+$total_medicines = count($inventory);
+$low_stock = 0;
+foreach ($inventory as $inv) {
+    if ($inv['status'] === 'limited') $low_stock++;
+}
+
+$asset_path = '../';
+$page_title = 'Pharmacy Dashboard - MedFinder Ethiopia';
+$body_class = 'pharmacy-body';
+$extra_css = ['css/pharmacy.css'];
+include '../includes/header.php';
+?>
 
 <main id="main-content">
     <section class="page-hero">
         <div class="container page-hero-inner">
             <div>
                 <p class="eyebrow">Pharmacy dashboard</p>
-                <h1 class="page-title">Welcome back, Unity Pharmacy</h1>
+                <h1 class="page-title">Welcome back, <?= h($pharmacy['pharmacy_name']) ?></h1>
                 <p class="page-subtitle">Update inventory, track stock, and reach more patients.</p>
                 <div class="breadcrumb">
-                    <a href="index.html">Pharmacy</a>
+                    <a href="index.php">Pharmacy</a>
                     <span>/</span>
                     <span>Dashboard</span>
                 </div>
@@ -55,19 +47,19 @@
     <section class="section">
         <div class="container stat-grid">
             <div class="stat-card reveal">
-                <h3>52</h3>
+                <h3><?= $total_medicines ?></h3>
                 <p>Medicines in stock</p>
             </div>
             <div class="stat-card reveal delay-1">
-                <h3>8</h3>
+                <h3><?= $low_stock ?></h3>
                 <p>Low stock alerts</p>
             </div>
             <div class="stat-card reveal delay-2">
-                <h3>120</h3>
+                <h3>120</h3> <!-- Static for now as search_logs not fully integrated for dashboard -->
                 <p>Search views this week</p>
             </div>
             <div class="stat-card reveal delay-3">
-                <h3>4.8</h3>
+                <h3>4.8</h3> <!-- Static for now -->
                 <p>Average rating</p>
             </div>
         </div>
@@ -84,23 +76,28 @@
                                 <tr>
                                     <th>Medicine</th>
                                     <th>Status</th>
-                                    <th>Quantity</th>
+                                    <th>Price</th>
                                     <th>Updated</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Metformin 500mg</td>
-                                    <td><span class="badge badge-warning">Limited</span></td>
-                                    <td>6</td>
-                                    <td>Today</td>
-                                </tr>
-                                <tr>
-                                    <td>Insulin (Rapid)</td>
-                                    <td><span class="badge badge-success">In stock</span></td>
-                                    <td>42</td>
-                                    <td>15 minutes ago</td>
-                                </tr>
+                                <?php if (empty($inventory)): ?>
+                                    <tr>
+                                        <td colspan="4" class="text-center">No medicines added yet.</td>
+                                    </tr>
+                                <?php else: ?>
+                                    <?php 
+                                    $recent = array_slice($inventory, 0, 5);
+                                    foreach ($recent as $inv): 
+                                    ?>
+                                        <tr>
+                                            <td><?= h($inv['medicine_name']) ?></td>
+                                            <td><span class="badge <?= badge_class($inv['status']) ?>"><?= status_label($inv['status']) ?></span></td>
+                                            <td><?= format_price($inv['price']) ?></td>
+                                            <td><?= time_ago($inv['updated_at']) ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
@@ -109,53 +106,14 @@
 
             <aside class="sidebar">
                 <h3 class="panel-title">Quick actions</h3>
-                <div class="form-footer">
-                    <a class="btn btn-primary" href="inventory/index.html">Manage inventory</a>
-                    <a class="btn btn-secondary" href="profile.php">Update profile</a>
-                    <a class="btn btn-secondary" href="logout.html">Log out</a>
+                <div class="form-footer" style="flex-direction: column; gap: 10px; display: flex;">
+                    <a class="btn btn-primary btn-block" href="inventory/index.php">Manage inventory</a>
+                    <a class="btn btn-secondary btn-block" href="profile.php">Update profile</a>
+                    <a class="btn btn-secondary btn-block" href="../logout.php">Log out</a>
                 </div>
             </aside>
         </div>
     </section>
 </main>
 
-<footer class="site-footer">
-    <div class="container footer-grid">
-        <div class="footer-brand">
-            <a class="brand" href="../index.html">MedFinder</a>
-            <p>Find nearby pharmacies and live medicine availability across Addis Ababa.</p>
-        </div>
-        <div class="footer-links">
-            <h4>Quick Links</h4>
-            <ul>
-                <li><a href="../search-results.html">Search results</a></li>
-                <li><a href="../pharmacy/register.php">Register pharmacy</a></li>
-                <li><a href="../about.html">About MedFinder</a></li>
-            </ul>
-        </div>
-        <div class="footer-links">
-            <h4>Support</h4>
-            <ul>
-                <li><a href="../contact.html">Contact support</a></li>
-                <li><a href="../pharmacy/login.php">Pharmacy login</a></li>
-                <li><a href="../admin/login.php">Admin access</a></li>
-            </ul>
-        </div>
-        <div class="footer-links">
-            <h4>Contact</h4>
-            <p>Call: <a href="tel:+251912345678">+251 91 234 5678</a></p>
-            <p>Email: <a href="mailto:hello@medfinder.et">hello@medfinder.et</a></p>
-            <p>Hours: 7:00 AM - 10:00 PM</p>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <div class="container footer-bottom-inner">
-            <span>Copyright 2026 MedFinder Ethiopia</span>
-            <span>Built for local pharmacies.</span>
-        </div>
-    </div>
-</footer>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="../js/main.js"></script>
-</body>
-</html>
+<?php include '../includes/footer.php'; ?>

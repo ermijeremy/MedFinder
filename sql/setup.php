@@ -35,24 +35,31 @@ $statements = array_filter(
 // bcrypt hashes
 $adminHash    = password_hash($adminPassword,    PASSWORD_BCRYPT, ['cost' => 12]);
 $pharmacyHash = password_hash($pharmacyPassword, PASSWORD_BCRYPT, ['cost' => 12]);
+$customerHash = password_hash('password123',     PASSWORD_BCRYPT, ['cost' => 12]);
 
 echo "Generated hashes:\n";
 echo "  Admin hash    : $adminHash\n";
-echo "  Pharmacy hash : $pharmacyHash\n\n";
+echo "  Pharmacy hash : $pharmacyHash\n";
+echo "  Customer hash : $customerHash\n\n";
 
 // Execute statements
 $success = 0;
 $errors  = 0;
 
 foreach ($statements as $stmt) {
-    // Replace placeholder admin hash
+    // Replace placeholder hashes
     $stmt = str_replace(
         "'PLACEHOLDER_ADMIN_HASH'",
         $pdo->quote($adminHash),
         $stmt
     );
 
-    // Replace placeholder pharmacy hashes
+    $stmt = str_replace(
+        "'PLACEHOLDER_CUSTOMER_HASH'",
+        $pdo->quote($customerHash),
+        $stmt
+    );
+
     $stmt = str_replace(
         ["'PLACEHOLDER_UNITY_HASH'",
          "'PLACEHOLDER_ETHIOCARE_HASH'",

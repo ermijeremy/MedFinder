@@ -11,6 +11,11 @@ if (!isset($extra_css) || !is_array($extra_css)) {
 if (!isset($body_class)) {
     $body_class = '';
 }
+
+// Role detection
+$is_admin    = !empty($_SESSION['admin_id']);
+$is_pharmacy = !empty($_SESSION['pharmacy_id']);
+$is_customer = !empty($_SESSION['customer_id']);
 ?>
 <!doctype html>
 <html lang="en">
@@ -39,11 +44,30 @@ if (!isset($body_class)) {
                 <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>search-results.php">Search</a></li>
                 <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>about.php">About</a></li>
                 <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>contact.php">Contact</a></li>
+                <?php if ($is_customer): ?>
+                    <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>customer/dashboard.php">Dashboard</a></li>
+                    <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>customer/profile.php">My Profile</a></li>
+                <?php elseif ($is_pharmacy): ?>
+                    <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>pharmacy/index.php">Dashboard</a></li>
+                <?php elseif ($is_admin): ?>
+                    <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>admin/index.php">Admin Panel</a></li>
+                <?php endif; ?>
             </ul>
         </nav>
         <div class="header-actions">
-            <a class="btn btn-secondary" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>pharmacy/login.php">Pharmacy Login</a>
-            <a class="btn btn-primary" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>pharmacy/register.php">Register</a>
+            <?php if ($is_admin): ?>
+                <a class="btn btn-secondary" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>logout.php">Logout</a>
+            <?php elseif ($is_pharmacy): ?>
+                <a class="btn btn-secondary" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>pharmacy/inventory/add.php">Add Medicine</a>
+                <a class="btn btn-secondary" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>logout.php">Logout</a>
+            <?php elseif ($is_customer): ?>
+                <a class="btn btn-secondary" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>logout.php">Logout</a>
+            <?php else: ?>
+                <a class="btn btn-secondary" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>pharmacy/login.php">Pharmacy Login</a>
+                <a class="btn btn-secondary" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>customer/login.php">Customer Login</a>
+                <a class="btn btn-primary" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>customer/register.php">Register</a>
+            <?php endif; ?>
         </div>
     </div>
 </header>
+

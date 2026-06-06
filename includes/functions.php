@@ -127,7 +127,7 @@ function base_url(): string
     $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
     $host   = $_SERVER['HTTP_HOST'] ?? 'localhost';
     $dir    = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/'));
-    $dir    = preg_replace('#/(admin|pharmacy)(/.*)?$#', '', $dir);
+    $dir    = preg_replace('#/(admin|pharmacy|customer)(/.*)?$#', '', $dir);
     $dir    = $dir === '/' ? '' : $dir;
 
     return $scheme . '://' . $host . $dir . '/';

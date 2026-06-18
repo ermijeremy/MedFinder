@@ -1,8 +1,7 @@
 <?php
 require_once __DIR__ . '/config.php';
 
-//  SESSION MANAGEMENT
-//  Start the application session exactly once.
+// Start the application session exactly once.
 function start_session(): void
 {
     if (session_status() === PHP_SESSION_NONE) {
@@ -18,8 +17,7 @@ function start_session(): void
     }
 }
 
-//  CSRF PROTECTION
-//  Generate (or retrieve) the session CSRF token.
+// Generate (or retrieve) the session CSRF token.
 function csrf_token(): string
 {
     start_session();
@@ -39,22 +37,22 @@ function verify_csrf(): void
 
 
     if (!hash_equals($expected, $submitted)) {
+        // Token validation failed
+        flash('error', 'Invalid security token. Please try again.');
         http_response_code(403);
-        echo "Submitted: $submitted, Expected: $expected";
         die('Invalid request. Please go back and try again.');
     }
 }
 
-//  FLASH MESSAGES
-//  Store a one-time flash message in the session.
+// Store a one-time flash message in the session.
 function flash(string $key, string $msg): void
 {
     start_session();
     $_SESSION['_flash'][$key] = $msg;
 }
 
-//  Retrieve and clear a flash message.
-//  Returns null if the key doesn't exist.
+// Retrieve and clear a flash message.
+// Returns null if the key doesn't exist.
 function get_flash(string $key): ?string
 {
     start_session();
@@ -74,7 +72,7 @@ function render_flashes(): void
 
     $map = [
         'success' => 'alert-success',
-        'error'   => 'alert-error',
+        'error'   => 'alert-danger',
         'warning' => 'alert-warning',
         'info'    => 'alert-info',
     ];
@@ -88,7 +86,6 @@ function render_flashes(): void
 }
 
 
-// OUTPUT SANITIZATION
 // Short alias for htmlspecialchars().
 function h($val): string
 {
@@ -133,40 +130,13 @@ function base_url(): string
     return $scheme . '://' . $host . $dir . '/';
 }
 
-// REQUEST DEBUG LOGGER
 // Logs request context for tracing handler-level issues.
 function debug_request(string $handler, array $extra = []): void
 {
-    $files = [];
-    foreach ($_FILES as $field => $meta) {
-        if (is_array($meta) && isset($meta['name'])) {
-            $files[$field] = [
-                'name'  => $meta['name'],
-                'size'  => $meta['size'] ?? null,
-                'error' => $meta['error'] ?? null,
-            ];
-        }
-    }
-
-    $payload = [
-        'time'      => date('c'),
-        'handler'   => $handler,
-        'method'    => $_SERVER['REQUEST_METHOD'] ?? 'CLI',
-        'uri'       => $_SERVER['REQUEST_URI'] ?? '',
-        'query'     => $_GET,
-        'post'      => $_POST,
-        'files'     => $files,
-        'ip'        => $_SERVER['REMOTE_ADDR'] ?? '',
-        'admin_id'  => $_SESSION['admin_id'] ?? null,
-        'pharmacy_id' => $_SESSION['pharmacy_id'] ?? null,
-        'extra'     => $extra,
-    ];
-
-    error_log('[REQUEST_DEBUG] ' . json_encode($payload, JSON_UNESCAPED_SLASHES));
+    // No-op: Removed debug output for production
 }
 
-//  REDIRECTS
-//  Redirect to a URL and stop execution.
+// Redirect to a URL and stop execution.
 function redirect(string $path): void
 {
     // If it's already a full URL, use it directly
@@ -179,8 +149,7 @@ function redirect(string $path): void
 }
 
 
-//  FORMATTING HELPERS
-//  Returns a human-friendly "time ago" string.
+// Returns a human-friendly "time ago" string.
 function time_ago(string $datetime): string
 {
     $now  = new DateTimeImmutable();
@@ -201,7 +170,7 @@ function time_ago(string $datetime): string
     return $then->format('d M Y');
 }
 
-//  Maps an inventory status string to its CSS badge class.
+// Maps an inventory status string to its CSS badge class.
 function badge_class(string $status): string
 {
     return match ($status) {
@@ -230,7 +199,6 @@ function format_price(float $amount): string
 }
 
 
-//  PAGINATION
 // Build a pagination array used by templates to render page links.
 function paginate(int $total, int $per_page = ITEMS_PER_PAGE, int $page = 1): array
 {
@@ -247,22 +215,20 @@ function paginate(int $total, int $per_page = ITEMS_PER_PAGE, int $page = 1): ar
     ];
 }
 
-//  INPUT VALIDATION HELPERS
-//  Check if a string looks like a valid Ethiopian phone number.
+// Check if a string looks like a valid Ethiopian phone number.
 function is_valid_ethiopian_phone(string $phone): bool
 {
     $phone = preg_replace('/\s+/', '', $phone);
     return (bool)preg_match('/^(\+2519\d{8}|09\d{8}|9\d{8})$/', $phone);
 }
 
-//  Check password strength: at least 8 characters.
+// Check password strength: at least 8 characters.
 function is_strong_password(string $password): bool
 {
     return strlen($password) >= 8;
 }
 
-//  FILE UPLOAD HELPER
-//  Handle a pharmacy logo file upload.
+// Handle a pharmacy logo file upload.
 function upload_logo(array $file): ?string
 {
     // No file chosen — this field is optional

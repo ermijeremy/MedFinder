@@ -135,7 +135,7 @@ class CustomerService
                 ]
             );
 
-            return (int) pdo()->lastInsertId();
+            return db_last_id();
         } catch (PDOException $e) {
             error_log("CustomerService::createCustomer Error: " . $e->getMessage());
             return null;
@@ -212,7 +212,7 @@ class CustomerService
         }
 
         if (!$customer['is_active']) {
-            return null; // Account disabled
+            throw new Exception('Your account has been deactivated. Please contact support.');
         }
 
         return $customer;

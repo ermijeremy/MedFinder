@@ -101,7 +101,7 @@ include 'includes/header.php';
             </div>
             <div class="cta-actions">
                 <a class="btn btn-primary" href="pharmacy/register.php">Register pharmacy</a>
-                <a class="btn btn-secondary" href="contact.html">Contact the team</a>
+                <a class="btn btn-secondary" href="contact.php">Contact the team</a>
             </div>
         </div>
     </section>

@@ -20,20 +20,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($email) || empty($password)) {
         flash('error', 'Email and password are required');
     } else {
-        $customer = CustomerService::verifyPassword($email, $password);
+        try {
+            $customer = CustomerService::verifyPassword($email, $password);
 
-        if ($customer) {
-            // Regenerate session ID for security
-            session_regenerate_id(true);
+            if ($customer) {
+                // Regenerate session ID for security
+                session_regenerate_id(true);
 
-            // Set session variables
-            $_SESSION['customer_id']    = $customer['customer_id'];
-            $_SESSION['customer_email'] = $customer['email'];
+                // Set session variables
+                $_SESSION['customer_id']    = $customer['customer_id'];
+                $_SESSION['customer_email'] = $customer['email'];
 
-            flash('success', 'Welcome back, ' . h($customer['first_name']) . '!');
-            redirect('index.php');
-        } else {
-            flash('error', 'Invalid email or password');
+                flash('success', 'Welcome back, ' . h($customer['first_name']) . '!');
+                redirect('index.php');
+            } else {
+                flash('error', 'Invalid email or password');
+            }
+        } catch (Exception $e) {
+            flash('error', $e->getMessage());
         }
     }
 }

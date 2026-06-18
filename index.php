@@ -4,6 +4,7 @@ require_once 'includes/db.php';
 require_once 'includes/functions.php';
 require_once 'includes/services/AdminService.php';
 require_once 'includes/services/NeighborhoodService.php';
+require_once 'includes/services/PharmacyService.php';
 
 $stats = AdminService::getDashboardStats();
 $neighborhoods = NeighborhoodService::getAll();
@@ -84,53 +85,32 @@ include 'includes/header.php';
                 <a class="link" href="search-results.php">View all pharmacies</a>
             </div>
             <div class="card-grid">
-                <article class="card pharmacy-card reveal">
+                <?php $featured = PharmacyService::getFeatured(3); ?>
+                <?php foreach ($featured as $index => $pharmacy): ?>
+                <article class="card pharmacy-card reveal <?= $index > 0 ? 'delay-' . $index : '' ?>">
                     <div class="card-header">
-                        <h3>Unity Pharmacy</h3>
-                        <span class="badge badge-success">In stock</span>
+                        <h3><?= h($pharmacy['pharmacy_name']) ?></h3>
+                        <?php if ($pharmacy['in_stock_count'] > 0): ?>
+                            <span class="badge badge-success">In stock</span>
+                        <?php else: ?>
+                            <span class="badge badge-warning">Limited</span>
+                        <?php endif; ?>
                     </div>
-                    <p class="card-meta">Bole, Atlas Area</p>
+                    <p class="card-meta"><?= h($pharmacy['neighborhood_name']) ?></p>
                     <div class="card-details">
-                        <span>24 medicines listed</span>
-                        <span>Open until 9:00 PM</span>
+                        <span><?= $pharmacy['medicine_count'] ?> medicines listed</span>
+                        <?php if ($pharmacy['operating_hours']): ?>
+                            <span><?= h($pharmacy['operating_hours']) ?></span>
+                        <?php endif; ?>
                     </div>
                     <div class="card-actions">
-                        <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
-                        <a class="btn btn-link" href="tel:+251912345678">Call</a>
+                        <a class="btn btn-secondary" href="pharmacy-detail.php?id=<?= $pharmacy['pharmacy_id'] ?>">View details</a>
+                        <?php if ($pharmacy['phone']): ?>
+                            <a class="btn btn-link" href="tel:<?= h($pharmacy['phone']) ?>">Call</a>
+                        <?php endif; ?>
                     </div>
                 </article>
-
-                <article class="card pharmacy-card reveal delay-1">
-                    <div class="card-header">
-                        <h3>EthioCare Pharmacy</h3>
-                        <span class="badge badge-warning">Limited</span>
-                    </div>
-                    <p class="card-meta">Kirkos, Meskel Square</p>
-                    <div class="card-details">
-                        <span>19 medicines listed</span>
-                        <span>Open until 8:00 PM</span>
-                    </div>
-                    <div class="card-actions">
-                        <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
-                        <a class="btn btn-link" href="tel:+251911223344">Call</a>
-                    </div>
-                </article>
-
-                <article class="card pharmacy-card reveal delay-2">
-                    <div class="card-header">
-                        <h3>BlueCross Pharmacy</h3>
-                        <span class="badge badge-danger">Out of stock</span>
-                    </div>
-                    <p class="card-meta">Yeka, Megenagna</p>
-                    <div class="card-details">
-                        <span>31 medicines listed</span>
-                        <span>Opens at 8:00 AM</span>
-                    </div>
-                    <div class="card-actions">
-                        <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
-                        <a class="btn btn-link" href="tel:+251900112233">Call</a>
-                    </div>
-                </article>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
@@ -164,8 +144,3 @@ include 'includes/header.php';
 </main>
 
 <?php include 'includes/footer.php'; ?>
-</footer>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="js/main.js"></script>
-</body>
-</html>

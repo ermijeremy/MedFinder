@@ -51,6 +51,21 @@ class InventoryService
         return ['rows' => $rows, 'pagination' => $pag];
     }
 
+    // Get all inventory rows for a given pharmacy (public facing).
+    public static function getByPharmacy(int $pharmacy_id): array
+    {
+        return db_query(
+            "SELECT i.inventory_id, i.quantity, i.price, i.status,
+                    i.expiry_date, i.restock_note, i.updated_at,
+                    m.medicine_name, m.generic_name, m.category
+               FROM inventory i
+               JOIN medicines m USING (medicine_id)
+              WHERE i.pharmacy_id = :pid AND i.status != 'out_of_stock'
+           ORDER BY m.medicine_name ASC",
+            [':pid' => $pharmacy_id]
+        )->fetchAll();
+    }
+
     // Get a single inventory row — verifying it belongs to the given pharmacy.
     public static function getOne(int $inventory_id, int $pharmacy_id): ?array
     {

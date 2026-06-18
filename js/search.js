@@ -62,8 +62,11 @@
         }
 
         function getSortValue($card, sortMode) {
-            if (sortMode === 'price_low') {
+            if (sortMode === 'price_asc') {
                 return parseFloat($card.attr('data-price')) || Number.POSITIVE_INFINITY;
+            }
+            if (sortMode === 'price_desc') {
+                return -(parseFloat($card.attr('data-price')) || 0);
             }
 
             if (sortMode === 'updated') {
@@ -91,6 +94,10 @@
             var sortedCards = $cards.get().sort(function (leftElement, rightElement) {
                 var leftValue = getSortValue($(leftElement), sortMode);
                 var rightValue = getSortValue($(rightElement), sortMode);
+
+                if (leftValue === rightValue && sortMode === 'nearest') {
+                    return getSortValue($(leftElement), 'price_asc') - getSortValue($(rightElement), 'price_asc');
+                }
 
                 return leftValue - rightValue;
             });
@@ -199,11 +206,19 @@
         }
 
         $('#sort-results').on('change', function () {
-            sortVisibleCards();
+            if ($(this).val() === 'nearest' && !currentLocation) {
+                requestLocation();
+            } else {
+                sortVisibleCards();
+            }
         });
 
         applyFilters();
         updateCount();
         updateEmptyState();
+
+        if ($('#sort-results').val() === 'nearest' && !currentLocation) {
+            requestLocation();
+        }
     });
 }(window.jQuery));

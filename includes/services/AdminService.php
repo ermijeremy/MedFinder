@@ -217,7 +217,7 @@ class AdminService
                     ':password' => $hashed
                 ]
             );
-            return db_connection()->lastInsertId();
+            return db_last_id();
         } catch (PDOException $e) {
             return null;
         }

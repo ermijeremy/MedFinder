@@ -1,11 +1,6 @@
 <?php
 /**
- * pharmacy/login.php — Pharmacy Login Page + POST Handler
- *
- * FLOW:
- *  GET  → render the login form (with any ?notice= messages)
- *  POST → verify CSRF → lookup by email → verify password
- *         → check status → create session → redirect to dashboard
+ * Pharmacy Login Page + POST Handler
  */
 require_once '../includes/config.php';
 require_once '../includes/db.php';

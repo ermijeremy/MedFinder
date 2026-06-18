@@ -31,9 +31,9 @@ class SearchService
         $whereSQL = 'WHERE ' . implode(' AND ', $where);
 
         $orderSQL = match ($sort) {
-            'price_asc'  => 'i.price ASC',
+            'updated'    => 'i.updated_at DESC',
             'price_desc' => 'i.price DESC',
-            default       => 'i.updated_at DESC',
+            default      => 'i.price ASC', // nearest or price_asc
         };
 
         // Total count
@@ -57,6 +57,8 @@ class SearchService
                     p.address,
                     p.operating_hours,
                     p.logo,
+                    p.latitude,
+                    p.longitude,
                     n.name           AS neighborhood_name,
                     m.medicine_name,
                     m.generic_name,

@@ -3,7 +3,7 @@
 define('DB_HOST', 'localhost');   
 define('DB_NAME', 'medfinder');   
 define('DB_USER', 'root');        
-define('DB_PASS', '');           
+define('DB_PASS', 'Henokmysql@415');           
 define('DB_CHARSET', 'utf8mb4'); 
 
 // Application base url

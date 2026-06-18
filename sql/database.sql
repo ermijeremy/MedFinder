@@ -115,6 +115,7 @@ CREATE TABLE IF NOT EXISTS inventory (
 -- Stores every search for analytics.
 CREATE TABLE IF NOT EXISTS search_logs (
     log_id          INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+    customer_id     INT UNSIGNED  DEFAULT NULL,
     search_query    VARCHAR(200)  NOT NULL,
     neighborhood_id INT UNSIGNED  DEFAULT NULL,
     status_filter   VARCHAR(20)   DEFAULT NULL,
@@ -255,3 +256,86 @@ INSERT INTO inventory (pharmacy_id, medicine_id, quantity, price, status, restoc
 (3,15,  15, 330.00, 'in_stock',     NULL),    -- Salbutamol Inhaler
 (3,18, 300,  35.00, 'in_stock',     NULL),    -- Vitamin C
 (3,19, 200,  28.00, 'in_stock',     NULL);    -- Folic Acid
+
+
+-- TABLE7: customers
+-- Registered customer accounts.
+CREATE TABLE IF NOT EXISTS customers (
+    customer_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    email       VARCHAR(100) NOT NULL,
+    password    VARCHAR(255) NOT NULL,
+    first_name  VARCHAR(100) NOT NULL,
+    last_name   VARCHAR(100) NOT NULL,
+    phone       VARCHAR(20)  DEFAULT NULL,
+    is_active   TINYINT(1)   NOT NULL DEFAULT 1,
+    created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (customer_id),
+    UNIQUE KEY uq_customer_email (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- TABLE8: customer_favorites
+-- Junction table: which customer favorited which pharmacy.
+CREATE TABLE IF NOT EXISTS customer_favorites (
+    favorite_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    customer_id INT UNSIGNED NOT NULL,
+    pharmacy_id INT UNSIGNED NOT NULL,
+    created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (favorite_id),
+    UNIQUE KEY uq_customer_pharmacy (customer_id, pharmacy_id),
+    CONSTRAINT fk_favorite_customer
+        FOREIGN KEY (customer_id)
+        REFERENCES customers (customer_id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_favorite_pharmacy
+        FOREIGN KEY (pharmacy_id)
+        REFERENCES pharmacies (pharmacy_id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- TABLE9: pharmacy_reviews
+-- Customer ratings and comments for pharmacies.
+CREATE TABLE IF NOT EXISTS pharmacy_reviews (
+    review_id   INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    pharmacy_id INT UNSIGNED NOT NULL,
+    customer_id INT UNSIGNED NOT NULL,
+    rating      TINYINT UNSIGNED NOT NULL,
+    comment     TEXT,
+    created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (review_id),
+    UNIQUE KEY uq_customer_pharmacy_review (customer_id, pharmacy_id),
+    CONSTRAINT fk_review_pharmacy FOREIGN KEY (pharmacy_id) REFERENCES pharmacies(pharmacy_id) ON DELETE CASCADE,
+    CONSTRAINT fk_review_customer FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- TABLE10: notifications
+-- System alerts for customers.
+CREATE TABLE IF NOT EXISTS notifications (
+    notification_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    customer_id     INT UNSIGNED NOT NULL,
+    title           VARCHAR(200) NOT NULL,
+    message         TEXT NOT NULL,
+    type            ENUM('stock_alert', 'new_medicine', 'pharmacy_update', 'general') DEFAULT 'general',
+    is_read         TINYINT(1) NOT NULL DEFAULT 0,
+    created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (notification_id),
+    CONSTRAINT fk_notification_customer FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Sample customer (password: password123)
+-- Hash will be updated by setup.php
+INSERT INTO customers (first_name, last_name, email, password, phone) VALUES
+('Demo', 'Customer', 'customer@test.et', 'PLACEHOLDER_CUSTOMER_HASH', '+251900000000')
+ON DUPLICATE KEY UPDATE first_name = VALUES(first_name);
+
+-- Sample reviews
+INSERT INTO pharmacy_reviews (pharmacy_id, customer_id, rating, comment) VALUES
+(1, 1, 5, 'Excellent service and they always have what I need!'),
+(2, 1, 4, 'Friendly staff, but sometimes there is a wait.')
+ON DUPLICATE KEY UPDATE rating = VALUES(rating), comment = VALUES(comment);
+
+-- Sample notifications
+INSERT INTO notifications (customer_id, title, message, type) VALUES
+(1, 'Stock Update', 'Insulin Rapid is now back in stock at Unity Pharmacy!', 'stock_alert'),
+(1, 'Welcome', 'Welcome to MedFinder Ethiopia! Start searching for medicines nearby.', 'general')
+ON DUPLICATE KEY UPDATE title = VALUES(title), message = VALUES(message);

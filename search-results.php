@@ -2,8 +2,11 @@
 require_once 'includes/config.php';
 require_once 'includes/db.php';
 require_once 'includes/functions.php';
+require_once 'includes/customer-auth.php'; // Auth guard for search as requested
 require_once 'includes/services/SearchService.php';
 require_once 'includes/services/NeighborhoodService.php';
+require_once 'includes/services/CustomerService.php';
+require_once 'includes/services/ReviewService.php';
 
 $q               = sanitize($_GET['q'] ?? '');
 $neighborhood_id = (int)($_GET['neighborhood'] ?? 0);
@@ -37,7 +40,6 @@ include 'includes/header.php';
             </div>
             <div class="page-actions">
                 <a class="btn btn-secondary" href="index.php">New search</a>
-                <a class="btn btn-primary" href="pharmacy/register.php">List your pharmacy</a>
             </div>
         </div>
     </section>
@@ -96,77 +98,73 @@ include 'includes/header.php';
                                 <option value="price_desc" <?= $sort === 'price_desc' ? 'selected' : '' ?>>Highest price</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>&nbsp;</label>
-                            <button class="btn btn-secondary" type="button" data-use-location>Use my location</button>
-                        </div>
                     </div>
-                    <span class="pill pill-success">3 pharmacies</span>
+                    <span class="pill pill-success"><?= count($rows) ?> pharmacies shown</span>
                 </div>
 
-                <div class="card" data-location-banner>
-                    <h3 class="panel-title">Nearby recommendation</h3>
-                    <p data-location-message>Allow location to rank pharmacies by proximity.</p>
-                </div>
-
-                <div class="result-list">
-                    <article class="card result-card" data-name="Unity Pharmacy" data-neighborhood="bole" data-status="in_stock" data-lat="8.995" data-lng="38.785" data-price="250" data-updated-minutes="15">
-                        <div class="card-header">
-                            <h3>Unity Pharmacy</h3>
-                            <span class="badge badge-success">In stock</span>
+                <?php if (empty($rows)): ?>
+                    <div class="card empty-state">
+                        <h3>No pharmacies found</h3>
+                        <p>Try adjusting filters or searching by a different brand name.</p>
+                        <a class="btn btn-secondary" href="index.php">Start a new search</a>
+                    </div>
+                <?php else: ?>
+                    <div class="result-list">
+                        <?php foreach ($rows as $row): ?>
+                            <?php 
+                            $is_favorited = CustomerService::isFavorited($_SESSION['customer_id'], $row['pharmacy_id']);
+                            $avg_rating = ReviewService::getAverageRating($row['pharmacy_id']);
+                            $rev_count = ReviewService::getReviewCount($row['pharmacy_id']);
+                            ?>
+                            <article class="card result-card">
+                                <div class="card-header">
+                                    <div class="title-with-rating">
+                                        <h3><?= h($row['pharmacy_name']) ?></h3>
+                                        <?php if ($avg_rating > 0): ?>
+                                            <div class="rating-mini" style="font-size: 12px; color: #f39c12;">
+                                                <?= str_repeat('★', floor($avg_rating)) ?> (<?= $avg_rating ?>)
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="header-tools">
+                                        <button class="favorite-btn" 
+                                                data-pharmacy-id="<?= h($row['pharmacy_id']) ?>"
+                                                data-is-favorited="<?= $is_favorited ? '1' : '0' ?>"
+                                                title="<?= $is_favorited ? 'Remove from favorites' : 'Add to favorites' ?>">
+                                            <span class="heart-icon"><?= $is_favorited ? '❤️' : '🤍' ?></span>
+                                        </button>
+                                        <span class="badge badge-<?= $row['stock_status'] === 'in_stock' ? 'success' : ($row['stock_status'] === 'limited' ? 'warning' : 'danger') ?>">
+                                            <?= str_replace('_', ' ', ucfirst($row['stock_status'])) ?>
+                                        </span>
+                                    </div>
+                                </div>
+                                <p class="card-meta"><?= h($row['neighborhood_name']) ?>, <?= h($row['address']) ?></p>
+                                <div class="card-details">
+                                    <span>Price: <?= number_format($row['price'], 2) ?> ETB</span>
+                                    <span>Updated <?= time_ago($row['updated_at']) ?></span>
+                                </div>
+                                <div class="card-actions">
+                                    <a class="btn btn-secondary" href="pharmacy-detail.php?id=<?= h($row['pharmacy_id']) ?>">View details</a>
+                                    <?php if ($row['phone']): ?>
+                                        <a class="btn btn-link" href="tel:<?= h($row['phone']) ?>">Call</a>
+                                    <?php endif; ?>
+                                </div>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <?php if ($pag['total'] > 1): ?>
+                        <div class="pagination">
+                            <?php for ($i = 1; $i <= $pag['total']; $i++): ?>
+                                <a href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>" 
+                                   class="page-link <?= $i === $pag['current'] ? 'active' : '' ?>">
+                                    <?= $i ?>
+                                </a>
+                            <?php endfor; ?>
                         </div>
-                        <p class="card-meta">Bole, Atlas Area</p>
-                        <div class="card-details">
-                            <span>Price range: 230 - 260 ETB</span>
-                            <span>Updated 15 minutes ago</span>
-                            <span>Open until 9:00 PM</span>
-                        </div>
-                        <div class="card-actions">
-                            <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
-                            <a class="btn btn-link" href="tel:+251912345678">Call</a>
-                        </div>
-                    </article>
-
-                    <article class="card result-card" data-name="EthioCare Pharmacy" data-neighborhood="kirkos" data-status="limited" data-lat="8.984" data-lng="38.764" data-price="255" data-updated-minutes="45">
-                        <div class="card-header">
-                            <h3>EthioCare Pharmacy</h3>
-                            <span class="badge badge-warning">Limited</span>
-                        </div>
-                        <p class="card-meta">Kirkos, Meskel Square</p>
-                        <div class="card-details">
-                            <span>Price range: 240 - 275 ETB</span>
-                            <span>Updated 45 minutes ago</span>
-                            <span>Open until 8:00 PM</span>
-                        </div>
-                        <div class="card-actions">
-                            <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
-                            <a class="btn btn-link" href="tel:+251911223344">Call</a>
-                        </div>
-                    </article>
-
-                    <article class="card result-card" data-name="BlueCross Pharmacy" data-neighborhood="yeka" data-status="out_of_stock" data-lat="9.03" data-lng="38.81" data-price="0" data-updated-minutes="120">
-                        <div class="card-header">
-                            <h3>BlueCross Pharmacy</h3>
-                            <span class="badge badge-danger">Out of stock</span>
-                        </div>
-                        <p class="card-meta">Yeka, Megenagna</p>
-                        <div class="card-details">
-                            <span>Expected restock: Tomorrow</span>
-                            <span>Updated 2 hours ago</span>
-                            <span>Open until 10:00 PM</span>
-                        </div>
-                        <div class="card-actions">
-                            <a class="btn btn-secondary" href="pharmacy-detail.php">View details</a>
-                            <a class="btn btn-link" href="tel:+251900112233">Call</a>
-                        </div>
-                    </article>
-                </div>
-
-                <div class="card empty-state" data-empty-state hidden>
-                    <h3>No pharmacies found</h3>
-                    <p>Try adjusting filters or searching by a different brand name.</p>
-                    <a class="btn btn-secondary" href="index.php">Start a new search</a>
-                </div>
+                    <?php endif; ?>
+                <?php endif; ?>
             </div>
         </div>
     </section>

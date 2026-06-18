@@ -82,5 +82,86 @@
             tableSelector: '[data-table="inventory-list"]',
             countSelector: '[data-count="inventory-list"]'
         });
+
+        // Favorite Button Logic
+        $('.favorite-btn').on('click', function(e) {
+            e.preventDefault();
+            var $btn = $(this);
+            var pharmacyId = $btn.data('pharmacy-id');
+            var isFavorited = $btn.data('is-favorited') == '1';
+            var $heart = $btn.find('.heart-icon');
+            
+            var url = isFavorited ? '../customer/remove-favorite.php' : '../customer/add-favorite.php';
+            // If we are at the root level (search-results.php), adjust url
+            if (window.location.pathname.indexOf('/customer/') === -1) {
+                url = url.replace('../', '');
+            }
+
+            $btn.prop('disabled', true);
+
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: JSON.stringify({ pharmacy_id: pharmacyId }),
+                contentType: 'application/json',
+                success: function(data) {
+                    if (data.status === 'ok') {
+                        if (isFavorited) {
+                            $heart.text('🤍');
+                            $btn.data('is-favorited', '0');
+                            $btn.attr('title', 'Add to favorites');
+                        } else {
+                            $heart.text('❤️');
+                            $btn.data('is-favorited', '1');
+                            $btn.attr('title', 'Remove from favorites');
+                        }
+                    }
+                },
+                error: function() {
+                    alert('An error occurred. Please try again.');
+                },
+                complete: function() {
+                    $btn.prop('disabled', false);
+                }
+            });
+        });
+
+        // Dashboard Remove Favorite Logic
+        $('.remove-favorite').on('click', function(e) {
+            e.preventDefault();
+            var $btn = $(this);
+            var pharmacyId = $btn.data('pharmacy-id');
+            var $card = $btn.closest('.pharmacy-card');
+
+            if (!confirm('Are you sure you want to remove this pharmacy from favorites?')) {
+                return;
+            }
+
+            $btn.prop('disabled', true);
+
+            $.ajax({
+                url: 'remove-favorite.php',
+                method: 'POST',
+                data: JSON.stringify({ pharmacy_id: pharmacyId }),
+                contentType: 'application/json',
+                success: function(data) {
+                    if (data.status === 'ok') {
+                        $card.fadeOut(function() {
+                            $(this).remove();
+                            // Update count if necessary or show empty state
+                            var count = $('.pharmacy-card').length;
+                            $('.panel-title').first().text('My Favorite Pharmacies (' + count + ')');
+                            if (count === 0) {
+                                location.reload(); // Quick way to show empty state
+                            }
+                        });
+                    }
+                },
+                error: function() {
+                    alert('An error occurred. Please try again.');
+                    $btn.prop('disabled', false);
+                }
+            });
+        });
     });
 }(window.jQuery));

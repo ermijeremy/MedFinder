@@ -173,7 +173,7 @@ INSERT IGNORE INTO medicines (medicine_name, generic_name, category, description
 -- Sample pharmacies (passwords: pharmacy123)
 INSERT INTO pharmacies
     (pharmacy_name, owner_name, email, phone, password, address, neighborhood_id,
-     license_number, operating_hours, status)
+     license_number, operating_hours, status, latitude, longitude)
 VALUES
 (
     'Unity Pharmacy',
@@ -185,7 +185,8 @@ VALUES
     1,
     'ETH-PH-001',
     '8:00 AM - 9:00 PM',
-    'active'
+    'active',
+    8.9950, 38.7885
 ),
 (
     'EthioCare Pharmacy',
@@ -197,7 +198,8 @@ VALUES
     2,
     'ETH-PH-002',
     '8:00 AM - 8:00 PM',
-    'active'
+    'active',
+    9.0105, 38.7610
 ),
 (
     'BlueCross Pharmacy',
@@ -209,7 +211,8 @@ VALUES
     4,
     'ETH-PH-003',
     '24 hours',
-    'active'
+    'active',
+    9.0185, 38.8020
 ),
 (
     'GreenMed Pharmacy',
@@ -221,7 +224,8 @@ VALUES
     3,
     'ETH-PH-004',
     '8:00 AM - 7:00 PM',
-    'pending'
+    'pending',
+    9.0305, 38.7525
 )
 ON DUPLICATE KEY UPDATE password = VALUES(password);
 
@@ -267,6 +271,7 @@ CREATE TABLE IF NOT EXISTS customers (
     first_name  VARCHAR(100) NOT NULL,
     last_name   VARCHAR(100) NOT NULL,
     phone       VARCHAR(20)  DEFAULT NULL,
+    photo       VARCHAR(255) DEFAULT NULL,
     is_active   TINYINT(1)   NOT NULL DEFAULT 1,
     created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

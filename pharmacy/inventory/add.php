@@ -12,7 +12,7 @@ require_once '../../includes/pharmacy-auth.php';
 debug_request('pharmacy/inventory/add.php');
 
 $pid      = $current_pharmacy['pharmacy_id'];
-$medicines = MedicineService::getDropdownList();
+$medicines = MedicineService::getAvailableForPharmacy($pid);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verify_csrf();

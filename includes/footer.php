@@ -22,7 +22,7 @@ if (!isset($extra_js) || !is_array($extra_js)) {
             <ul>
                 <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>contact.php">Contact support</a></li>
                 <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>pharmacy/login.php">Pharmacy login</a></li>
-                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>admin/login.php">Admin access</a></li>
+
             </ul>
         </div>
         <div class="footer-links">

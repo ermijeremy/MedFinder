@@ -42,11 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Start session for CSRF token
-if (session_status() === PHP_SESSION_NONE) {
-    session_name(defined('SESSION_NAME') ? SESSION_NAME : 'mf_session');
-    session_start();
-}
+// Start session
+start_session();
 
 $asset_path = '../';
 $page_title = 'Customer Login - MedFinder Ethiopia';
@@ -93,13 +90,7 @@ include '../includes/header.php';
                 </form>
             </div>
 
-            <div class="card" style="margin-top: 24px; background: #f0fdf4; border: 1px solid #bbf7d0;">
-                <h3 style="color: #15803d; margin-bottom: 12px;">Demo Credentials</h3>
-                <p style="font-size: 14px; margin-bottom: 8px;">
-                    <strong>Email:</strong> customer@test.et<br>
-                    <strong>Password:</strong> password123
-                </p>
-            </div>
+
         </div>
     </section>
 </main>

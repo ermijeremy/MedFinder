@@ -39,36 +39,36 @@ $is_customer = !empty($_SESSION['customer_id']);
 <a class="skip-link" href="#main-content">Skip to content</a>
 <header class="site-header">
     <div class="container header-inner">
-        <a class="brand" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>index.php">MedFinder</a>
+        <a class="brand" href="<?php echo base_url(); ?>index.php">MedFinder</a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
         <nav class="site-nav" aria-label="Primary">
             <ul class="nav-list" id="primary-nav">
-                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>index.php">Home</a></li>
-                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>search-results.php">Search</a></li>
-                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>about.php">About</a></li>
-                <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>contact.php">Contact</a></li>
-                <?php if ($is_customer): ?>
-                    <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>customer/dashboard.php">Dashboard</a></li>
-                    <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>customer/profile.php">My Profile</a></li>
+                <?php if (!$is_pharmacy && !$is_admin): ?>
+                    <li><a href="<?php echo base_url(); ?>index.php">Home</a></li>
+                    <li><a href="<?php echo base_url(); ?>search-results.php">Search</a></li>
+                    <li><a href="<?php echo base_url(); ?>about.php">About</a></li>
+                    <li><a href="<?php echo base_url(); ?>contact.php">Contact</a></li>
+                <?php endif; ?>
+                <?php if ($is_admin): ?>
+                    <!-- Admin has no extra tabs to keep it a simple single page -->
                 <?php elseif ($is_pharmacy): ?>
-                    <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>pharmacy/index.php">Dashboard</a></li>
-                <?php elseif ($is_admin): ?>
-                    <li><a href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>admin/index.php">Admin Panel</a></li>
+                    <li><a href="<?php echo base_url(); ?>pharmacy/index.php">Dashboard</a></li>
+                <?php elseif ($is_customer): ?>
+                    <li><a href="<?php echo base_url(); ?>customer/dashboard.php">Dashboard</a></li>
+                    <li><a href="<?php echo base_url(); ?>customer/profile.php">My Profile</a></li>
                 <?php endif; ?>
             </ul>
         </nav>
         <div class="header-actions">
             <?php if ($is_admin): ?>
-                <a class="btn btn-secondary" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>logout.php">Logout</a>
+                <a class="btn btn-secondary" href="<?php echo base_url(); ?>logout.php">Logout</a>
             <?php elseif ($is_pharmacy): ?>
-                <a class="btn btn-secondary" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>pharmacy/inventory/add.php">Add Medicine</a>
-                <a class="btn btn-secondary" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>logout.php">Logout</a>
+                <a class="btn btn-secondary" href="<?php echo base_url(); ?>pharmacy/inventory/add.php">Add Medicine</a>
+                <a class="btn btn-secondary" href="<?php echo base_url(); ?>logout.php">Logout</a>
             <?php elseif ($is_customer): ?>
-                <a class="btn btn-secondary" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>logout.php">Logout</a>
+                <a class="btn btn-secondary" href="<?php echo base_url(); ?>logout.php">Logout</a>
             <?php else: ?>
-                <a class="btn btn-secondary" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>pharmacy/login.php">Pharmacy Login</a>
-                <a class="btn btn-secondary" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>customer/login.php">Customer Login</a>
-                <a class="btn btn-primary" href="<?php echo htmlspecialchars($asset_path, ENT_QUOTES, 'UTF-8'); ?>customer/register.php">Register</a>
+                <a class="btn btn-primary" href="<?php echo base_url(); ?>customer/register.php">Register</a>
             <?php endif; ?>
         </div>
     </div>

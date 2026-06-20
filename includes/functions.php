@@ -236,6 +236,9 @@ function upload_logo(array $file): ?string
         return null;
     }
 
+    if ($file['error'] === UPLOAD_ERR_INI_SIZE) {
+        throw new RuntimeException('Logo file is too large. Maximum size is 2 MB.');
+    }
     if ($file['error'] !== UPLOAD_ERR_OK) {
         throw new RuntimeException('Upload failed with error code: ' . $file['error']);
     }
@@ -263,6 +266,44 @@ function upload_logo(array $file): ?string
     }
 
     $dest = UPLOAD_DIR . $filename;
+    if (!move_uploaded_file($file['tmp_name'], $dest)) {
+        throw new RuntimeException('Could not save the uploaded file. Check server permissions.');
+    }
+
+    return $filename;
+}
+
+// Handle a customer photo upload.
+function upload_customer_photo(array $file): ?string
+{
+    if ($file['error'] === UPLOAD_ERR_NO_FILE) {
+        return null;
+    }
+    if ($file['error'] === UPLOAD_ERR_INI_SIZE) {
+        throw new RuntimeException('Photo file is too large. Maximum size is 2 MB.');
+    }
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        throw new RuntimeException('Upload failed with error code: ' . $file['error']);
+    }
+    if ($file['size'] > UPLOAD_MAX_SIZE) {
+        throw new RuntimeException('Photo file is too large. Maximum size is 2 MB.');
+    }
+
+    $finfo    = new finfo(FILEINFO_MIME_TYPE);
+    $mimeType = $finfo->file($file['tmp_name']);
+    if (!in_array($mimeType, UPLOAD_ALLOWED_TYPES, true)) {
+        throw new RuntimeException('Invalid file type. Only JPEG, PNG, and WebP are allowed.');
+    }
+
+    $ext      = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $filename = bin2hex(random_bytes(16)) . '.' . strtolower($ext);
+    $upload_dir = dirname(__DIR__) . '/uploads/customer-photos/';
+
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0755, true);
+    }
+
+    $dest = $upload_dir . $filename;
     if (!move_uploaded_file($file['tmp_name'], $dest)) {
         throw new RuntimeException('Could not save the uploaded file. Check server permissions.');
     }

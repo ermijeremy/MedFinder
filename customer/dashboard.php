@@ -31,6 +31,11 @@ include '../includes/header.php';
             <aside class="sidebar">
                 <div class="card">
                     <h3 class="panel-title">Your Profile</h3>
+                    <?php if (!empty($customer['photo'])): ?>
+                        <div style="text-align: center; margin-bottom: 15px;">
+                            <img src="<?= base_url() . 'uploads/customer-photos/' . h($customer['photo']) ?>" alt="Profile Photo" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
+                        </div>
+                    <?php endif; ?>
                     <div class="profile-info">
                         <p><strong>Name:</strong> <?= h($customer['first_name'] . ' ' . $customer['last_name']) ?></p>
                         <p><strong>Email:</strong> <?= h($customer['email']) ?></p>
@@ -47,7 +52,7 @@ include '../includes/header.php';
             <div class="content-area">
                 <!-- Notifications Section -->
                 <?php if (!empty($notifications)): ?>
-                    <div class="panel" style="margin-bottom: 24px; border-left: 4px solid #e76f51;">
+                    <div class="panel" style="margin-bottom: 24px; border-left: 4px solid #2a9d8f;">
                         <h3 class="panel-title">Notifications (<?= count($notifications) ?>)</h3>
                         <div class="notification-list">
                             <?php foreach ($notifications as $n): ?>

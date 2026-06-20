@@ -59,6 +59,21 @@ class MedicineService
         )->fetchAll();
     }
 
+    /** Get active medicines not currently in the given pharmacy's inventory. */
+    public static function getAvailableForPharmacy(int $pharmacy_id): array
+    {
+        return db_query(
+            'SELECT medicine_id, medicine_name, generic_name, category
+               FROM medicines
+              WHERE is_active = 1
+                AND medicine_id NOT IN (
+                    SELECT medicine_id FROM inventory WHERE pharmacy_id = :pid
+                )
+           ORDER BY medicine_name ASC',
+            [':pid' => $pharmacy_id]
+        )->fetchAll();
+    }
+
     /** Get a single medicine by ID. */
     public static function getById(int $id): ?array
     {

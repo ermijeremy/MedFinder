@@ -150,7 +150,8 @@ class CustomerService
         string $first_name,
         string $last_name,
         string $email,
-        string $phone = ''
+        string $phone = '',
+        string $photo = null
     ): bool {
         // Check if email is taken by another customer
         if (self::emailExists($email, $id)) {
@@ -158,22 +159,28 @@ class CustomerService
         }
 
         try {
-            $result = db_query(
-                "
+            $sql = "
                 UPDATE customers 
                 SET first_name = :fn, last_name = :ln, email = :em, phone = :ph
-                WHERE customer_id = :id
-                ",
-                [
-                    ':id' => $id,
-                    ':fn' => $first_name,
-                    ':ln' => $last_name,
-                    ':em' => $email,
-                    ':ph' => $phone,
-                ]
-            );
+            ";
+            $params = [
+                ':id' => $id,
+                ':fn' => $first_name,
+                ':ln' => $last_name,
+                ':em' => $email,
+                ':ph' => $phone,
+            ];
 
-            return $result->rowCount() > 0;
+            if ($photo !== null) {
+                $sql .= ", photo = :photo";
+                $params[':photo'] = $photo;
+            }
+
+            $sql .= " WHERE customer_id = :id";
+
+            $result = db_query($sql, $params);
+
+            return true;
         } catch (PDOException $e) {
             error_log("CustomerService::updateCustomer Error: " . $e->getMessage());
             return false;

@@ -55,6 +55,9 @@ include 'includes/header.php';
             <div>
                 <p class="eyebrow">Pharmacy profile</p>
                 <div class="title-with-action">
+                    <?php if (!empty($pharmacy['logo'])): ?>
+                        <img src="<?= base_url() . 'uploads/pharmacy-logos/' . h($pharmacy['logo']) ?>" alt="<?= h($pharmacy['pharmacy_name']) ?> Logo" style="max-height: 60px; margin-right: 15px; border-radius: 8px; object-fit: contain;">
+                    <?php endif; ?>
                     <h1 class="page-title"><?= h($pharmacy['pharmacy_name']) ?></h1>
                     <?php if (isset($_SESSION['customer_id'])): ?>
                         <button class="favorite-btn" 

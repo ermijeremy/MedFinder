@@ -99,7 +99,9 @@ include 'includes/header.php';
                     </div>
                     <span class="pill pill-success"><?= count($rows) ?> pharmacies shown</span>
                 </div>
-                <button type="button" data-use-location style="display:none;"></button>
+                <button type="button" class="btn btn-secondary btn-sm" data-use-location style="margin-bottom: 12px; display: inline-flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 16px;">📍</span> Sort by nearest
+                </button>
                 <p data-location-message class="form-note" style="margin-bottom: 12px;"></p>
 
                 <?php if (empty($rows)): ?>

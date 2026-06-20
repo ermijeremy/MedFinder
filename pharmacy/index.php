@@ -5,10 +5,13 @@ require_once '../includes/functions.php';
 require_once '../includes/pharmacy-auth.php';
 require_once '../includes/services/PharmacyService.php';
 require_once '../includes/services/InventoryService.php';
+require_once '../includes/services/ReviewService.php';
 
 $id = $_SESSION['pharmacy_id'];
 $pharmacy = $current_pharmacy; // From pharmacy-auth.php
 $inventory = InventoryService::getByPharmacy($id);
+$reviews = ReviewService::getPharmacyReviews($id);
+$avg_rating = ReviewService::getAverageRating($id);
 
 // Simple stats
 $total_medicines = count($inventory);
@@ -29,7 +32,12 @@ include '../includes/header.php';
         <div class="container page-hero-inner">
             <div>
                 <p class="eyebrow">Pharmacy dashboard</p>
-                <h1 class="page-title">Welcome back, <?= h($pharmacy['pharmacy_name']) ?></h1>
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 8px;">
+                    <?php if (!empty($pharmacy['logo'])): ?>
+                        <img src="<?= base_url() . 'uploads/pharmacy-logos/' . h($pharmacy['logo']) ?>" alt="Logo" style="max-height: 50px; border-radius: 8px; object-fit: contain;">
+                    <?php endif; ?>
+                    <h1 class="page-title" style="margin-bottom: 0;">Welcome back, <?= h($pharmacy['pharmacy_name']) ?></h1>
+                </div>
                 <p class="page-subtitle">Update inventory, track stock, and reach more patients.</p>
                 <div class="breadcrumb">
                     <a href="index.php">Pharmacy</a>
@@ -38,7 +46,6 @@ include '../includes/header.php';
                 </div>
             </div>
             <div class="page-actions">
-                <a class="btn btn-primary" href="inventory/add.php">Add medicine</a>
                 <a class="btn btn-secondary" href="profile.php">Edit profile</a>
             </div>
         </div>
@@ -59,7 +66,7 @@ include '../includes/header.php';
                 <p>Search views this week</p>
             </div>
             <div class="stat-card reveal delay-3">
-                <h3>4.8</h3> <!-- Static for now -->
+                <h3><?= $avg_rating > 0 ? number_format($avg_rating, 1) : 'No ratings' ?></h3>
                 <p>Average rating</p>
             </div>
         </div>
@@ -100,6 +107,26 @@ include '../includes/header.php';
                                 <?php endif; ?>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+
+                <div class="panel" style="margin-top: 2rem;">
+                    <h3 class="panel-title">Customer Reviews</h3>
+                    <div class="review-list">
+                        <?php if (empty($reviews)): ?>
+                            <p class="text-muted">No reviews yet.</p>
+                        <?php else: ?>
+                            <?php foreach ($reviews as $rev): ?>
+                                <div class="review-card" style="border-bottom: 1px solid #eee; padding: 16px 0;">
+                                    <div class="card-header" style="justify-content: flex-start; gap: 12px; margin-bottom: 4px;">
+                                        <span style="color: #f39c12;"><?= str_repeat('★', $rev['rating']) ?></span>
+                                        <strong><?= h($rev['first_name'] . ' ' . $rev['last_name']) ?></strong>
+                                    </div>
+                                    <p style="font-size: 14px; margin-top: 8px;"><?= h($rev['comment']) ?></p>
+                                    <small class="text-muted" style="display: block; margin-top: 8px;"><?= time_ago($rev['created_at']) ?></small>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

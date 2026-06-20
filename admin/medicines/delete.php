@@ -5,7 +5,7 @@ require_once '../../includes/functions.php';
 require_once '../../includes/services/MedicineService.php';
 require_once '../../includes/admin-auth.php';
 
-$id = (int)($_GET['id'] ?? 0);
+$id = (int)($_REQUEST['id'] ?? 0);
 $m  = MedicineService::getById($id);
 
 if (!$m) {
@@ -16,17 +16,12 @@ if (!$m) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verify_csrf();
     
-    // Check if it's in use
-    $count = MedicineService::getInventoryCount($id);
-    if ($count > 0) {
-        flash('error', "Cannot delete medicine '{$m['medicine_name']}' because it's listed in {$count} pharmacies' inventories. Please archive it instead or remove it from inventories first.");
-        redirect('admin/medicines/index.php');
-    }
+    // Allow archiving even if in use, since delete() sets is_active = 0
 
     if (MedicineService::delete($id)) {
-        flash('success', 'Medicine deleted successfully.');
+        flash('success', 'Medicine archived successfully.');
     } else {
-        flash('error', 'Failed to delete medicine.');
+        flash('error', 'Failed to archive medicine.');
     }
     redirect('admin/medicines/index.php');
 }

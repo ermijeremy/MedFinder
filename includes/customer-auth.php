@@ -5,11 +5,8 @@
  * Redirects to login if not authenticated.
  */
 
-// Start session if not started
-if (session_status() === PHP_SESSION_NONE) {
-    session_name(defined('SESSION_NAME') ? SESSION_NAME : 'mf_session');
-    session_start();
-}
+// Start session if not already started
+start_session();
 
 // Check if customer is logged in
 if (empty($_SESSION['customer_id'])) {

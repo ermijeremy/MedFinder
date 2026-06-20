@@ -20,10 +20,7 @@ include 'includes/header.php';
                 <p class="eyebrow">Medicine search made simple</p>
                 <h1>Find real-time medicine availability across your neighborhood.</h1>
                 <p class="lead">Search by medicine, compare stock status, and call verified pharmacies in minutes.</p>
-                <div class="hero-actions">
-                    <a class="btn btn-primary" href="search-results.php">Start search</a>
-                    <a class="btn btn-secondary" href="pharmacy/register.php">List your pharmacy</a>
-                </div>
+
                 <div class="hero-highlights">
                     <div class="highlight-card">
                         <p class="highlight-number"><?= h($stats['total_pharmacies']) ?>+</p>

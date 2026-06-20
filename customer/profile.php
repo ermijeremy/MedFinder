@@ -29,11 +29,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (empty($errors)) {
-            if (CustomerService::updateCustomer($_SESSION['customer_id'], $first_name, $last_name, $email, $phone)) {
+            $photo = $customer['photo'];
+            if (isset($_FILES['photo']) && $_FILES['photo']['error'] !== UPLOAD_ERR_NO_FILE) {
+                try {
+                    $uploaded = upload_customer_photo($_FILES['photo']);
+                    if ($uploaded) {
+                        $photo = $uploaded;
+                    }
+                } catch (Exception $e) {
+                    $errors['photo'] = $e->getMessage();
+                }
+            }
+
+            if (empty($errors) && CustomerService::updateCustomer($_SESSION['customer_id'], $first_name, $last_name, $email, $phone, $photo)) {
                 flash('success', 'Profile updated successfully');
                 $success = 'Profile updated successfully';
                 $customer = CustomerService::getCustomer($_SESSION['customer_id']);
-            } else {
+            } elseif (empty($errors)) {
                 $errors['general'] = 'Failed to update profile';
             }
         }
@@ -80,9 +92,23 @@ include '../includes/header.php';
             <div class="content-area">
                 <div class="card">
                     <h2 class="panel-title">Edit Personal Information</h2>
-                    <form action="profile.php" method="post" class="form">
+                    <form action="profile.php" method="post" enctype="multipart/form-data" class="form">
                         <input type="hidden" name="action" value="profile">
                         
+                        <?php if (isset($errors['photo'])): ?>
+                            <div class="alert alert-danger"><?= $errors['photo'] ?></div>
+                        <?php endif; ?>
+
+                        <div class="form-group">
+                            <label for="photo">Profile Photo</label>
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <?php if (!empty($customer['photo'])): ?>
+                                    <img src="<?= base_url() . 'uploads/customer-photos/' . h($customer['photo']) ?>" alt="Profile" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
+                                <?php endif; ?>
+                                <input type="file" id="photo" name="photo" accept="image/jpeg,image/png,image/webp">
+                            </div>
+                        </div>
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="first_name">First Name</label>

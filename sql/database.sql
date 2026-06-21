@@ -137,11 +137,17 @@ ON DUPLICATE KEY UPDATE password = VALUES(password);
 
 -- Neighborhoods (5 main Addis Ababa sub-cities)
 INSERT INTO neighborhoods (name, description, zone) VALUES
-('Bole',    'Diplomatic and commercial hub in eastern Addis', 'East'),
-('Kirkos',  'Central business district near Meskel Square',   'Central'),
-('Arada',   'Historic city centre, Piazza area',              'Central'),
-('Yeka',    'Residential area in the northeast',              'East'),
-('Lideta',  'Western residential and commercial zone',        'West')
+('Bole',             'Diplomatic and commercial hub in eastern Addis',         'East'),
+('Kirkos',           'Central business district near Meskel Square',           'Central'),
+('Arada',            'Historic city centre, Piazza area',                      'Central'),
+('Yeka',             'Residential area in the northeast',                      'East'),
+('Lideta',           'Western residential and commercial zone',                'West'),
+('Addis Ketema',     'Known for the Merkato market area',                      'Central'),
+('Akaky Kaliti',     'Industrial hub in the southern periphery',               'South'),
+('Gullele',          'Northern residential area with hilly terrain',           'North'),
+('Kolfe Keranio',    'Large residential zone in the west',                     'West'),
+('Nifas Silk-Lafto', 'Southern residential and expanding business area',       'South'),
+('Lemi-Kura',        'Newly established district spanning Ayat and CMC areas', 'East')
 ON DUPLICATE KEY UPDATE description = VALUES(description), zone = VALUES(zone);
 
 
@@ -173,7 +179,7 @@ INSERT IGNORE INTO medicines (medicine_name, generic_name, category, description
 -- Sample pharmacies (passwords: pharmacy123)
 INSERT INTO pharmacies
     (pharmacy_name, owner_name, email, phone, password, address, neighborhood_id,
-     license_number, operating_hours, status, latitude, longitude)
+     license_number, logo, operating_hours, status, latitude, longitude)
 VALUES
 (
     'Unity Pharmacy',
@@ -184,6 +190,7 @@ VALUES
     'Atlas area, near Bole Atlas Hotel, Bole Sub-city',
     1,
     'ETH-PH-001',
+    'uploads/pharmacy-logos/unity_pharmacy.png',
     '8:00 AM - 9:00 PM',
     'active',
     8.9950, 38.7885
@@ -197,6 +204,7 @@ VALUES
     'Meskel Square area, Kirkos Sub-city',
     2,
     'ETH-PH-002',
+    'uploads/pharmacy-logos/ethiocare_pharmacy.png',
     '8:00 AM - 8:00 PM',
     'active',
     9.0105, 38.7610
@@ -210,6 +218,7 @@ VALUES
     'Megenagna area, Yeka Sub-city',
     4,
     'ETH-PH-003',
+    'uploads/pharmacy-logos/bluecross_pharmacy.png',
     '24 hours',
     'active',
     9.0185, 38.8020
@@ -223,9 +232,136 @@ VALUES
     'Piazza area, Arada Sub-city',
     3,
     'ETH-PH-004',
+    'uploads/pharmacy-logos/greenmed_pharmacy.png',
     '8:00 AM - 7:00 PM',
     'pending',
     9.0305, 38.7525
+),
+(
+    'Milo Pharmacy',
+    'Fitsum Abebe',
+    'contact@milopharmacy.et',
+    '+251928222228',
+    'PLACEHOLDER_MILO_HASH',
+    'Summit area, Yeka Sub-city',
+    4,
+    'ETH-PH-005',
+    'uploads/pharmacy-logos/milo_pharmacy.png',
+    '8:30 AM - 10:00 PM',
+    'active',
+    9.0250, 38.8350
+),
+(
+    'Gishen Pharmacy',
+    'Aster Kebede',
+    'info@gishen.et',
+    '+251911765544',
+    'PLACEHOLDER_GISHEN_HASH',
+    'Arada Sub-city, Piazza',
+    3,
+    'ETH-PH-006',
+    'uploads/pharmacy-logos/gishen_pharmacy.png',
+    '8:00 AM - 9:00 PM',
+    'active',
+    9.0320, 38.7500
+),
+(
+    'Droga Pharmacy',
+    'Yosef Tadesse',
+    'service@drogapharmacy.com',
+    '+251971719898',
+    'PLACEHOLDER_DROGA_HASH',
+    'Bole Sub-city, near Olympia',
+    1,
+    'ETH-PH-007',
+    'uploads/pharmacy-logos/droga_pharmacy.png',
+    '24 hours',
+    'active',
+    9.0020, 38.7750
+),
+(
+    'Canaan Pharmacy',
+    'Senait Worku',
+    'info@canaanpharmacy.com.et',
+    '+251909196651',
+    'PLACEHOLDER_CANAAN_HASH',
+    'Summit Safari, Yeka Sub-city',
+    4,
+    'ETH-PH-008',
+    'uploads/pharmacy-logos/canaan_pharmacy.png',
+    '8:00 AM - 10:00 PM',
+    'active',
+    9.0300, 38.8400
+),
+(
+    'Sunshine Pharmacy',
+    'Dawit Solomon',
+    'sunshine@pharmacy.et',
+    '+251911554433',
+    'PLACEHOLDER_SUNSHINE_HASH',
+    'Gotera, Nifas Silk-Lafto Sub-city',
+    10,
+    'ETH-PH-009',
+    'uploads/pharmacy-logos/sunshine_pharmacy.png',
+    '8:00 AM - 8:00 PM',
+    'active',
+    8.9800, 38.7650
+),
+(
+    'Merkato Health Pharmacy',
+    'Hagos Tekle',
+    'merkato@health.et',
+    '+251914332211',
+    'PLACEHOLDER_MERKATO_HASH',
+    'Addis Ketema Sub-city',
+    6,
+    'ETH-PH-010',
+    'uploads/pharmacy-logos/merkato_health_pharmacy.png',
+    '8:00 AM - 7:00 PM',
+    'active',
+    9.0350, 38.7400
+),
+(
+    'Akaky Community Pharmacy',
+    'Fikirte Zenebe',
+    'akaky@pharmacy.et',
+    '+251912998877',
+    'PLACEHOLDER_AKAKY_HASH',
+    'Akaky Kaliti Sub-city',
+    7,
+    'ETH-PH-011',
+    'uploads/pharmacy-logos/akakyCommunity_pharmacy.png',
+    '8:00 AM - 8:00 PM',
+    'active',
+    8.8800, 38.7900
+),
+(
+    'Ayat City Pharmacy',
+    'Samuel Negash',
+    'ayat@citypharm.et',
+    '+251911889900',
+    'PLACEHOLDER_AYAT_HASH',
+    'Ayat 2, near Condominiums, Lemi-Kura Sub-city',
+    11,
+    'ETH-PH-012',
+    'uploads/pharmacy-logos/ayatCity.png',
+    '8:00 AM - 10:00 PM',
+    'active',
+    9.0450, 38.8650
+),
+(
+    'CMC Care Pharmacy',
+    'Betelhem Tesfaye',
+    'info@cmccare.et',
+    '+251933445566',
+    'PLACEHOLDER_CMC_HASH',
+    'CMC Road, near St. Michael Church, Lemi-Kura Sub-city',
+    11,
+    'ETH-PH-013',
+    'uploads/pharmacy-logos/cmcCare.png',
+    '24 hours',
+    'active',
+    9.0380, 38.8520
 )
 ON DUPLICATE KEY UPDATE password = VALUES(password);
 
@@ -239,7 +375,8 @@ INSERT INTO inventory (pharmacy_id, medicine_id, quantity, price, status) VALUES
 (1, 7,  30,  55.00, 'in_stock'),    -- Ibuprofen
 (1, 9,  20,  95.00, 'in_stock'),    -- Omeprazole
 (1,14,  50,  40.00, 'in_stock'),    -- Cetirizine
-(1,15,   0, 320.00, 'out_of_stock');-- Salbutamol Inhaler
+(1,15,   0, 320.00, 'out_of_stock')-- Salbutamol Inhaler
+ON DUPLICATE KEY UPDATE quantity = VALUES(quantity), price = VALUES(price), status = VALUES(status);
 
 -- Sample inventory (EthioCare Pharmacy — pharmacy_id = 2)
 INSERT INTO inventory (pharmacy_id, medicine_id, quantity, price, status) VALUES
@@ -249,7 +386,8 @@ INSERT INTO inventory (pharmacy_id, medicine_id, quantity, price, status) VALUES
 (2, 6, 150,  22.00, 'in_stock'),    -- Paracetamol
 (2,10,  35, 120.00, 'in_stock'),    -- Atenolol
 (2,11,  28, 140.00, 'in_stock'),    -- Amlodipine
-(2,17, 100,  18.00, 'in_stock');    -- ORS Sachets
+(2,17, 100,  18.00, 'in_stock')    -- ORS Sachets
+ON DUPLICATE KEY UPDATE quantity = VALUES(quantity), price = VALUES(price), status = VALUES(status);
 
 -- Sample inventory (BlueCross Pharmacy — pharmacy_id = 3)
 INSERT INTO inventory (pharmacy_id, medicine_id, quantity, price, status, restock_note) VALUES
@@ -259,7 +397,60 @@ INSERT INTO inventory (pharmacy_id, medicine_id, quantity, price, status, restoc
 (3,12,  18, 165.00, 'in_stock',     NULL),    -- Lisinopril
 (3,15,  15, 330.00, 'in_stock',     NULL),    -- Salbutamol Inhaler
 (3,18, 300,  35.00, 'in_stock',     NULL),    -- Vitamin C
-(3,19, 200,  28.00, 'in_stock',     NULL);    -- Folic Acid
+(3,19, 200,  28.00, 'in_stock',     NULL)    -- Folic Acid
+ON DUPLICATE KEY UPDATE quantity = VALUES(quantity), price = VALUES(price), status = VALUES(status);
+
+-- Sample inventory (GreenMed Pharmacy — pharmacy_id = 4)
+INSERT INTO inventory (pharmacy_id, medicine_id, quantity, price, status) VALUES
+(4, 5,  40, 95.00,  'in_stock'),    -- Amoxicillin 250
+(4, 6, 250, 20.00,  'in_stock'),    -- Paracetamol
+(4, 9,  30, 90.00,  'in_stock'),    -- Omeprazole
+(4, 16, 15, 450.00, 'limited'),     -- Dexamethasone
+(4, 20, 20, 280.00, 'in_stock')    -- Cotrimoxazole
+ON DUPLICATE KEY UPDATE quantity = VALUES(quantity), price = VALUES(price), status = VALUES(status);
+
+-- Sample inventory (Milo Pharmacy — pharmacy_id = 5)
+INSERT INTO inventory (pharmacy_id, medicine_id, quantity, price, status) VALUES
+(5, 7,  50, 50.00,  'in_stock'),    -- Ibuprofen
+(5, 14, 60, 42.00,  'in_stock'),    -- Cetirizine
+(5, 18, 150, 35.00, 'in_stock'),    -- Vitamin C
+(5, 19, 120, 30.00, 'in_stock')    -- Folic Acid
+ON DUPLICATE KEY UPDATE quantity = VALUES(quantity), price = VALUES(price), status = VALUES(status);
+
+-- Sample inventory (Gishen Pharmacy — pharmacy_id = 6)
+INSERT INTO inventory (pharmacy_id, medicine_id, quantity, price, status) VALUES
+(6, 6, 500, 22.00,  'in_stock'),    -- Paracetamol
+(6, 7, 100, 55.00,  'in_stock'),    -- Ibuprofen
+(6, 17, 200, 15.00, 'in_stock')    -- ORS Sachets
+ON DUPLICATE KEY UPDATE quantity = VALUES(quantity), price = VALUES(price), status = VALUES(status);
+
+-- Sample inventory (Droga Pharmacy — pharmacy_id = 7)
+INSERT INTO inventory (pharmacy_id, medicine_id, quantity, price, status) VALUES
+(7, 1, 20, 265.00, 'in_stock'),     -- Insulin Rapid
+(7, 3, 30, 185.00, 'in_stock'),     -- Metformin
+(7, 15, 8, 335.00, 'limited')      -- Salbutamol Inhaler
+ON DUPLICATE KEY UPDATE quantity = VALUES(quantity), price = VALUES(price), status = VALUES(status);
+
+-- Sample inventory (Canaan Pharmacy — pharmacy_id = 8)
+INSERT INTO inventory (pharmacy_id, medicine_id, quantity, price, status) VALUES
+(8, 8, 25, 220.00, 'in_stock'),     -- Ciprofloxacin
+(8, 12, 40, 170.00, 'in_stock'),    -- Lisinopril
+(8, 20, 35, 290.00, 'in_stock')    -- Cotrimoxazole
+ON DUPLICATE KEY UPDATE quantity = VALUES(quantity), price = VALUES(price), status = VALUES(status);
+
+-- Sample inventory (Sunshine Pharmacy — pharmacy_id = 9)
+INSERT INTO inventory (pharmacy_id, medicine_id, quantity, price, status) VALUES
+(9, 4, 100, 125.00, 'in_stock'),    -- Amoxicillin 500
+(9, 13, 20, 480.00, 'limited'),     -- Diazepam
+(9, 14, 80, 45.00,  'in_stock')    -- Cetirizine
+ON DUPLICATE KEY UPDATE quantity = VALUES(quantity), price = VALUES(price), status = VALUES(status);
+
+-- Sample inventory (Merkato Health Pharmacy — pharmacy_id = 10)
+INSERT INTO inventory (pharmacy_id, medicine_id, quantity, price, status) VALUES
+(10, 6, 400, 20.00, 'in_stock'),    -- Paracetamol
+(10, 7, 200, 50.00, 'in_stock'),    -- Ibuprofen
+(10, 17, 300, 12.00, 'in_stock')   -- ORS Sachets
+ON DUPLICATE KEY UPDATE quantity = VALUES(quantity), price = VALUES(price), status = VALUES(status);
 
 
 -- TABLE7: customers
@@ -330,13 +521,17 @@ CREATE TABLE IF NOT EXISTS notifications (
 -- Sample customer (password: password123)
 -- Hash will be updated by setup.php
 INSERT INTO customers (first_name, last_name, email, password, phone) VALUES
-('Demo', 'Customer', 'customer@test.et', 'PLACEHOLDER_CUSTOMER_HASH', '+251900000000')
+('Demo', 'Customer', 'customer@test.et', 'PLACEHOLDER_CUSTOMER_HASH', '+251900000000'),
+('Alemu', 'Tesfaye', 'alemu@test.et', 'PLACEHOLDER_CUSTOMER_HASH', '+251900000001')
 ON DUPLICATE KEY UPDATE first_name = VALUES(first_name);
 
 -- Sample reviews
 INSERT INTO pharmacy_reviews (pharmacy_id, customer_id, rating, comment) VALUES
 (1, 1, 5, 'Excellent service and they always have what I need!'),
-(2, 1, 4, 'Friendly staff, but sometimes there is a wait.')
+(2, 1, 4, 'Friendly staff, but sometimes there is a wait.'),
+(3, 2, 3, 'Good prices but the pharmacy is a bit far from me.'),
+(1, 2, 4, 'Great location and helpful pharmacists.'),
+(4, 2, 2, 'Had an issue with a prescription but they resolved it.')
 ON DUPLICATE KEY UPDATE rating = VALUES(rating), comment = VALUES(comment);
 
 -- Sample notifications

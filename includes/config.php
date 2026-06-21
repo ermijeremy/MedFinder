@@ -3,7 +3,7 @@
 define('DB_HOST', 'localhost');   
 define('DB_NAME', 'medfinder');   
 define('DB_USER', 'root');        
-define('DB_PASS', 'password123');           
+define('DB_PASS', 'Jeremy1997');           
 define('DB_CHARSET', 'utf8mb4'); 
 
 // Application base url

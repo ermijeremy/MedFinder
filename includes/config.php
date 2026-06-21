@@ -20,7 +20,7 @@ define('UPLOAD_ALLOWED_TYPES', ['image/jpeg', 'image/png', 'image/webp']);
 
 // Session
 define('SESSION_NAME', 'mf_session');   
-define('SESSION_LIFETIME', 7200);       // 2 hours in seconds
+define('SESSION_LIFETIME', 7200);       
 
 // Security
 define('CSRF_TOKEN_NAME', '_csrf_token');

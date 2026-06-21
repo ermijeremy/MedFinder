@@ -50,7 +50,6 @@ $is_customer = !empty($_SESSION['customer_id']);
                     <li><a href="<?php echo base_url(); ?>contact.php">Contact</a></li>
                 <?php endif; ?>
                 <?php if ($is_admin): ?>
-                    <!-- Admin has no extra tabs to keep it a simple single page -->
                 <?php elseif ($is_pharmacy): ?>
                     <li><a href="<?php echo base_url(); ?>pharmacy/index.php">Dashboard</a></li>
                 <?php elseif ($is_customer): ?>

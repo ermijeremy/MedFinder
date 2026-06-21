@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/config.php';
 
-// Start the application session exactly once.
 function start_session(): void
 {
     if (session_status() === PHP_SESSION_NONE) {
@@ -37,22 +36,18 @@ function verify_csrf(): void
 
 
     if (!hash_equals($expected, $submitted)) {
-        // Token validation failed
         flash('error', 'Invalid security token. Please try again.');
         http_response_code(403);
         die('Invalid request. Please go back and try again.');
     }
 }
 
-// Store a one-time flash message in the session.
 function flash(string $key, string $msg): void
 {
     start_session();
     $_SESSION['_flash'][$key] = $msg;
 }
 
-// Retrieve and clear a flash message.
-// Returns null if the key doesn't exist.
 function get_flash(string $key): ?string
 {
     start_session();
@@ -114,7 +109,6 @@ function json_response(array $payload, int $status = 200): void
     exit;
 }
 
-// Compute base URL for redirects, with safe fallback for the PHP built-in server.
 function base_url(): string
 {
     if (PHP_SAPI !== 'cli-server' && defined('BASE_URL') && BASE_URL !== '') {

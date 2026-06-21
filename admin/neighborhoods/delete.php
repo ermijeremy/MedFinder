@@ -5,7 +5,7 @@ require_once '../../includes/functions.php';
 require_once '../../includes/services/NeighborhoodService.php';
 require_once '../../includes/admin-auth.php';
 
-$id = (int)($_GET['id'] ?? 0);
+$id = (int)($_POST['id'] ?? 0);
 $n  = NeighborhoodService::getById($id);
 
 if (!$n) {

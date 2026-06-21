@@ -48,7 +48,7 @@ class MedicineService
         return ['rows' => $rows, 'pagination' => $pag];
     }
 
-    /** Get all active medicines as a flat list for dropdown menus. */
+    /** Get all active medicines  */
     public static function getDropdownList(): array
     {
         return db_query(
@@ -121,7 +121,7 @@ class MedicineService
         );
     }
 
-    /** Soft-delete: set is_active = 0. The medicine still exists in inventory history */
+ 
     public static function delete(int $id): bool
     {
         return (bool)db_query(

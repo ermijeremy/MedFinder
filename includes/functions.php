@@ -10,7 +10,7 @@ function start_session(): void
             'path'     => '/',
             'secure'   => isset($_SERVER['HTTPS']),  
             'httponly' => true,                       // No JS access to cookie
-            'samesite' => 'Lax',                     // CSRF mitigation
+            'samesite' => 'Lax',                    
         ]);
         session_start();
     }
@@ -27,7 +27,6 @@ function csrf_token(): string
 }
 
 // Verify the CSRF token submitted with a POST form.
-// Kills the request immediately if the token is missing or wrong.
 function verify_csrf(): void
 {
     start_session();
@@ -59,7 +58,6 @@ function get_flash(string $key): ?string
     return null;
 }
 
-// Render all flash messages as HTML alert divs.
 function render_flashes(): void
 {
     start_session();
@@ -92,7 +90,6 @@ function sanitize(string $str): string
     return trim(strip_tags($str));
 }
 
-// Detect JSON requests (Postman or AJAX) for API-friendly responses.
 function wants_json(): bool
 {
     $accept = $_SERVER['HTTP_ACCEPT'] ?? '';
@@ -124,7 +121,6 @@ function base_url(): string
     return $scheme . '://' . $host . $dir . '/';
 }
 
-// Logs request context for tracing handler-level issues.
 function debug_request(string $handler, array $extra = []): void
 {
     // No-op: Removed debug output for production
@@ -133,7 +129,6 @@ function debug_request(string $handler, array $extra = []): void
 // Redirect to a URL and stop execution.
 function redirect(string $path): void
 {
-    // If it's already a full URL, use it directly
     if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
         header('Location: ' . $path);
     } else {
@@ -142,8 +137,6 @@ function redirect(string $path): void
     exit;
 }
 
-
-// Returns a human-friendly "time ago" string.
 function time_ago(string $datetime): string
 {
     $now  = new DateTimeImmutable();
@@ -193,7 +186,6 @@ function format_price(float $amount): string
 }
 
 
-// Build a pagination array used by templates to render page links.
 function paginate(int $total, int $per_page = ITEMS_PER_PAGE, int $page = 1): array
 {
     $total_pages = max(1, (int)ceil($total / $per_page));
@@ -225,7 +217,6 @@ function is_strong_password(string $password): bool
 // Handle a pharmacy logo file upload.
 function upload_logo(array $file): ?string
 {
-    // No file chosen — this field is optional
     if ($file['error'] === UPLOAD_ERR_NO_FILE) {
         return null;
     }
@@ -242,7 +233,6 @@ function upload_logo(array $file): ?string
         throw new RuntimeException('Logo file is too large. Maximum size is 2 MB.');
     }
 
-    // MIME type check (use finfo, not $_FILES['type'] which can be spoofed)
     $finfo    = new finfo(FILEINFO_MIME_TYPE);
     $mimeType = $finfo->file($file['tmp_name']);
 

@@ -18,7 +18,6 @@ class PharmacyService
         return $row ?: null;
     }
 
-    /** Get full pharmacy row (any status) for owner dashboard. */
     public static function getById(int $id): ?array
     {
         $row = db_query(

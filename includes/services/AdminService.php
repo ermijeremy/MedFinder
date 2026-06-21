@@ -34,7 +34,6 @@ class AdminService
         ];
     }
 
-    // Get all pharmacies with optional status filter, paginated.
     public static function getPharmacies(
         string $status = '',
         string $search = '',
@@ -103,7 +102,7 @@ class AdminService
         );
     }
 
-    /** Reject/suspend a pharmacy with an optional reason. */
+  
     public static function rejectPharmacy(int $id, string $reason = ''): void
     {
         db_query(
@@ -114,7 +113,7 @@ class AdminService
         );
     }
 
-    /** Toggle a pharmacy between active and suspended. */
+
     public static function togglePharmacyStatus(int $id): void
     {
         db_query(
@@ -134,7 +133,6 @@ class AdminService
         );
     }
 
-    /** Get pending pharmacies list for dashboard widget */
     public static function getPendingPharmacies(int $limit = 10): array
     {
         return db_query(

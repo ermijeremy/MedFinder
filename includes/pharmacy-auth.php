@@ -20,7 +20,6 @@ $current_pharmacy = db_query(
 )->fetch();
 
 if (!$current_pharmacy) {
-    // Pharmacy deleted from DB
     session_destroy();
     header('Location: ' . base_url() . 'pharmacy/login.php');
     exit;
@@ -29,7 +28,6 @@ if (!$current_pharmacy) {
 // Status checks
 if ($current_pharmacy['status'] === 'pending') {
     session_destroy();
-    // Redirect to login with a flash-equivalent GET message
     header('Location: ' . base_url() . 'pharmacy/login.php?notice=pending');
     exit;
 }

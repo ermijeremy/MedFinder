@@ -1,7 +1,5 @@
 <?php
-/**
- * pharmacy/profile.php — Edit pharmacy profile + change password
- */
+
 require_once '../includes/config.php';
 require_once '../includes/db.php';
 require_once '../includes/functions.php';
@@ -22,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $wantsJson = wants_json();
 
     if ($action === 'profile') {
-        // ── Profile update ─────────────────────────────────
         $data = [
             'pharmacy_name'   => sanitize($_POST['pharmacy_name']   ?? ''),
             'owner_name'      => sanitize($_POST['owner_name']       ?? ''),

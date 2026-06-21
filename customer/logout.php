@@ -36,7 +36,7 @@ if (ini_get('session.use_cookies')) {
 session_regenerate_id(true);
 session_destroy();
 
-// Flash success message and redirect to home
+
 session_start();
 flash('success', 'You have been logged out successfully.');
 

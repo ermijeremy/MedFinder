@@ -9,11 +9,10 @@ define('DB_CHARSET', 'utf8mb4');
 // Application base url
 define('BASE_URL', 'http://localhost:8000/');
 
-// File Uploads
-// addres where pharmacy logos are saved.
+
 define('UPLOAD_DIR', dirname(__DIR__) . '/uploads/pharmacy-logos/');
 
-// Max logo upload size in bytes (2 MB)
+
 define('UPLOAD_MAX_SIZE', 2 * 1024 * 1024);
 
 // Allowed MIME types for logo uploads

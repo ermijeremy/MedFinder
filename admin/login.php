@@ -14,7 +14,7 @@ require_once '../includes/functions.php';
 start_session();
 debug_request('admin/login.php');
 
-// If already logged in, skip the form
+
 if (!empty($_SESSION['admin_id'])) {
     redirect('admin/index.php');
 }

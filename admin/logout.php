@@ -1,10 +1,5 @@
 <?php
-/**
- * admin/logout.php — Admin Logout Handler
- *
- * POST-only for security (prevents logout via <img src="logout.php">).
- * Destroys session data and the session cookie, then redirects.
- */
+
 require_once '../includes/config.php';
 require_once '../includes/functions.php';
 

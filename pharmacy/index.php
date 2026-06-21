@@ -61,10 +61,10 @@ include '../includes/header.php';
                 <h3><?= $low_stock ?></h3>
                 <p>Low stock alerts</p>
             </div>
-            <div class="stat-card reveal delay-2">
-                <h3>120</h3> <!-- Static for now as search_logs not fully integrated for dashboard -->
+            <!-- <div class="stat-card reveal delay-2">
+                <h3>120</h3> <!-- Static for now as search_logs not fully integrated for dashboard 
                 <p>Search views this week</p>
-            </div>
+            </div> -->
             <div class="stat-card reveal delay-3">
                 <h3><?= $avg_rating > 0 ? number_format($avg_rating, 1) : 'No ratings' ?></h3>
                 <p>Average rating</p>

@@ -16,7 +16,6 @@ if (!$m) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verify_csrf();
     
-    // Allow archiving even if in use, since delete() sets is_active = 0
 
     if (MedicineService::delete($id)) {
         flash('success', 'Medicine archived successfully.');

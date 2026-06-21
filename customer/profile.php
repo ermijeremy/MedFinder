@@ -10,7 +10,7 @@ $errors = [];
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // verify_csrf(); // Assuming CSRF is implemented as per message.md
+   
     
     $action = $_POST['action'] ?? '';
 

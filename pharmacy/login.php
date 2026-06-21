@@ -9,12 +9,12 @@ require_once '../includes/functions.php';
 start_session();
 debug_request('pharmacy/login.php');
 
-// Already logged in → go to dashboard
+
 if (!empty($_SESSION['pharmacy_id'])) {
     redirect('pharmacy/index.php');
 }
 
-// ── Handle status notices from auth guard ──────────────────
+
 $notice = $_GET['notice'] ?? '';
 $notice_messages = [
     'pending'   => 'Your account is awaiting approval.',
@@ -25,7 +25,7 @@ if ($notice !== '' && isset($notice_messages[$notice])) {
     flash('info', $notice_messages[$notice]);
 }
 
-// ── POST Handler ───────────────────────────────────────────
+
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// ── View ───────────────────────────────────────────────────
+ 
 $page_title = 'Pharmacy Login - MedFinder Ethiopia';
 $asset_path = '../';
 $extra_css  = ['css/pharmacy.css'];

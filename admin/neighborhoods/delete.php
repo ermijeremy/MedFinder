@@ -16,7 +16,7 @@ if (!$n) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verify_csrf();
     
-    // Check if in use
+
     $count = NeighborhoodService::getPharmacyCount($id);
     if ($count > 0) {
         flash('error', "Cannot delete neighborhood '{$n['name']}' because it is assigned to {$count} pharmacies.");

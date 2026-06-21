@@ -15,7 +15,7 @@ if (!$pharmacy || $pharmacy['status'] !== 'active') {
     redirect('index.php');
 }
 
-// Handle review submission
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_review') {
     if (!isset($_SESSION['customer_id'])) {
         flash('error', 'Please log in to leave a review.');
@@ -81,7 +81,6 @@ include 'includes/header.php';
                 </p>
                 <div class="status-row">
                     <?php
-                        // Determine the best stock status across all inventory
                         $hasIn = false; $hasLim = false;
                         foreach ($inventory as $inv) {
                             if ($inv['status'] === 'in_stock') { $hasIn = true; break; }

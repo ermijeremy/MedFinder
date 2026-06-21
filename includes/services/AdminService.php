@@ -150,9 +150,8 @@ class AdminService
         )->fetchAll();
     }
 
-    // ===============================================
-    // ADMIN USER MANAGEMENT (Phase: User Management)
-    // ===============================================
+
+    // ADMIN USER MANAGEMENT 
 
     /** Get all admin users */
     public static function getAllAdmins(): array

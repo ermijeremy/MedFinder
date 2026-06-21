@@ -11,14 +11,13 @@ if (empty($_SESSION['admin_id'])) {
     exit;
 }
 
-// Load the admin record (confirms the ID still exists in DB)
+// Load the admin record 
 $current_admin = db_query(
     'SELECT admin_id, username, email FROM admins WHERE admin_id = :id LIMIT 1',
     [':id' => $_SESSION['admin_id']]
 )->fetch();
 
 if (!$current_admin) {
-    // Admin was deleted from DB
     session_destroy();
     header('Location: ' . base_url() . 'admin/login.php');
     exit;

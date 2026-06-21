@@ -1,19 +1,15 @@
 <?php
-/**
- * Unified Logout Handler (Phase 4)
- * Detects all session types (admin, pharmacy, customer) and clears appropriately.
- * Provides a centralized logout endpoint for all portals.
- */
+
 require_once 'includes/config.php';
 require_once 'includes/functions.php';
 
-// Start session if not already started
+
 if (session_status() === PHP_SESSION_NONE) {
     session_name(defined('SESSION_NAME') ? SESSION_NAME : 'mf_session');
     session_start();
 }
 
-// Log the logout for debugging (Phase 4)
+
 debug_request('logout', array(
     'admin_id' => $_SESSION['admin_id'] ?? null,
     'pharmacy_id' => $_SESSION['pharmacy_id'] ?? null,
@@ -45,10 +41,10 @@ if (ini_get('session.use_cookies')) {
 session_regenerate_id(true);
 session_destroy();
 
-// Flash success message and redirect to public home (Phase 4)
+
 session_start();
 flash('success', 'You have been logged out successfully.');
 
-// Redirect to home page
+
 redirect('index.php');
 ?>

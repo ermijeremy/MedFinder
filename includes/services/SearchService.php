@@ -36,7 +36,7 @@ class SearchService
             default      => 'i.price ASC', // nearest or price_asc
         };
 
-        // Total count
+
         $total = (int) db_query(
             "SELECT COUNT(*)
                FROM inventory i
@@ -106,7 +106,7 @@ class SearchService
         )->fetchAll();
     }
 
-    // Count today's total searches. Used for admin stats card.
+    // Count today's total searches. 
     public static function countToday(): int
     {
         return (int) db_query(

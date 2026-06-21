@@ -116,7 +116,7 @@ class PharmacyService
         );
     }
 
-    /** Update hashed password for pharmacy owner. */
+
     public static function updatePassword(int $pharmacy_id, string $newPassword): void
     {
         $hash = password_hash($newPassword, PASSWORD_BCRYPT, ['cost' => 12]);

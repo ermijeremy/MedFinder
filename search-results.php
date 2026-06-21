@@ -2,7 +2,7 @@
 require_once 'includes/config.php';
 require_once 'includes/db.php';
 require_once 'includes/functions.php';
-require_once 'includes/customer-auth.php'; // Auth guard for search as requested
+require_once 'includes/customer-auth.php'; 
 require_once 'includes/services/SearchService.php';
 require_once 'includes/services/NeighborhoodService.php';
 require_once 'includes/services/CustomerService.php';

@@ -1,19 +1,8 @@
 <?php
 /**
- * pharmacy/register.php — Pharmacy Registration Page + POST Handler
- *
- * FLOW:
- *  GET  → render form, populate neighborhood dropdown from DB
  *  POST → validate CSRF → server-side validation → uniqueness check
  *         → upload logo → hash password → INSERT → flash success → redirect
- *
- * SECURITY:
- *  - All inputs sanitized before use
- *  - Prepared statements for all DB queries
- *  - File upload validated by MIME type (not extension)
- *  - Password hashed with bcrypt cost 12
- *  - CSRF token on every POST
- */
+**/
 require_once '../includes/config.php';
 require_once '../includes/db.php';
 require_once '../includes/functions.php';
@@ -21,18 +10,17 @@ require_once '../includes/functions.php';
 start_session();
 debug_request('pharmacy/register.php');
 
-// Load neighborhoods for the dropdown (also used on GET)
 $neighborhoods = db_query(
     'SELECT neighborhood_id, name FROM neighborhoods ORDER BY name ASC'
 )->fetchAll();
 
 $errors   = [];
-$old      = [];   // Repopulate form on validation failure
+$old      = [];   
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verify_csrf();
 
-    // ── Collect inputs ─────────────────────────────────────
+    
     $old = [
         'pharmacy_name'   => sanitize($_POST['pharmacy_name']   ?? ''),
         'owner_name'      => sanitize($_POST['owner_name']       ?? ''),
@@ -46,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password         = $_POST['password']         ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
 
-    // ── Server-side validation ─────────────────────────────
+    // ── Server-side validation 
     if ($old['pharmacy_name'] === '')
         $errors[] = 'Pharmacy name is required.';
     if ($old['owner_name'] === '')
@@ -66,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($old['address'] === '')
         $errors[] = 'Address is required.';
 
-    // ── Uniqueness checks ──────────────────────────────────
+    // ── Uniqueness checks 
     if (empty($errors)) {
         $emailExists = db_query(
             'SELECT pharmacy_id FROM pharmacies WHERE email = :e LIMIT 1',
@@ -81,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($licenseExists) $errors[] = 'That license number is already registered.';
     }
 
-    // ── File upload ────────────────────────────────────────
+    // ── File upload 
     $logoFilename = null;
     if (empty($errors) && !empty($_FILES['logo']['name'])) {
         try {
@@ -91,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // ── Insert if clean ────────────────────────────────────
+   
     if (empty($errors)) {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
 
@@ -125,13 +113,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         redirect('pharmacy/login.php');
     }
 
-    // Keep errors for display
+   
     if (!empty($errors)) {
         flash('error', implode('<br>', $errors));
     }
 }
 
-// ── View ───────────────────────────────────────────────────
 $page_title = 'Pharmacy Registration - MedFinder Ethiopia';
 $asset_path = '../';
 $extra_css  = ['css/pharmacy.css'];

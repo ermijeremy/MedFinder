@@ -11,16 +11,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = $_POST['message'] ?? '';
 
     if (empty($name) || empty($email) || empty($message)) {
-        set_flash('error', 'Please fill in all required fields.');
+        flash('error', 'Please fill in all required fields.');
     } else {
         try {
-            $db = get_db_connection();
-            $stmt = $db->prepare("INSERT INTO comments (name, email, phone, topic, message) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([$name, $email, $phone, $topic, $message]);
-            set_flash('success', 'Your message has been sent successfully. We will get back to you soon.');
+            $stmt = db_query(
+                "INSERT INTO comments (name, email, phone, topic, message) 
+                VALUES (:name, :email, :phone, :topic, :message)",
+                [':name' => $name, ':email' => $email, ':phone' => $phone, ':topic' => $topic, ':message' => $message]);
+            flash('success', 'Your message has been sent successfully. We will get back to you soon.');
             redirect('contact.php');
         } catch (Exception $e) {
-            set_flash('error', 'There was an error sending your message. Please try again later.');
+            flash('error', 'There was an error sending your message. Please try again later.');
         }
     }
 }
@@ -58,7 +59,7 @@ include 'includes/header.php';
             <div class="content-area">
                 <div class="form-card">
                     <h3>Send a message</h3>
-                    <form class="contact-form" action="contact.php" method="post">
+                    <form class="contact-form" action="./contact.php" method="post">
                         <div class="form-grid">
                             <div class="form-group">
                                 <label for="contact-name">Full name <span class="required">*</span></label>

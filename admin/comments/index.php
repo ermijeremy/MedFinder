@@ -4,9 +4,9 @@ require_once '../../includes/db.php';
 require_once '../../includes/functions.php';
 require_once '../../includes/admin-auth.php';
 
-$db = get_db_connection();
-$stmt = $db->query("SELECT * FROM comments ORDER BY created_at DESC");
-$comments = $stmt->fetchAll();
+$comments = db_query(
+    "SELECT * FROM comments ORDER BY created_at DESC"
+)->fetchAll();
 
 $page_title = 'Comments - Admin';
 $asset_path = '../../';

@@ -10,15 +10,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'] ?? null;
     if ($id) {
         try {
-            $db = get_db_connection();
-            $stmt = $db->prepare("DELETE FROM comments WHERE comment_id = ?");
-            $stmt->execute([$id]);
-            set_flash('success', 'Comment deleted successfully.');
+            db_query(
+                'DELETE FROM comments WHERE comment_id = :comment_id',
+                [':comment_id' => $id]
+            );
+            flash('success', 'Comment deleted successfully.');
         } catch (Exception $e) {
-            set_flash('error', 'Error deleting comment.');
+            flash('error', 'Error deleting comment.');
         }
     } else {
-        set_flash('error', 'Invalid request.');
+        flash('error', 'Invalid request.');
     }
 }
 

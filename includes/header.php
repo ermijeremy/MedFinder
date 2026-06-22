@@ -50,6 +50,8 @@ $is_customer = !empty($_SESSION['customer_id']);
                     <li><a href="<?php echo base_url(); ?>contact.php">Contact</a></li>
                 <?php endif; ?>
                 <?php if ($is_admin): ?>
+                    <li><a href="<?php echo base_url(); ?>admin/index.php">Dashboard</a></li>
+                    <li><a href="<?php echo base_url(); ?>admin/comments/index.php">Comments</a></li>
                 <?php elseif ($is_pharmacy): ?>
                     <li><a href="<?php echo base_url(); ?>pharmacy/index.php">Dashboard</a></li>
                 <?php elseif ($is_customer): ?>

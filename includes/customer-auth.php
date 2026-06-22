@@ -1,9 +1,5 @@
 <?php
-/**
- * Customer Authentication Guard
- * Checks if customer is logged in and has valid session.
- * Redirects to login if not authenticated.
- */
+
 
 // Start session if not already started
 start_session();
@@ -14,5 +10,3 @@ if (empty($_SESSION['customer_id'])) {
     redirect('customer/login.php');
 }
 
-// Optional: Check if account is still active
-// This could be extended to check the database

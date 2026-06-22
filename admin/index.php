@@ -120,6 +120,7 @@ include '../includes/header.php';
                 <div class="form-footer">
                     <a class="btn btn-primary" href="medicines/index.php">Review catalog</a>
                     <a class="btn btn-secondary" href="neighborhoods/index.php">Manage neighborhoods</a>
+                    <a class="btn btn-secondary" href="comments/index.php" style="margin-top: 0.5rem;">Manage comments</a>
                 </div>
             </aside>
         </div>

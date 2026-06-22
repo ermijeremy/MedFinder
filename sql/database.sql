@@ -453,7 +453,21 @@ INSERT INTO inventory (pharmacy_id, medicine_id, quantity, price, status) VALUES
 ON DUPLICATE KEY UPDATE quantity = VALUES(quantity), price = VALUES(price), status = VALUES(status);
 
 
--- TABLE7: customers
+-- TABLE7: comments
+-- Stores contact form submissions.
+CREATE TABLE IF NOT EXISTS comments (
+    comment_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) DEFAULT NULL,
+    topic VARCHAR(50) DEFAULT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (comment_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- TABLE8: customers
 -- Registered customer accounts.
 CREATE TABLE IF NOT EXISTS customers (
     customer_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -470,7 +484,7 @@ CREATE TABLE IF NOT EXISTS customers (
     UNIQUE KEY uq_customer_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- TABLE8: customer_favorites
+-- TABLE9: customer_favorites
 -- Junction table: which customer favorited which pharmacy.
 CREATE TABLE IF NOT EXISTS customer_favorites (
     favorite_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -489,7 +503,7 @@ CREATE TABLE IF NOT EXISTS customer_favorites (
         ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- TABLE9: pharmacy_reviews
+-- TABLE10: pharmacy_reviews
 -- Customer ratings and comments for pharmacies.
 CREATE TABLE IF NOT EXISTS pharmacy_reviews (
     review_id   INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -504,7 +518,7 @@ CREATE TABLE IF NOT EXISTS pharmacy_reviews (
     CONSTRAINT fk_review_customer FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- TABLE10: notifications
+-- TABLE11: notifications
 -- System alerts for customers.
 CREATE TABLE IF NOT EXISTS notifications (
     notification_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
